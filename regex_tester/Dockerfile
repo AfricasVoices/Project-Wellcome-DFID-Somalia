@@ -18,6 +18,6 @@ RUN mkdir /data
 # Copy the rest of the project
 ADD . /app
 
-# USER is an environment variable which needs to be set when constructing this container e.g. via
-# docker run or docker container create. Use docker-run.sh to set these automatically.
-CMD pipenv run python messages.py "$USER" /data/input.json /data/output.json /data/output.csv
+# USER, KEY_OF_RAW, and REGEX_PATTERN ae environment variables which needs to be set when constructing this
+# container e.g. via docker run or docker container create. Use docker-run.sh to set these automatically.
+CMD pipenv run python regex_tester.py "$USER" /data/input.json "$KEY_OF_RAW" "$REGEX_PATTERN" /data/output.json /data/output.csv

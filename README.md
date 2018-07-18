@@ -1,45 +1,56 @@
-# Data Pipeline Templates
-This repository contains templates for common AVF data pipeline stages.
-
-New projects should use clones of these templates as a foundation in order to start faster and to help ensure a standard 
-data pipeline format across projects. 
-
-## Provided Templates
-The standard pipeline being used here takes the format:
-```
-            /--> fetch messages ------------------------------> messages ------------------------------------\
-SMS platform                                                                                                  --> analysis
-            \--> fetch surveys --> survey auto code --> Manually code in Coda or CSV --> survey merge coded -/
-```
- 
-To fetch data from an SMS platform, use one of AVF's SMS fetchers (e.g. 
-[EchoMobileExperiments](https://github.com/AfricasVoices/EchoMobileExperiments) or
-[RapidProExperiments](https://github.com/AfricasVoices/RapidProExperiments)).
-
-This repository contains the templates for the following pipeline stages:
-
-### Messages Pipeline
-Reads a list of radio show answers from a serialised TracedData JSON file, cleans the messages, 
-and exports to formats suitable for subsequent analysis. 
-
-### Survey Auto Code
-Reads a list of survey responses from a serialised TracedData JSON file, cleans the responses, and exports to Coda or 
-Coding CSV files for manual verification and coding.
-
-### Survey Merge Coded
-Applies manually-assigned codes from Coda or Coding CSV files to a TracedData JSON file.
+# Wellcome-DfID Phase 2 (Somalia)
+Data pipeline stages and run scripts for the Wellcome Trust/Department for International Development project in Somalia.
 
 ## Usage
-To use one of the provided stage templates in a new project, first clone the relevant sub-directory of this project.
-Then, in that directory:
+### Prerequisites
+#### Tools
+Install Python 3.6+, Pipenv, and Docker.
 
-1. Create a virtual environment with `$ pipenv --three`.
-2. Synchronise existing dependencies with `$ pipenv sync`.
-3. If additional dependencies are required, install them with `$ pipenv install <dependency>`.
-4. Modify the python file for that stage by adding project-specific behaviour. 
-   Refer to the in-file TODOs for guidance on what to add.
-1. Test locally with `$ pipenv run python <file.py> <args>`
-1. Update the IMAGE_NAME variable at the top of `docker-run.sh`.
-1. If the modifications made in step 4 modified the program arguments for this stage, then update the `CMD` instruction
-   in the `Dockerfile` as well as the relevant lines of `docker-run.sh`. 
-1. Test in Docker with `$ sh docker-run.sh <args>`
+#### SMS Fetcher
+The data fetching stages of the pipeline require access to a local copy of the 
+[RapidPro fetcher](https://github.com/AfricasVoices/RapidProExperiments) project.
+To configure this:
+ 
+1. Clone that repository to your local system:
+
+   `$ git clone https://github.com/AfricasVoices/RapidProExperiments.git`
+   
+1. Checkout the appropriate commit for this project:
+
+   `$ git checkout master`  # TODO: Tag RapidProExperiments appropriately
+   
+1. Install project dependencies:
+   ```bash
+   $ cd RapidProExperiments
+   $ pipenv --three
+   $ pipenv sync
+   ```
+
+### Running
+#### SMS Fetcher
+1. Create a new, empty phone number UUID table: `$ echo "{}" > <table.json>`.
+
+1. Change into the RapidProExperiments directory.
+
+1. Run `$ pipenv run python fetch_runs.py`, setting arguments appropriately.
+   Argument summaries are available with the `--help` flag, and further details are provided the README for the
+   RapidProExperiments project and in the following sections.
+   
+#### Messages Pipeline (for Radio Show Answers)
+Run the RapidPro fetcher in `all` mode on the activation flow for S06E01, for which this stage is (temporarily) hard-coded
+(i.e. set the `<flow-name>` argument of `fetch_runs.py` to `wt_s06e1_activation`).
+
+Change into `messages/` and run `$ sh docker-run.sh <args>`, setting `<input>` to the json file produced by the SMS fetch
+stage.
+
+This will convert a list of TracedData items to a more user-friendly CSV.
+
+#### Survey Pipeline (for Demographics)
+Run the RapidPro fetcher in `latest-only` mode on a demographic flow for Wellcome (e.g. `wt_demog_1`).
+
+Change into `regex_tester/` and run `$ sh docker-run.sh <args>`, setting `<input>` to the json file produced by the
+SMS fetch stage.
+
+This will apply the specified regex to each value for the given key in the list of TracedData objects, 
+and produce a CSV file which lists whether each (de-duplicated) entry matched or not.
+
