@@ -21,6 +21,8 @@ if __name__ == "__main__":
     parser.add_argument("matches_csv_output", metavar="matches-csv-out",
                         help="Path to a CSV file to write regex match results to", nargs=1)
 
+    PRINT_RESULTS = True
+
     args = parser.parse_args()
     user = args.user[0]
     input_path = args.input[0]
@@ -56,3 +58,9 @@ if __name__ == "__main__":
     with open(matches_csv_output_path, "w") as f:
         TracedDataCodingCSVIO.export_traced_data_iterable_to_coding_csv_with_scheme(
             data, key_of_raw, key_of_matches, f)
+
+    # Output to console if requested
+    if PRINT_RESULTS:
+        print("Matches for pattern '{}':".format(pattern))
+        for td in data:
+            print("'{}': {}".format(td[key_of_raw], td[key_of_matches]))
