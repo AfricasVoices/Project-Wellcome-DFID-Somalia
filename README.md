@@ -28,28 +28,29 @@ To configure this:
 
 ### Running
 #### SMS Fetcher
-1. Create a new, empty phone number UUID table: `$ echo "{}" > <table.json>`.
+1. Create an empty data directory somewhere on the file system.
+
+1. In this directory, create a new, empty phone number UUID table: `$ echo "{}" > <json-table-file-path>`.
 
 1. Change into the RapidProExperiments directory.
 
-1. Run `$ pipenv run python fetch_runs.py`, setting arguments appropriately.
-   Argument summaries are available with the `--help` flag, and further details are provided the README for the
-   RapidProExperiments project and in the following sections.
+1. To export data, run `$ pipenv run python fetch_runs.py`, setting arguments as described in the sections below,
+   program `--help`, and the README for that project.
    
 #### Messages Pipeline (for Radio Show Answers)
 Run the RapidPro fetcher in `all` mode on the activation flow for S06E01, for which this stage is (temporarily) hard-coded
 (i.e. set the `<flow-name>` argument of `fetch_runs.py` to `wt_s06e1_activation`).
 
-Change into `messages/` and run `$ sh docker-run.sh <args>`, setting `<input>` to the json file produced by the SMS fetch
-stage.
+In this repository, change into `messages/` and run `$ sh docker-run.sh <args>`, setting `<input>` to the json 
+file produced by the SMS fetch stage.
 
 This will convert a list of TracedData items to a more user-friendly CSV.
 
 #### Survey Pipeline (for Demographics)
 Run the RapidPro fetcher in `latest-only` mode on a demographic flow for Wellcome (e.g. `wt_demog_1`).
 
-Change into `regex_tester/` and run `$ sh docker-run.sh <args>`, setting `<input>` to the json file produced by the
-SMS fetch stage.
+In this repsoitory, change into `regex_tester/` and run `$ sh docker-run.sh <args>`, setting `<input>` to the json
+file produced by the SMS fetch stage.
 
 This will apply the specified regex to each value for the given key in the list of TracedData objects, 
 and produce a CSV file which lists whether each (de-duplicated) entry matched or not.
