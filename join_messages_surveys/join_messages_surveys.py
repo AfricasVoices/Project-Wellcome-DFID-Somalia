@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
     # Left join messages and demographic surveys on avf_phone_id
     # TODO: Refactor join step into CoreDataModules once satisfied with the implementation.
-    # TODO: Note that tis approach does not preserve the history of demographic data in the final TracedData
+    # TODO: Note that this approach does not preserve the history of demographic data in the final TracedData
     for td in data:
         if td["avf_phone_id"] in demog_1_table:
             demog_1_td = demog_1_table[td["avf_phone_id"]]
