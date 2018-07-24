@@ -6,7 +6,7 @@ IMAGE_NAME=wt-join-messages-surveys
 
 # Check that the correct number of arguments were provided.
 if [ $# -ne 6 ]; then
-    echo "Usage: sh docker-run.sh <user> <messages-input-file> <demog1-input-file> <demog2-input-fie> <output-file> <output-csv>"
+    echo "Usage: sh docker-run.sh <user> <messages-input-file> <demog-1-input-file> <demog-2-input-file> <output-file> <output-csv>"
     exit
 fi
 
