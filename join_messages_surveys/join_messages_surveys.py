@@ -58,15 +58,26 @@ if __name__ == "__main__":
         "Trustworthy_Advisors (Text) - wt_practice"
     ]
 
-    # Load data from JSON file
+    def load_survey_dict(file_path):
+        """
+        Loads a survey from a TracedData JSON file into a dict indexed by avf_phone_id
+
+        :param file_path: Path to survey file to load
+        :type file_path: str
+        :return: Dictionary mapping contact id ('avf_phone_id') to the survey TracedData for that contact.
+        :rtype: dict of str -> TracedData
+        """
+        with open(file_path, "r") as f:
+            return {td["avf_phone_id"]: td for td in TracedDataJsonIO.import_json_to_traced_data_iterable(f)}
+
+    # Load messages
     with open(json_input_path, "r") as f:
         data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
-    with open(demog_1_input_path, "r") as f:
-        demog_1_table = {td["avf_phone_id"]: td for td in TracedDataJsonIO.import_json_to_traced_data_iterable(f)}
-    with open(demog_2_input_path, "r") as f:
-        demog_2_table = {td["avf_phone_id"]: td for td in TracedDataJsonIO.import_json_to_traced_data_iterable(f)}
-    with open(practice_input_path, "r") as f:
-        practice_table = {td["avf_phone_id"]: td for td in TracedDataJsonIO.import_json_to_traced_data_iterable(f)}
+
+    # Load surveys
+    demog_1_table = load_survey_dict(demog_1_input_path)
+    demog_2_table = load_survey_dict(demog_2_input_path)
+    practice_table = load_survey_dict(practice_input_path)
 
     # Left join messages and demographic surveys on avf_phone_id
     # TODO: Refactor join step into CoreDataModules once satisfied with the implementation.
@@ -104,6 +115,7 @@ if __name__ == "__main__":
     export_keys.extend(demog_1_keys)
     export_keys.extend(demog_2_keys)
     export_keys.extend(practice_keys)
+
     if os.path.dirname(csv_output_path) is not "" and not os.path.exists(os.path.dirname(csv_output_path)):
         os.makedirs(os.path.dirname(csv_output_path))
     with open(csv_output_path, "w") as f:
