@@ -3,6 +3,7 @@ import os
 import time
 from os import path
 
+from core_data_modules.cleaners import somali
 from core_data_modules.traced_data import Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO
 
@@ -32,14 +33,21 @@ if __name__ == "__main__":
     # TODO: Extend to add another argument for demog2, load this survey, and merge with demog1.
     # TODO: Then we don't have to maintain parallel pipelines for data which was arbitrarily separated to begin with.
 
+    # Clean survey with regexes
+    district_key = "District (Text) - wt_demog_1"
+    for td in data:
+        if district_key in td:
+            td.append_data(
+                {"{}_clean".format(district_key): somali.DemographicCleaner.clean_somalia_district(td[district_key])},
+                Metadata(user, Metadata.get_call_location(), time.time())
+            )
+
     # Set missing entries in the raw data to 'NA'
     for td in data:
         for key in demog_keys:
             long_key = "{} (Text) - wt_demog_1".format(key)
             if long_key not in td:
                 td.append_data({long_key: "NA"}, Metadata(user, Metadata.get_call_location(), time.time()))
-
-    # TODO: Apply Somali regexes
 
     # Write json output
     if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):
@@ -55,4 +63,4 @@ if __name__ == "__main__":
         output_file_path = path.join(coded_output_path, "{}.csv".format(key))
         with open(output_file_path, "w") as f:
             TracedDataCodaIO.export_traced_data_iterable_to_coda_with_scheme(
-                data, "{} (Text) - wt_demog_1".format(key), "{}_clean".format(key), key, f)
+                data, "{} (Text) - wt_demog_1".format(key), "{} (Text) - wt_demog_1_clean".format(key), key, f)
