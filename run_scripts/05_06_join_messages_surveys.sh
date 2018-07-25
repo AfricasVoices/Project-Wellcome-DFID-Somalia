@@ -26,5 +26,6 @@ do
 
     sh docker-run.sh "$USER" "$DATA_ROOT/02 Clean Messages/$SHOW.json" \
         "$DATA_ROOT/04 Raw Surveys/wt_demog_1.json" "$DATA_ROOT/04 Raw Surveys/wt_demog_2.json" \
+        "$DATA_ROOT/04 Raw Surveys/wt_practice.json" \
         "$DATA_ROOT/05 Joined Data/$SHOW.json" "$DATA_ROOT/06 Analysis Files/$SHOW.csv"
 done
