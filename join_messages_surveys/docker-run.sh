@@ -5,8 +5,8 @@ set -e
 IMAGE_NAME=wt-join-messages-surveys
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 6 ]; then
-    echo "Usage: sh docker-run.sh <user> <messages-input-file> <demog-1-input-file> <demog-2-input-file> <output-file> <output-csv>"
+if [ $# -ne 7 ]; then
+    echo "Usage: sh docker-run.sh <user> <messages-input-file> <demog-1-input-file> <demog-2-input-file> <practice-file> <output-file> <output-csv>"
     exit
 fi
 
@@ -15,8 +15,9 @@ USER=$1
 INPUT_MESSAGES=$2
 INPUT_DEMOG_1=$3
 INPUT_DEMOG_2=$4
-OUTPUT_JSON=$5
-OUTPUT_CSV=$6
+INPUT_PRACTICE=$5
+OUTPUT_JSON=$6
+OUTPUT_CSV=$7
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -34,6 +35,7 @@ trap finish EXIT
 docker cp "$INPUT_MESSAGES" "$container:/data/messages-input.json"
 docker cp "$INPUT_DEMOG_1" "$container:/data/demog-1-input.json"
 docker cp "$INPUT_DEMOG_2" "$container:/data/demog-2-input.json"
+docker cp "$INPUT_PRACTICE" "$container:/data/practice-input.json"
 
 # Run the container
 docker start -a -i "$container"

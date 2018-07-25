@@ -21,6 +21,7 @@ mkdir -p "$DATA_ROOT/04 Raw Surveys"
 SURVEYS=(
     "wt_demog_1"
     "wt_demog_2"
+    "wt_practice"
     )
 
 for SURVEY in ${SURVEYS[@]}
