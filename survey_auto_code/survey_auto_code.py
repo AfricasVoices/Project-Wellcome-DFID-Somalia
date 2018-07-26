@@ -24,7 +24,11 @@ if __name__ == "__main__":
     json_output_path = args.json_output_path
     coded_output_path = args.coded_output_path
 
-    demog_keys = ["District", "Gender", "Urban_Rural"]
+    cleaning_config = {
+        "District (Text) - wt_demog_1": somali.DemographicCleaner.clean_somalia_district,
+        "Gender (Text) - wt_demog_1": somali.DemographicCleaner.clean_gender,
+        "Urban_Rural (Text) - wt_demog_1": somali.DemographicCleaner.clean_urban_rural
+    }
 
     # Load data from JSON file
     with open(demog_1_input_path, "r") as f:
@@ -33,21 +37,20 @@ if __name__ == "__main__":
     # TODO: Extend to add another argument for demog2, load this survey, and merge with demog1.
     # TODO: Then we don't have to maintain parallel pipelines for data which was arbitrarily separated to begin with.
 
-    # Clean survey with regexes
-    district_key = "District (Text) - wt_demog_1"
+    # Clean the survey
     for td in data:
-        if district_key in td:
-            td.append_data(
-                {"{}_clean".format(district_key): somali.DemographicCleaner.clean_somalia_district(td[district_key])},
-                Metadata(user, Metadata.get_call_location(), time.time())
-            )
+        for key, cleaner in cleaning_config.items():
+            if key in td:
+                td.append_data(
+                    {"{}_clean".format(key): cleaner(td[key])},
+                    Metadata(user, Metadata.get_call_location(), time.time())
+                )
 
     # Set missing entries in the raw data to 'NA'
     for td in data:
-        for key in demog_keys:
-            long_key = "{} (Text) - wt_demog_1".format(key)
-            if long_key not in td:
-                td.append_data({long_key: "NA"}, Metadata(user, Metadata.get_call_location(), time.time()))
+        for key in cleaning_config:
+            if key not in td:
+                td.append_data({key: "NA"}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Write json output
     if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):
@@ -59,8 +62,8 @@ if __name__ == "__main__":
     if not os.path.exists(coded_output_path):
         os.makedirs(coded_output_path)
 
-    for key in demog_keys:
-        output_file_path = path.join(coded_output_path, "{}.csv".format(key))
+    for key in cleaning_config.keys():
+        output_file_path = path.join(coded_output_path, "{}.csv".format(key.split(" ")[0]))
         with open(output_file_path, "w") as f:
             TracedDataCodaIO.export_traced_data_iterable_to_coda_with_scheme(
-                data, "{} (Text) - wt_demog_1".format(key), "{} (Text) - wt_demog_1_clean".format(key), key, f)
+                data, key, "{}_clean".format(key), key.split(" ")[0], f)
