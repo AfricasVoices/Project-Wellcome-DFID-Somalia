@@ -3,8 +3,8 @@
 set -e
 
 if [ $# -ne 2 ]; then
-    echo "Usage: sh 05_06_survey_auto_code.sh"
-    echo "Exports columns of demog 1 to Coda."  # TODO: Update description once Somali regexes are enabled.
+    echo "Usage: sh 05_06_survey_auto_code.sh <user> <data-root>"
+    echo "Merges and cleans the raw demographic and practice surveys, and exports to Coda files for manual verification/coding"
     exit
 fi
 
@@ -17,6 +17,7 @@ mkdir -p "$DATA_ROOT/05 Auto-Coded"
 mkdir -p "$DATA_ROOT/06 Coda Files"
 
 # Auto-code wt_demog_1 and export to Coda. TODO: Auto-code the other surveys and export to Coda.
-sh docker-run.sh "$USER" "$DATA_ROOT/04 Raw Surveys/wt_demog_1.json" \
-    "$DATA_ROOT/05 Auto-Coded/wt_demog_1.json" "$DATA_ROOT/06 Coda Files/"
+sh docker-run.sh "$USER" "$DATA_ROOT/04 Raw Surveys/wt_demog_1.json" "$DATA_ROOT/04 Raw Surveys/wt_demog_2.json" \
+    "$DATA_ROOT/04 Raw Surveys/wt_practice.json" \
+    "$DATA_ROOT/05 Auto-Coded/survey.json" "$DATA_ROOT/06 Coda Files/"
 

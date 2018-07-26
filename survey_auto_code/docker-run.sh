@@ -5,16 +5,18 @@ set -e
 IMAGE_NAME=wt-survey-auto-code
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 4 ]; then
-    echo "Usage: sh docker-run.sh <user> <json-input-path> <json-output-path> <coded-output-path>"
+if [ $# -ne 6 ]; then
+    echo "Usage: sh docker-run.sh <user> <demog-1-input-path> <demog-2-input-path> <practice-input-path> <json-output-path> <coded-output-path>"
     exit
 fi
 
 # Assign the program arguments to bash variables.
 USER=$1
-INPUT_JSON=$2
-OUTPUT_JSON=$3
-CODING_DIR=$4
+INPUT_DEMOG_1=$2
+INPUT_DEMOG_2=$3
+INPUT_PRACTICE=$4
+OUTPUT_JSON=$5
+CODING_DIR=$6
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -29,7 +31,9 @@ function finish {
 trap finish EXIT
 
 # Copy input data into the container
-docker cp "$INPUT_JSON" "$container:/data/input.json"
+docker cp "$INPUT_DEMOG_1" "$container:/data/input-demog-1.json"
+docker cp "$INPUT_DEMOG_2" "$container:/data/input-demog-2.json"
+docker cp "$INPUT_PRACTICE" "$container:/data/input-practice.json"
 
 # Run the image as a container.
 docker start -a -i "$container"
