@@ -36,7 +36,7 @@ if __name__ == "__main__":
         "Urban_Rural (Text) - wt_demog_1": somali.DemographicCleaner.clean_urban_rural,
 
         "Radio_Station (Text) - wt_demog_2": None,
-        "Age (Text) - wt_demog_2": None,
+        "Age (Text) - wt_demog_2": somali.DemographicCleaner.clean_age,
         "Education_Level (Text) - wt_demog_2": None,
         "Idp (Text) - wt_demog_2": somali.DemographicCleaner.clean_yes_no,
         "Origin_District (Text) - wt_demog_2": somali.DemographicCleaner.clean_somalia_district,
