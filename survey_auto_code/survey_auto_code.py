@@ -34,11 +34,11 @@ if __name__ == "__main__":
     # TODO: Then we don't have to maintain parallel pipelines for data which was arbitrarily separated to begin with.
 
     # Clean survey with regexes
-    district_key = "District (Text) - wt_demog_1"
+    DISTRICT_KEY = "District (Text) - wt_demog_1"
     for td in data:
-        if district_key in td:
+        if DISTRICT_KEY in td:
             td.append_data(
-                {"{}_clean".format(district_key): somali.DemographicCleaner.clean_somalia_district(td[district_key])},
+                {"{}_clean".format(DISTRICT_KEY): somali.DemographicCleaner.clean_somalia_district(td[DISTRICT_KEY])},
                 Metadata(user, Metadata.get_call_location(), time.time())
             )
 
