@@ -1,11 +1,12 @@
 import argparse
-import os
 import time
 from os import path
 
 from core_data_modules.cleaners import Codes
+from core_data_modules.cleaners import somali
 from core_data_modules.traced_data import Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO
+from core_data_modules.util import IOUtils
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Cleans the wt_demog_1 survey and exports variables to Coda for "
@@ -33,6 +34,16 @@ if __name__ == "__main__":
     # TODO: Extend to add another argument for demog2, load this survey, and merge with demog1.
     # TODO: Then we don't have to maintain parallel pipelines for data which was arbitrarily separated to begin with.
 
+    # Clean survey with regexes
+    DISTRICT_KEY = "District (Text) - wt_demog_1"
+    for td in data:
+        if DISTRICT_KEY in td:
+            td.append_data(
+                {"{}_clean".format(DISTRICT_KEY): somali.DemographicCleaner.clean_somalia_district(
+                    td[DISTRICT_KEY])},
+                Metadata(user, Metadata.get_call_location(), time.time())
+            )
+
     # Mark missing entries in the raw data as true missing
     for td in data:
         for key in demog_keys:
@@ -40,20 +51,15 @@ if __name__ == "__main__":
             if long_key not in td:
                 td.append_data({long_key: Codes.TRUE_MISSING}, Metadata(user, Metadata.get_call_location(), time.time()))
 
-    # TODO: Apply Somali regexes
-
     # Write json output
-    if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):
-        os.makedirs(os.path.dirname(json_output_path))
+    IOUtils.ensure_dirs_exist_for_file(json_output_path)
     with open(json_output_path, "w") as f:
         TracedDataJsonIO.export_traced_data_iterable_to_json(data, f, pretty_print=True)
 
     # Output for manual verification + coding
-    if not os.path.exists(coded_output_path):
-        os.makedirs(coded_output_path)
-
+    IOUtils.ensure_dirs_exist(coded_output_path)
     for key in demog_keys:
         output_file_path = path.join(coded_output_path, "{}.csv".format(key))
         with open(output_file_path, "w") as f:
             TracedDataCodaIO.export_traced_data_iterable_to_coda_with_scheme(
-                data, "{} (Text) - wt_demog_1".format(key), "{}_clean".format(key), key, f)
+                data, "{} (Text) - wt_demog_1".format(key), "{} (Text) - wt_demog_1_clean".format(key), key, f)
