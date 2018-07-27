@@ -103,11 +103,11 @@ if __name__ == "__main__":
                     Metadata(user, Metadata.get_call_location(), time.time())
                 )
 
-    # Set missing entries in the raw data to 'NA'
+    # Mark missing entries in the raw data as true missing
     for td in all_survey_data:
         for key in cleaning_plan:
             if key not in td:
-                td.append_data({key: "NA"}, Metadata(user, Metadata.get_call_location(), time.time()))
+                td.append_data({key: Codes.TRUE_MISSING}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Write json output
     if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):

@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-CoreDataModules = {git = "https://www.github.com/AfricasVoices/CoreDataModules", editable = true, ref = "588c8bddfb2b6492655c67fcc9a22fd8a84d2dc0"}  # TODO: Update to a short ref when PR in CoreData is merged
+CoreDataModules = {git = "https://www.github.com/AfricasVoices/CoreDataModules", editable = true, ref = "v0.4.0"}
 
 [dev-packages]
 
