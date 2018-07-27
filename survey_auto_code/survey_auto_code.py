@@ -1,11 +1,11 @@
 import argparse
-import os
 import time
 from os import path
 
 from core_data_modules.cleaners import somali, Codes
 from core_data_modules.traced_data import Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO
+from core_data_modules.util import IOUtils
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Cleans the wt surveys and exports variables to Coda for "
@@ -110,15 +110,12 @@ if __name__ == "__main__":
                 td.append_data({key: Codes.TRUE_MISSING}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Write json output
-    if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):
-        os.makedirs(os.path.dirname(json_output_path))
+    IOUtils.ensure_dirs_exist_for_file(json_output_path)
     with open(json_output_path, "w") as f:
         TracedDataJsonIO.export_traced_data_iterable_to_json(all_survey_data, f, pretty_print=True)
 
     # Output for manual verification + coding
-    if not os.path.exists(coded_output_path):
-        os.makedirs(coded_output_path)
-
+    IOUtils.ensure_dirs_exist(coded_output_path)
     # TODO: Tidy up the usage of keys here once the format of the keys has been updated.
     for key in cleaning_plan.keys():
         output_file_path = path.join(coded_output_path, "{}.csv".format(key.split(" ")[0]))
