@@ -3,6 +3,7 @@ import os
 import time
 from os import path
 
+from core_data_modules.cleaners import Codes
 from core_data_modules.cleaners import somali
 from core_data_modules.traced_data import Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO
@@ -38,16 +39,17 @@ if __name__ == "__main__":
     for td in data:
         if DISTRICT_KEY in td:
             td.append_data(
-                {"{}_clean".format(DISTRICT_KEY): somali.DemographicCleaner.clean_somalia_district(td[DISTRICT_KEY])},
+                {"{}_clean".format(DISTRICT_KEY): somali.DemographicCleaner.clean_somalia_district(
+                    td[DISTRICT_KEY])},
                 Metadata(user, Metadata.get_call_location(), time.time())
             )
 
-    # Set missing entries in the raw data to 'NA'
+    # Mark missing entries in the raw data as true missing
     for td in data:
         for key in demog_keys:
             long_key = "{} (Text) - wt_demog_1".format(key)
             if long_key not in td:
-                td.append_data({long_key: "NA"}, Metadata(user, Metadata.get_call_location(), time.time()))
+                td.append_data({long_key: Codes.TRUE_MISSING}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Write json output
     if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):

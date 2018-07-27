@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-CoreDataModules = {git = "https://www.github.com/AfricasVoices/CoreDataModules", editable = true, ref = "f2dc245c4252f7e80ecbdb327dd4b68dfe0b3c2b"}  # TODO: Update to a short ref when PR in AVF is merged
+CoreDataModules = {git = "https://www.github.com/AfricasVoices/CoreDataModules", editable = true, ref = "v0.4.0"}
 
 [dev-packages]
 
