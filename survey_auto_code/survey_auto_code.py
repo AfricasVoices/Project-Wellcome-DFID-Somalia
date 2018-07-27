@@ -3,6 +3,7 @@ import os
 import time
 from os import path
 
+from core_data_modules.cleaners import Codes
 from core_data_modules.traced_data import Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO
 
@@ -32,12 +33,12 @@ if __name__ == "__main__":
     # TODO: Extend to add another argument for demog2, load this survey, and merge with demog1.
     # TODO: Then we don't have to maintain parallel pipelines for data which was arbitrarily separated to begin with.
 
-    # Set missing entries in the raw data to 'NA'
+    # Mark missing entries in the raw data as true missing
     for td in data:
         for key in demog_keys:
             long_key = "{} (Text) - wt_demog_1".format(key)
             if long_key not in td:
-                td.append_data({long_key: "NA"}, Metadata(user, Metadata.get_call_location(), time.time()))
+                td.append_data({long_key: Codes.TRUE_MISSING}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # TODO: Apply Somali regexes
 
