@@ -28,7 +28,8 @@ if __name__ == "__main__":
     with open(json_input_path, "r") as f:
         data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
-    # TODO: Clean/filter messages
+    # Filter for runs which contain a response to the risk perception question.
+    data = list(filter(lambda td: "S06E01_Risk_Perception (Text) - wt_s06e1_activation" in td, data))
 
     # Write json output
     if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):
