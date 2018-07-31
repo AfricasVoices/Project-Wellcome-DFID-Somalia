@@ -10,6 +10,10 @@ if __name__ == "__main__":
     parser.add_argument("user", help="User launching this program")
     parser.add_argument("json_input_path", metavar="json-input-path",
                         help="Path to the input JSON file, containing a list of serialized TracedData objects")
+    parser.add_argument("flow_name", metavar="flow-name",
+                        help="Name of activation flow from which this data was derived")
+    parser.add_argument("variable_name", metavar="variable-name",
+                        help="Name of message variable in flow")
     parser.add_argument("json_output_path", metavar="json-output-path",
                         help="Path to a JSON file to write processed messages to")
     parser.add_argument("csv_output_path", metavar="csv-output-path",
@@ -20,6 +24,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     user = args.user
     json_input_path = args.json_input_path
+    variable_name = args.variable_name
+    flow_name = args.flow_name
     json_output_path = args.json_output_path
     csv_output_path = args.csv_output_path
     coda_output_path = args.coda_output_path
@@ -29,7 +35,7 @@ if __name__ == "__main__":
         data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
     # Filter for runs which contain a response to the risk perception question.
-    data = list(filter(lambda td: "S06E01_Risk_Perception (Text) - wt_s06e1_activation" in td, data))
+    data = list(filter(lambda td: "{} (Text) - {}".format(variable_name, flow_name) in td, data))
 
     # Write json output
     if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):
@@ -44,9 +50,9 @@ if __name__ == "__main__":
         TracedDataCSVIO.export_traced_data_iterable_to_csv(
             data, f, headers=[
                 "avf_phone_id",
-                "S06E01_Risk_Perception (Run ID) - wt_s06e1_activation",
-                "S06E01_Risk_Perception (Time) - wt_s06e1_activation",
-                "S06E01_Risk_Perception (Text) - wt_s06e1_activation"
+                "{} (Run ID) - {}".format(variable_name, flow_name),
+                "{} (Time) - {}".format(variable_name, flow_name),
+                "{} (Text) - {}".format(variable_name, flow_name)
             ]
         )
 
@@ -54,4 +60,4 @@ if __name__ == "__main__":
     IOUtils.ensure_dirs_exist_for_file(coda_output_path)
     with open(coda_output_path, "w") as f:
         TracedDataCodaIO.export_traced_data_iterable_to_coda(
-            data, "S06E01_Risk_Perception (Text) - wt_s06e1_activation", f)
+            data, "{} (Text) - {}".format(variable_name, flow_name), f)
