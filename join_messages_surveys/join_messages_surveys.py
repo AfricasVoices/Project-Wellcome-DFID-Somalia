@@ -17,6 +17,10 @@ if __name__ == "__main__":
                         help="Path to the demog_2 JSON file, containing a list of serialized TracedData objects")
     parser.add_argument("practice_input_path", metavar="practice-input-path",
                         help="Path to the practice JSON file, containing a list of serialized TracedData objects")
+    parser.add_argument("flow_name", metavar="flow-name",
+                        help="Name of activation flow from which this data was derived")
+    parser.add_argument("variable_name", metavar="variable-name",
+                        help="Name of message variable in flow")
     parser.add_argument("json_output_path", metavar="json-output-path",
                         help="Path to a JSON file to write processed messages to")
     parser.add_argument("csv_output_path", metavar="csv-output-path",
@@ -28,14 +32,16 @@ if __name__ == "__main__":
     demog_1_input_path = args.demog_1_input_path
     demog_2_input_path = args.demog_2_input_path
     practice_input_path = args.practice_input_path
+    variable_name = args.variable_name
+    flow_name = args.flow_name
     json_output_path = args.json_output_path
     csv_output_path = args.csv_output_path
 
     message_keys = [
         "avf_phone_id",
-        "S06E01_Risk_Perception (Run ID) - wt_s06e1_activation",
-        "S06E01_Risk_Perception (Time) - wt_s06e1_activation",
-        "S06E01_Risk_Perception (Text) - wt_s06e1_activation"
+        "{} (Run ID) - {}".format(variable_name, flow_name),
+        "{} (Time) - {}".format(variable_name, flow_name),
+        "{} (Text) - {}".format(variable_name, flow_name)
     ]
 
     demog_1_keys = [

@@ -5,23 +5,25 @@ set -e
 IMAGE_NAME=wt-messages
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 5 ]; then
-    echo "Usage: sh docker-run.sh <user> <json-input-path> <json-output-path> <csv-output-path> <coda-output-path>"
+if [ $# -ne 7 ]; then
+    echo "Usage: sh docker-run.sh <user> <json-input-path> <flow-name> <variable-name> <json-output-path> <csv-output-path> <coda-output-path>"
     exit
 fi
 
 # Assign the program arguments to bash variables.
 USER=$1
 INPUT_JSON=$2
-OUTPUT_JSON=$3
-OUTPUT_CSV=$4
-OUTPUT_CODA=$5
+FLOW_NAME=$3
+VARIABLE_NAME=$4
+OUTPUT_JSON=$5
+OUTPUT_CSV=$6
+OUTPUT_CODA=$7
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
 
 # Create a container from the image that was just built.
-container="$(docker container create --env USER="$USER" "$IMAGE_NAME")"
+container="$(docker container create --env USER="$USER" --env FLOW_NAME="$FLOW_NAME" --env VARIABLE_NAME="$VARIABLE_NAME" "$IMAGE_NAME")"
 
 function finish {
     # Tear down the container when done.

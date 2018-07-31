@@ -22,4 +22,5 @@ ADD . /app
 # docker run or docker container create. Use docker-run.sh to set these automatically.
 CMD pipenv run python join_messages_surveys.py "$USER" /data/messages-input.json \
         /data/demog-1-input.json /data/demog-2-input.json /data/practice-input.json \
+        "$FLOW_NAME" "$VARIABLE_NAME" \
         /data/output.json /data/output.csv

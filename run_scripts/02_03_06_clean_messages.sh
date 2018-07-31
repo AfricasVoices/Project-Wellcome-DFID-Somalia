@@ -18,14 +18,19 @@ mkdir -p "$DATA_ROOT/03 Message CSVs"
 mkdir -p "$DATA_ROOT/06 Coda Files"
 
 SHOWS=(
-    "wt_s06e1_activation"
+    "wt_s06e1_activation" S06E01_Risk_Perception
+    "wt_s06e2_activation" S06E02_Cholera_Preparedness
     )
 
-for SHOW in "${SHOWS[@]}"
+for i in $(seq 0 $((${#SHOWS[@]} / 2 - 1)))
 do
+    SHOW="${SHOWS[2 * i]}"
+    VARIABLE="${SHOWS[2 * i + 1]}"
+
     echo "Cleaning $SHOW"
 
     sh docker-run.sh "$USER" "$DATA_ROOT/01 Raw Messages/$SHOW.json" \
+        "$SHOW" "$VARIABLE" \
         "$DATA_ROOT/02 Clean Messages/$SHOW.json" "$DATA_ROOT/03 Message CSVs/$SHOW.csv" \
         "$DATA_ROOT/06 Coda files/$SHOW.csv"
 done
