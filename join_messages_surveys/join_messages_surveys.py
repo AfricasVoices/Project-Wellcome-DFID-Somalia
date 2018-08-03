@@ -11,12 +11,8 @@ if __name__ == "__main__":
     parser.add_argument("user", help="User launching this program")
     parser.add_argument("json_input_path", metavar="json-input-path",
                         help="Path to the input messages JSON file, containing a list of serialized TracedData objects")
-    parser.add_argument("demog_1_input_path", metavar="demog-1-input-path",
-                        help="Path to the demog_1 JSON file, containing a list of serialized TracedData objects")
-    parser.add_argument("demog_2_input_path", metavar="demog-2-input-path",
-                        help="Path to the demog_2 JSON file, containing a list of serialized TracedData objects")
-    parser.add_argument("practice_input_path", metavar="practice-input-path",
-                        help="Path to the practice JSON file, containing a list of serialized TracedData objects")
+    parser.add_argument("survey_input_path", metavar="survey-input-path",
+                        help="Path to the cleaned survey JSON file, containing a list of serialized TracedData objects")
     parser.add_argument("flow_name", metavar="flow-name",
                         help="Name of activation flow from which this data was derived")
     parser.add_argument("variable_name", metavar="variable-name",
@@ -29,9 +25,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     user = args.user
     json_input_path = args.json_input_path
-    demog_1_input_path = args.demog_1_input_path
-    demog_2_input_path = args.demog_2_input_path
-    practice_input_path = args.practice_input_path
+    survey_input_path = args.survey_input_path
     variable_name = args.variable_name
     flow_name = args.flow_name
     json_output_path = args.json_output_path
@@ -44,69 +38,39 @@ if __name__ == "__main__":
         "{} (Text) - {}".format(variable_name, flow_name)
     ]
 
-    demog_1_keys = [
+    survey_keys = [
         "District (Text) - wt_demog_1",
         "Gender (Text) - wt_demog_1",
-        "Urban_Rural (Text) - wt_demog_1"
-    ]
+        "Urban_Rural (Text) - wt_demog_1",
 
-    demog_2_keys = [
         "Radio_Station (Text) - wt_demog_2",
         "Age (Text) - wt_demog_2",
         "Education_Level (Text) - wt_demog_2",
         "Idp (Text) - wt_demog_2",
-        "Origin_District (Text) - wt_demog_2"
-    ]
+        "Origin_District (Text) - wt_demog_2",
 
-    practice_keys = [
         "Cholera_Vaccination (Text) - wt_practice",
-        "Household_Sickness(Text) - wt_practice",
+        "Household_Sickness (Text) - wt_practice",
         "Trustworthy_Advisors (Text) - wt_practice"
     ]
-
-    def load_survey_dict(file_path):
-        """
-        Loads a survey from a TracedData JSON file into a dict indexed by avf_phone_id
-
-        :param file_path: Path to survey file to load
-        :type file_path: str
-        :return: Dictionary mapping contact id ('avf_phone_id') to the survey TracedData for that contact.
-        :rtype: dict of str -> TracedData
-        """
-        with open(file_path, "r") as f:
-            return {td["avf_phone_id"]: td for td in TracedDataJsonIO.import_json_to_traced_data_iterable(f)}
 
     # Load messages
     with open(json_input_path, "r") as f:
         data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
     # Load surveys
-    demog_1_table = load_survey_dict(demog_1_input_path)
-    demog_2_table = load_survey_dict(demog_2_input_path)
-    practice_table = load_survey_dict(practice_input_path)
+    with open(survey_input_path, "r") as f:
+        surveys = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
     # Left join messages and demographic surveys on avf_phone_id
     # TODO: Refactor join step into CoreDataModules once satisfied with the implementation.
     # TODO: Note that this approach does not preserve the history of demographic data in the final TracedData
     for td in data:
-        if td["avf_phone_id"] in demog_1_table:
-            demog_1_td = demog_1_table[td["avf_phone_id"]]
+        survey_lut = {td["avf_phone_id"]: td for td in surveys}
+        if td["avf_phone_id"] in survey_lut:
+            demog_1_td = survey_lut[td["avf_phone_id"]]
             td.append_data(
-                {k: demog_1_td.get(k) for k in demog_1_keys},
-                Metadata(user, Metadata.get_call_location(), time.time())
-            )
-
-        if td["avf_phone_id"] in demog_2_table:
-            demog_2_td = demog_2_table[td["avf_phone_id"]]
-            td.append_data(
-                {k: demog_2_td.get(k) for k in demog_2_keys},
-                Metadata(user, Metadata.get_call_location(), time.time())
-            )
-
-        if td["avf_phone_id"] in practice_table:
-            practice_td = practice_table[td["avf_phone_id"]]
-            td.append_data(
-                {k: practice_td.get(k) for k in practice_keys},
+                {k: demog_1_td.get(k) for k in survey_keys},
                 Metadata(user, Metadata.get_call_location(), time.time())
             )
 
@@ -118,9 +82,7 @@ if __name__ == "__main__":
 
     # Output to CSV for analysis
     export_keys = list(message_keys)
-    export_keys.extend(demog_1_keys)
-    export_keys.extend(demog_2_keys)
-    export_keys.extend(practice_keys)
+    export_keys.extend(survey_keys)
 
     if os.path.dirname(csv_output_path) is not "" and not os.path.exists(os.path.dirname(csv_output_path)):
         os.makedirs(os.path.dirname(csv_output_path))
