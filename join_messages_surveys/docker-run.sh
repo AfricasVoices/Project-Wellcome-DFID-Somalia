@@ -5,21 +5,19 @@ set -e
 IMAGE_NAME=wt-join-messages-surveys
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 9 ]; then
-    echo "Usage: sh docker-run.sh <user> <messages-input-file> <demog-1-input-file> <demog-2-input-file> <practice-file> <flow-name> <variable-name>  <output-file> <output-csv>"
+if [ $# -ne 7 ]; then
+    echo "Usage: sh docker-run.sh <user> <messages-input-file> <survey-input-file> <flow-name> <variable-name> <output-file> <output-csv>"
     exit
 fi
 
 # Assign the program arguments to bash variables.
 USER=$1
 INPUT_MESSAGES=$2
-INPUT_DEMOG_1=$3
-INPUT_DEMOG_2=$4
-INPUT_PRACTICE=$5
-FLOW_NAME=$6
-VARIABLE_NAME=$7
-OUTPUT_JSON=$8
-OUTPUT_CSV=$9
+INPUT_SURVEY=$3
+FLOW_NAME=$4
+VARIABLE_NAME=$5
+OUTPUT_JSON=$6
+OUTPUT_CSV=$7
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -35,9 +33,7 @@ trap finish EXIT
 
 # Copy input data into the container
 docker cp "$INPUT_MESSAGES" "$container:/data/messages-input.json"
-docker cp "$INPUT_DEMOG_1" "$container:/data/demog-1-input.json"
-docker cp "$INPUT_DEMOG_2" "$container:/data/demog-2-input.json"
-docker cp "$INPUT_PRACTICE" "$container:/data/practice-input.json"
+docker cp "$INPUT_SURVEY" "$container:/data/survey-input.json"
 
 # Run the container
 docker start -a -i "$container"

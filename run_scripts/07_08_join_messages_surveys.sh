@@ -30,8 +30,6 @@ do
 
     # Note: This is still merging raw surveys (for now)
     sh docker-run.sh "$USER" "$DATA_ROOT/02 Clean Messages/$SHOW.json" \
-        "$DATA_ROOT/04 Raw Surveys/wt_demog_1.json" "$DATA_ROOT/04 Raw Surveys/wt_demog_2.json" \
-        "$DATA_ROOT/04 Raw Surveys/wt_practice.json" \
-        "$SHOW" "$VARIABLE" \
+        "$DATA_ROOT/05 Auto-Coded/surveys.json" "$SHOW" "$VARIABLE" \
         "$DATA_ROOT/07 Joined Raw Data/$SHOW.json" "$DATA_ROOT/08 Joined Raw Data CSVs/$SHOW.csv"
 done
