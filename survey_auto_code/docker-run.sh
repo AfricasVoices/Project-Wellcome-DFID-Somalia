@@ -5,8 +5,9 @@ set -e
 IMAGE_NAME=wt-survey-auto-code
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 6 ]; then
-    echo "Usage: sh docker-run.sh <user> <demog-1-input-path> <demog-2-input-path> <practice-input-path> <json-output-path> <coded-output-path>"
+if [ $# -ne 7 ]; then
+    echo "Usage: sh docker-run.sh <user> <demog-1-input-path> <demog-2-input-path> <practice-input-path> <prev-coded-path> <json-output-path> <coded-output-path>"
+    echo "Note: The file at <prev-coded-output> need not exist for this script to run"
     exit
 fi
 
@@ -15,8 +16,9 @@ USER=$1
 INPUT_DEMOG_1=$2
 INPUT_DEMOG_2=$3
 INPUT_PRACTICE=$4
-OUTPUT_JSON=$5
-CODING_DIR=$6
+PREV_CODED_DIR=$5
+OUTPUT_JSON=$6
+CODED_DIR=$7
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -34,6 +36,9 @@ trap finish EXIT
 docker cp "$INPUT_DEMOG_1" "$container:/data/input-demog-1.json"
 docker cp "$INPUT_DEMOG_2" "$container:/data/input-demog-2.json"
 docker cp "$INPUT_PRACTICE" "$container:/data/input-practice.json"
+if [ -d "$PREV_CODED_DIR" ]; then
+    docker cp "$PREV_CODED_DIR" "$container:/data/prev-coded"
+fi
 
 # Run the image as a container.
 docker start -a -i "$container"
@@ -42,5 +47,5 @@ docker start -a -i "$container"
 mkdir -p "$(dirname "$OUTPUT_JSON")"
 docker cp "$container:/data/output.json" "$OUTPUT_JSON"
 
-mkdir -p "$CODING_DIR"
-docker cp "$container:/data/coding/." "$CODING_DIR"
+mkdir -p "$CODED_DIR"
+docker cp "$container:/data/coded/." "$CODED_DIR"

@@ -22,4 +22,4 @@ RUN mkdir /data
 # docker run or docker container create. Use docker-run.sh to set these automatically.
 CMD pipenv run python survey_auto_code.py "$USER" \
     /data/input-demog-1.json /data/input-demog-2.json /data/input-practice.json \
-    /data/output.json /data/coding
+    /data/prev-coded /data/output.json /data/coded
