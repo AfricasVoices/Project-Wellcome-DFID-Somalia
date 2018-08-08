@@ -20,6 +20,7 @@ mkdir -p "$DATA_ROOT/06 Coda Files"
 SHOWS=(
     "wt_s06e1_activation" S06E01_Risk_Perception
     "wt_s06e2_activation" S06E02_Cholera_Preparedness
+    "wt_s06e03_activation" S06E03_Outbreak_Knowledge
     )
 
 for i in $(seq 0 $((${#SHOWS[@]} / 2 - 1)))

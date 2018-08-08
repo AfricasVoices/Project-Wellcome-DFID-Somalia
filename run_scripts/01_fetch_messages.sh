@@ -21,6 +21,7 @@ mkdir -p "$DATA_ROOT/01 Raw Messages"
 SHOWS=(
     "wt_s06e1_activation"
     "wt_s06e2_activation"
+    "wt_s06e03_activation"
     )
 
 for SHOW in ${SHOWS[@]}

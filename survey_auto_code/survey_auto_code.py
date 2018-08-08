@@ -4,7 +4,7 @@ import time
 from os import path
 
 from core_data_modules.cleaners import somali, Codes
-from core_data_modules.traced_data import Metadata
+from core_data_modules.traced_data import Metadata, TracedData
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO
 from core_data_modules.util import IOUtils
 
@@ -59,45 +59,9 @@ if __name__ == "__main__":
     with open(practice_input_path, "r") as f:
         practice_data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
-    def join_traced_data_iterables(join_on_key, data1, data2):
-        # TODO: Move to CoreDataModules
-        """
-        Outer-joins two iterables of TracedData on the given key.
-
-        :param join_on_key: Key to join data on
-        :type join_on_key: str
-        :param data1: TracedData items to join with data2
-        :type data1: iterable of TracedData
-        :param data2: TracedData items to join with data1
-        :type data2: iterable of TracedData
-        :return: data1 outer-joined with data2 on join_on_key
-        :rtype: list of TracedData
-        """
-        data_1_lut = {td[join_on_key]: td for td in data1}
-        data_2_lut = {td[join_on_key]: td for td in data2}
-
-        ids_in_data1_only = data_1_lut.keys() - data_2_lut.keys()
-        ids_in_data2_only = data_2_lut.keys() - data_1_lut.keys()
-        ids_in_both = set(data_1_lut.keys()).intersection(set(data_2_lut.keys()))
-
-        merged_data = []
-        for id in ids_in_data1_only:
-            merged_data.append(data_1_lut[id])
-        for id in ids_in_data2_only:
-            merged_data.append(data_2_lut[id])
-        for id in ids_in_both:
-            # TODO: Preserve history from both trees.
-            # TODO: Assert all keys in common between the two TracedData items here have identical values.
-            data_1_lut[id].append_data(
-                dict(data_2_lut[id].items()),
-                Metadata(user, Metadata.get_call_location(), time.time())
-            )
-            merged_data.append(data_1_lut[id])
-
-        return merged_data
-
-    demog_data = join_traced_data_iterables("avf_phone_id", demog_1_data, demog_2_data)
-    all_survey_data = join_traced_data_iterables("avf_phone_id", demog_data, practice_data)
+    # Join the survey data on "avf_phone_id"
+    demog_data = TracedData.join_iterables(user, "avf_phone_id", demog_1_data, demog_2_data, "wt_demog_2")
+    all_survey_data = TracedData.join_iterables(user, "avf_phone_id", demog_data, practice_data, "wt_practice")
 
     # Clean the survey responses
     for td in all_survey_data:
@@ -129,8 +93,8 @@ if __name__ == "__main__":
         if os.path.exists(prev_coded_output_file_path):
             with open(coded_output_file_path, "w") as f, open(prev_coded_output_file_path, "r") as prev_f:
                 TracedDataCodaIO.export_traced_data_iterable_to_coda_with_scheme(
-                    all_survey_data, key, "{}_clean".format(key), key.split(" ")[0], f, prev_f)
+                    all_survey_data, key, {key.split(" ")[0]: "{}_clean".format(key)}, f, prev_f)
         else:
             with open(coded_output_file_path, "w") as f:
                 TracedDataCodaIO.export_traced_data_iterable_to_coda_with_scheme(
-                    all_survey_data, key, "{}_clean".format(key), key.split(" ")[0], f)
+                    all_survey_data, key, {key.split(" ")[0]: "{}_clean".format(key)}, f)
