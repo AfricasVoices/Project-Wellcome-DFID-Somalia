@@ -1,4 +1,5 @@
 import argparse
+import csv
 import os
 import time
 
@@ -86,3 +87,31 @@ if __name__ == "__main__":
         os.makedirs(os.path.dirname(csv_output_path))
     with open(csv_output_path, "w") as f:
         TracedDataCSVIO.export_traced_data_iterable_to_csv(data, f, headers=export_keys)
+
+    # Print some stats, to the console for now
+    print("Number of messages received: {}".format(len(data)))
+
+    survey_stats = []
+    for key in survey_keys:
+        clean_key = "{}_clean".format(key)
+
+        respondents = [td for td in surveys if key in td and td[key] != Codes.TRUE_MISSING]
+        auto_coded = [td for td in respondents if clean_key in td and td[clean_key] != Codes.TRUE_MISSING and
+                      td[clean_key] != Codes.NOT_CODED]
+
+        survey_stats.append({
+            "Variable": key,
+            "Total Respondents": len(respondents),
+            "Total Messages": sum([len(td.get_history(key)) for td in respondents]),
+            "Automatically Coded (%)": "{0:0.1f}".format(len(auto_coded) / len(respondents) * 100),
+            "Verified Automatic Codes (%)": "",
+            "Manually Coded (%)": ""
+        })
+
+    with open(csv_output_path, "w") as f:
+        headers = ["Variable", "Total Respondents", "Total Messages", "Automatically Coded (%)",
+                   "Verified Automatic Codes (%)", "Manually Coded (%)"]
+        writer = csv.DictWriter(f, fieldnames=headers, lineterminator="\n")
+        writer.writeheader()
+        for row in survey_stats:
+            writer.writerow(row)
