@@ -5,15 +5,16 @@ set -e
 IMAGE_NAME=wt-stats
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 3 ]; then
-    echo "Usage: sh docker-run.sh <user> <survey-input-path> <stats-output-path>"
+if [ $# -ne 4 ]; then
+    echo "Usage: sh docker-run.sh <user> <messages-input-path> <survey-input-path> <stats-output-path>"
     exit
 fi
 
 # Assign the program arguments to bash variables.
 USER=$1
-INPUT_SURVEY=$2
-OUTPUT_STATS=$3
+INPUT_MESSAGES_DIR=$2
+INPUT_SURVEY=$3
+OUTPUT_STATS=$4
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -29,6 +30,7 @@ trap finish EXIT
 
 # Copy input data into the container
 docker cp "$INPUT_SURVEY" "$container:/data/survey-input.json"
+docker cp "$INPUT_MESSAGES_DIR/." "$container:/data/messages-input"
 
 # Run the container
 docker start -a -i "$container"

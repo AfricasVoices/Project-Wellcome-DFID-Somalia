@@ -1,5 +1,6 @@
 import argparse
 import csv
+from os import path
 
 from core_data_modules.cleaners import Codes
 from core_data_modules.traced_data.io import TracedDataJsonIO
@@ -7,8 +8,10 @@ from core_data_modules.util import IOUtils
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Summarises response rates/coding rates for surveys")
-    # TODO: Also summarise messages
     parser.add_argument("user", help="User launching this program")
+    parser.add_argument("messages_input_path", metavar="messages-input-path",
+                        help="Path to a directory containing JSON files of responses to each of the shows in this "
+                             "project. Each JSON file should contain a list of serialized TracedData objects")
     parser.add_argument("survey_input_path", metavar="survey-input-path",
                         help="Path to a coded survey JSON file, containing a list of serialized TracedData objects")
     parser.add_argument("csv_output_path", metavar="csv-output-path",
@@ -16,32 +19,51 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     user = args.user
+    messages_input_path = args.messages_input_path
     survey_input_path = args.survey_input_path
     csv_output_path = args.csv_output_path
-
-    survey_keys = [
-        "District (Text) - wt_demog_1",
-        "Gender (Text) - wt_demog_1",
-        "Urban_Rural (Text) - wt_demog_1",
-
-        "Radio_Station (Text) - wt_demog_2",
-        "Age (Text) - wt_demog_2",
-        "Education_Level (Text) - wt_demog_2",
-        "Idp (Text) - wt_demog_2",
-        "Origin_District (Text) - wt_demog_2",
-
-        "Cholera_Vaccination (Text) - wt_practice",
-        "Household_Sickness (Text) - wt_practice",
-        "Trustworthy_Advisors (Text) - wt_practice"
-    ]
 
     # Load surveys
     with open(survey_input_path, "r") as f:
         surveys = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
+    def load_show(show_name):
+        show_path = path.join(messages_input_path, "{}.json".format(show_name))
+        if not path.exists(show_path):
+            print("Warning: No show found with file name '{}.json'".format(show_name))
+            return []
+        with open(show_path, "r") as f:
+            return list(TracedDataJsonIO.import_json_to_traced_data_iterable(f))
+
+    survey_keys = {
+        "District (Text) - wt_demog_1": surveys,
+        "Gender (Text) - wt_demog_1": surveys,
+        "Urban_Rural (Text) - wt_demog_1": surveys,
+
+        "Radio_Station (Text) - wt_demog_2": surveys,
+        "Age (Text) - wt_demog_2": surveys,
+        "Education_Level (Text) - wt_demog_2": surveys,
+        "Idp (Text) - wt_demog_2": surveys,
+        "Origin_District (Text) - wt_demog_2": surveys,
+
+        "Cholera_Vaccination (Text) - wt_practice": surveys,
+        "Household_Sickness (Text) - wt_practice": surveys,
+        "Trustworthy_Advisors (Text) - wt_practice": surveys
+    }
+
+    shows = {
+        "S06E01_Risk_Perception (Text) - wt_s06e1_activation": "wt_s06e1_activation",
+        "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation": "wt_s06e2_activation",
+        "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation": "wt_s06e03_activation"
+    }
+    show_keys = {question_key: load_show(show_name) for question_key, show_name in shows.items()}
+
+    keys = dict(show_keys)
+    keys.update(survey_keys)
+
     # Generate survey stats
     survey_stats = []
-    for key in survey_keys:
+    for key, data in keys.items():
         clean_key = "{}_clean".format(key)
         coded_key = "{}_coded".format(key)
 
@@ -54,7 +76,7 @@ if __name__ == "__main__":
 
             return td[clean_key] == td[coded_key]
 
-        responses = [td for td in surveys if key in td and td[key] != Codes.TRUE_MISSING]
+        responses = [td for td in data if key in td and td[key] != Codes.TRUE_MISSING]
         auto_coded = [td for td in responses if clean_key in td and td[clean_key] != Codes.TRUE_MISSING and
                       td[clean_key] != Codes.NOT_CODED]
         manually_coded = [td for td in responses if coded_key in td and td[coded_key] != Codes.TRUE_MISSING and
