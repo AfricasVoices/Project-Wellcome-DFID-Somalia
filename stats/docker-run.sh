@@ -37,4 +37,4 @@ docker start -a -i "$container"
 
 # Copy the output data back out of the container
 mkdir -p "$(dirname "$OUTPUT_STATS")"
-docker cp "$container:/data/survey-stats.csv" "$OUTPUT_STATS"
+docker cp "$container:/data/stats-output.csv" "$OUTPUT_STATS"

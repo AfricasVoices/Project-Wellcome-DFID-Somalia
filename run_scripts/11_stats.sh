@@ -4,7 +4,7 @@ set -e
 
 if [ $# -ne 2 ]; then
     echo "Usage: sh 11_stats.sh <user> <data-root>"
-    echo "Produces summary stats for surveys"
+    echo "Produces summary stats for surveys and shows"
     exit
 fi
 
@@ -15,4 +15,5 @@ cd ../stats
 
 mkdir -p "$DATA_ROOT/11 Stats"
 
-sh docker-run.sh "$USER" "$DATA_ROOT/01 Raw Messages/" "$DATA_ROOT/10 Manually Coded/surveys.json" "$DATA_ROOT/11 Stats/survey-stats.csv"
+sh docker-run.sh "$USER" "$DATA_ROOT/01 Raw Messages/" "$DATA_ROOT/10 Manually Coded/surveys.json" \
+    "$DATA_ROOT/11 Stats/stats.csv"

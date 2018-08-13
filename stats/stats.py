@@ -62,7 +62,7 @@ if __name__ == "__main__":
     keys.update(survey_keys)
 
     # Generate survey stats
-    survey_stats = []
+    stats = []
     for key, data in keys.items():
         clean_key = "{}_clean".format(key)
         coded_key = "{}_coded".format(key)
@@ -83,7 +83,7 @@ if __name__ == "__main__":
                           td[coded_key] != Codes.NOT_CODED]
         agreeing_codes = [td for td in responses if codes_agree(td)]
 
-        survey_stats.append({
+        stats.append({
             "Variable": key,
             "Total Respondents": len(responses),
             "Total Messages": sum([len(td.get_history(key)) for td in responses]),
@@ -99,5 +99,5 @@ if __name__ == "__main__":
                    "Manually Verified/Coded (%)", "Auto/Manual Agreement (%)"]
         writer = csv.DictWriter(f, fieldnames=headers, lineterminator="\n")
         writer.writeheader()
-        for row in survey_stats:
+        for row in stats:
             writer.writerow(row)

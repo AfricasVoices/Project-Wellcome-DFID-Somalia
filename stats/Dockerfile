@@ -20,4 +20,4 @@ ADD . /app
 
 # USER is an environment variable which needs to be set when constructing this container e.g. via
 # docker run or docker container create. Use docker-run.sh to set these automatically.
-CMD pipenv run python stats.py "$USER" /data/messages-input /data/survey-input.json /data/survey-stats.csv
+CMD pipenv run python stats.py "$USER" /data/messages-input /data/survey-input.json /data/stats-output.csv
