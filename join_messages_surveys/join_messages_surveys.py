@@ -2,7 +2,8 @@ import argparse
 import os
 import time
 
-from core_data_modules.traced_data import Metadata
+from core_data_modules.cleaners import Codes
+from core_data_modules.traced_data import Metadata, TracedData
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
 
 if __name__ == "__main__":
@@ -62,17 +63,14 @@ if __name__ == "__main__":
     with open(survey_input_path, "r") as f:
         surveys = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
-    # Left join messages and demographic surveys on avf_phone_id
-    # TODO: Refactor join step into CoreDataModules once satisfied with the implementation.
-    # TODO: Note that this approach does not preserve the history of demographic data in the final TracedData
+    # Add survey data to the messages
+    TracedData.update_iterable(user, "avf_phone_id", data, surveys, "survey_responses")
+
+    # Mark missing survey entries in the raw data as true missing
     for td in data:
-        survey_lut = {td["avf_phone_id"]: td for td in surveys}
-        if td["avf_phone_id"] in survey_lut:
-            demog_1_td = survey_lut[td["avf_phone_id"]]
-            td.append_data(
-                {k: demog_1_td.get(k) for k in survey_keys},
-                Metadata(user, Metadata.get_call_location(), time.time())
-            )
+        for key in survey_keys:
+            if key not in td:
+                td.append_data({key: Codes.TRUE_MISSING}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Write json output
     if os.path.dirname(json_output_path) is not "" and not os.path.exists(os.path.dirname(json_output_path)):
