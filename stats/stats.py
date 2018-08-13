@@ -85,8 +85,8 @@ if __name__ == "__main__":
 
         stats.append({
             "Variable": key,
-            "Total Respondents": len(responses),
-            "Total Messages": sum([len(td.get_history(key)) for td in responses]),
+            "Total Respondents": len({td["avf_phone_id"] for td in responses}),
+            "Total Messages":  sum([len(td.get_history(key)) for td in responses]),
             "Automatically Coded (%)": "{0:0.1f}".format(len(auto_coded) / len(responses) * 100),
             "Manually Verified/Coded (%)": "{0:0.1f}".format(len(manually_coded) / len(responses) * 100),
             "Auto/Manual Agreement (%)": "{0:0.1f}".format(len(agreeing_codes) / len(responses) * 100)
