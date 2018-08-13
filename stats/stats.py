@@ -3,6 +3,7 @@ import csv
 
 from core_data_modules.cleaners import Codes
 from core_data_modules.traced_data.io import TracedDataJsonIO
+from core_data_modules.util import IOUtils
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Summarises response rates/coding rates for surveys")
@@ -44,12 +45,12 @@ if __name__ == "__main__":
         clean_key = "{}_clean".format(key)
         coded_key = "{}_coded".format(key)
 
-        def agrees(td):
+        def codes_agree(td):
             if not(clean_key in td and coded_key in td):
                 return False
 
             if td[clean_key] == Codes.NOT_CODED:
-                return td[coded_key] == "N/C"
+                return td[coded_key] == "N/C"  # TODO: Temporary measure until we update Codes.NOT_CODED in Core Data
 
             return td[clean_key] == td[coded_key]
 
@@ -58,7 +59,7 @@ if __name__ == "__main__":
                       td[clean_key] != Codes.NOT_CODED]
         manually_coded = [td for td in responses if coded_key in td and td[coded_key] != Codes.TRUE_MISSING and
                           td[coded_key] != Codes.NOT_CODED]
-        agreeing_codes = [td for td in responses if agrees(td)]
+        agreeing_codes = [td for td in responses if codes_agree(td)]
 
         survey_stats.append({
             "Variable": key,
@@ -70,6 +71,7 @@ if __name__ == "__main__":
         })
 
     # Save survey stats
+    IOUtils.ensure_dirs_exist_for_file(csv_output_path)
     with open(csv_output_path, "w") as f:
         headers = ["Variable", "Total Respondents", "Total Messages", "Automatically Coded (%)",
                    "Manually Verified/Coded (%)", "Auto/Manual Agreement (%)"]

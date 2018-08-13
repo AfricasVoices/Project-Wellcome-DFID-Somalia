@@ -2,7 +2,7 @@
 
 set -e
 
-IMAGE_NAME=wt-join-messages-surveys
+IMAGE_NAME=wt-stats
 
 # Check that the correct number of arguments were provided.
 if [ $# -ne 3 ]; then
