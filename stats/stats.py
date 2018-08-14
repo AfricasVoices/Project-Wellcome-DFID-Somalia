@@ -80,7 +80,8 @@ if __name__ == "__main__":
         responses = [td for td in data if key in td and td[key] != Codes.TRUE_MISSING]
         auto_coded = [td for td in responses if clean_key in td and td[clean_key] != Codes.NOT_CODED]
         manually_reviewed = [td for td in responses if coded_key in td and td[coded_key] is not None]
-        manually_coded = [td for td in responses if coded_key in td and td[coded_key] != "NC"]
+        manually_coded = [td for td in responses
+                          if coded_key in td and td[coded_key] is not None and td[coded_key] != "NC"]
         agreeing_codes = [td for td in responses if codes_agree(td)]
 
         stats.append({
