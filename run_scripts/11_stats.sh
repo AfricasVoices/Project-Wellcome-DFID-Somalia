@@ -15,5 +15,5 @@ cd ../stats
 
 mkdir -p "$DATA_ROOT/11 Stats"
 
-sh docker-run.sh "$USER" "$DATA_ROOT/01 Raw Messages/" "$DATA_ROOT/10 Manually Coded/surveys.json" \
+sh docker-run.sh "$USER" "$DATA_ROOT/02 Clean Messages/" "$DATA_ROOT/10 Manually Coded/surveys.json" \
     "$DATA_ROOT/11 Stats/stats.csv"
