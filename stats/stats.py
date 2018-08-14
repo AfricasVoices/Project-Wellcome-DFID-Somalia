@@ -54,7 +54,8 @@ if __name__ == "__main__":
     shows = {
         "S06E01_Risk_Perception (Text) - wt_s06e1_activation": "wt_s06e1_activation",
         "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation": "wt_s06e2_activation",
-        "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation": "wt_s06e03_activation"
+        "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation": "wt_s06e03_activation",
+        "S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation": "wt_s06e04_activation"
     }
     show_keys = {question_key: load_show(show_name) for question_key, show_name in shows.items()}
 
@@ -72,15 +73,14 @@ if __name__ == "__main__":
                 return False
 
             if td[clean_key] == Codes.NOT_CODED:
-                return td[coded_key] == "N/C"  # TODO: Temporary measure until we update Codes.NOT_CODED in Core Data
+                return td[coded_key] == "NC"  # TODO: Temporary measure until we update Codes.NOT_CODED in Core Data
 
             return td[clean_key] == td[coded_key]
 
         responses = [td for td in data if key in td and td[key] != Codes.TRUE_MISSING]
-        auto_coded = [td for td in responses if clean_key in td and td[clean_key] != Codes.TRUE_MISSING and
-                      td[clean_key] != Codes.NOT_CODED]
-        manually_coded = [td for td in responses if coded_key in td and td[coded_key] != Codes.TRUE_MISSING and
-                          td[coded_key] != Codes.NOT_CODED]
+        auto_coded = [td for td in responses if clean_key in td and td[clean_key] != Codes.NOT_CODED]
+        manually_reviewed = [td for td in responses if coded_key in td and td[coded_key] is not None]
+        manually_coded = [td for td in responses if coded_key in td and td[coded_key] != "NC"]
         agreeing_codes = [td for td in responses if codes_agree(td)]
 
         stats.append({
@@ -88,6 +88,7 @@ if __name__ == "__main__":
             "Total Respondents": len({td["avf_phone_id"] for td in responses}),
             "Total Messages":  sum([len(td.get_history(key)) for td in responses]),
             "Automatically Coded (%)": "{0:0.1f}".format(len(auto_coded) / len(responses) * 100),
+            "Manually Reviewed (%)": "{0:0.1f}".format(len(manually_reviewed) / len(responses) * 100),
             "Manually Verified/Coded (%)": "{0:0.1f}".format(len(manually_coded) / len(responses) * 100),
             "Auto/Manual Agreement (%)": "{0:0.1f}".format(len(agreeing_codes) / len(responses) * 100)
         })
@@ -96,7 +97,7 @@ if __name__ == "__main__":
     IOUtils.ensure_dirs_exist_for_file(csv_output_path)
     with open(csv_output_path, "w") as f:
         headers = ["Variable", "Total Respondents", "Total Messages", "Automatically Coded (%)",
-                   "Manually Verified/Coded (%)", "Auto/Manual Agreement (%)"]
+                   "Manually Reviewed (%)", "Manually Verified/Coded (%)", "Auto/Manual Agreement (%)"]
         writer = csv.DictWriter(f, fieldnames=headers, lineterminator="\n")
         writer.writeheader()
         for row in stats:
