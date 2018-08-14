@@ -16,4 +16,4 @@ cd ../stats
 mkdir -p "$DATA_ROOT/11 Stats"
 
 sh docker-run.sh "$USER" "$DATA_ROOT/02 Clean Messages/" "$DATA_ROOT/10 Manually Coded/surveys.json" \
-    "$DATA_ROOT/11 Stats/stats.csv"
+    "$DATA_ROOT/11 Stats/monitoring-stats.csv"
