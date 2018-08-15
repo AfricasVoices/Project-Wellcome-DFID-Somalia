@@ -34,7 +34,7 @@ if __name__ == "__main__":
     with open(json_input_path, "r") as f:
         data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
-    # Filter for runs which contain a response to the risk perception question.
+    # Filter for runs which contain a response to this week's question.
     data = list(filter(lambda td: "{} (Text) - {}".format(variable_name, flow_name) in td, data))
 
     # Write json output
