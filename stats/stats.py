@@ -71,14 +71,12 @@ if __name__ == "__main__":
         def codes_agree(td):
             if not(clean_key in td and coded_key in td):
                 return False
-
             if td[clean_key] == Codes.NOT_CODED:
                 return td[coded_key] == "NC"  # TODO: Temporary measure until we update Codes.NOT_CODED in Core Data
-
             return td[clean_key] == td[coded_key]
 
         responses = [td for td in data if key in td and td[key] != Codes.TRUE_MISSING]
-        auto_coded = [td for td in responses if clean_key in td and td[clean_key] != Codes.NOT_CODED]
+        auto_coded = [td for td in responses if clean_key in td and td[clean_key] != Codes.NOT_CODED]  # (Note that NOT_CODED is acceptable here because this is internal to the pipeline)
         manually_reviewed = [td for td in responses if coded_key in td and td[coded_key] is not None]
         manually_coded = [td for td in responses
                           if coded_key in td and td[coded_key] is not None and td[coded_key] != "NC"]
