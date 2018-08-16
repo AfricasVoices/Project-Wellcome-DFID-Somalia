@@ -38,55 +38,61 @@ if __name__ == "__main__":
         with open(show_path, "r") as f:
             return list(TracedDataJsonIO.import_json_to_traced_data_iterable(f))
 
-
-    shows = [
-        # "wt_s06e1_activation",
-        # "wt_s06e2_activation",
-        # "wt_s06e03_activation",
-        "wt_s06e04_activation"
-    ]
-
-    all_messages = []
-    for show in shows:
-        all_messages.extend(load_show(show))
-
-    TracedData.update_iterable(user, "avf_phone_id", all_messages, surveys, "surveys")
-
     def get_code(td, variable):
         if td[variable] == Codes.TRUE_MISSING:
             return Codes.TRUE_MISSING
         else:
             return td["{}_coded".format(variable)]
 
-    for td in all_messages:
-        td.append_data({
-            "date_time": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),  # TODO: Need to think about what to do when collating by date. Also need to consider converting to EAT.
-            # "consent_clean": TODO
-            "phone_uuid": td["avf_phone_id"],
+    shows = {
+        1: "wt_s06e1_activation",
+        2: "wt_s06e2_activation",
+        3: "wt_s06e03_activation",
+        4: "wt_s06e04_activation"
+    }
 
-            "district_clean": get_code(td, "District (Text) - wt_demog_1"),
-            "urban_rural_clean": get_code(td, "Urban_Rural (Text) - wt_demog_1"),
-            "gender_clean": get_code(td, "Gender (Text) - wt_demog_1"),
+    all_messages = []
+    for show_number, show_name in shows.items():
+        show_messages = load_show(show_name)
+        TracedData.update_iterable(user, "avf_phone_id", show_messages, surveys, "surveys")
 
-            "radio_station_clean": get_code(td, "Radio_Station (Text) - wt_demog_2"),
-            "age_clean": get_code(td, "Age (Text) - wt_demog_2"),
-            "education_clean": get_code(td, "Education_Level (Text) - wt_demog_2"),
-            "idp_clean": get_code(td, "Idp (Text) - wt_demog_2"),
-            "origin_district": get_code(td, "Origin_District (Text) - wt_demog_2"),
+        for td in show_messages:
+            td.append_data({
+                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"), # TODO: Need to think about what to do when collating by date. Also need to consider converting to EAT.
+                # "consent_clean": TODO
+                "phone_uuid": td["avf_phone_id"],
 
-            "household_sickness_clean": get_code(td, "Household_Sickness (Text) - wt_practice"),
-            # "sickness_adult_child": TODO
-            "cholera_vaccination_clean": get_code(td, "Cholera_Vaccination (Text) - wt_practice"),
-            "trustworthy_advisors_clean": get_code(td, "Trustworthy_Advisors (Text) - wt_practice"),
+                "district_clean": get_code(td, "District (Text) - wt_demog_1"),
+                "urban_rural_clean": get_code(td, "Urban_Rural (Text) - wt_demog_1"),
+                "gender_clean": get_code(td, "Gender (Text) - wt_demog_1"),
 
-            # "radio_show": TODO
-        }, Metadata(user, Metadata.get_call_location(), time.time()))
+                "radio_station_clean": get_code(td, "Radio_Station (Text) - wt_demog_2"),
+                "age_clean": get_code(td, "Age (Text) - wt_demog_2"),
+                "education_clean": get_code(td, "Education_Level (Text) - wt_demog_2"),
+                "idp_clean": get_code(td, "Idp (Text) - wt_demog_2"),
+                "origin_district": get_code(td, "Origin_District (Text) - wt_demog_2"),
+
+                "household_sickness_clean": get_code(td, "Household_Sickness (Text) - wt_practice"),
+                # "sickness_adult_child": TODO
+                "cholera_vaccination_clean": get_code(td, "Cholera_Vaccination (Text) - wt_practice"),
+                "trustworthy_advisors_clean": get_code(td, "Trustworthy_Advisors (Text) - wt_practice"),
+
+                "radio_show": show_number,
+                
+                # "message_type": TODO
+                "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", "NS"),
+                "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", "NS"),
+                "raw_radio_q3": td.get("S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation", "NS"),
+                "raw_radio_q4": td.get("S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation", "NS")
+            }, Metadata(user, Metadata.get_call_location(), time.time()))
+
+        all_messages.extend(show_messages)
 
     with open(csv_output_path, "w") as f:
         TracedDataCSVIO.export_traced_data_iterable_to_csv(
             all_messages, f,
             [
-                "date_time",
+                "date_time_utc",
                 # "consent_clean", TODO
                 "phone_uuid",
 
@@ -101,8 +107,17 @@ if __name__ == "__main__":
                 "origin_district",
 
                 "household_sickness_clean",
+                # "sickness_adult_child,
                 "cholera_vaccination_clean",
-                "trustworthy_advisors_clean"
+                "trustworthy_advisors_clean",
+
+                "radio_show",
+
+                # "message_type",
+                "raw_radio_q1",
+                "raw_radio_q2",
+                "raw_radio_q3",
+                "raw_radio_q4"
             ]
         )
 
