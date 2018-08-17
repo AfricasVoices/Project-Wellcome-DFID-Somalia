@@ -26,10 +26,6 @@ if __name__ == "__main__":
     survey_input_path = args.survey_input_path
     csv_output_path = args.csv_output_path
 
-    # Load surveys
-    with open(survey_input_path, "r") as f:
-        surveys = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
-
     def load_show(show_name):
         show_path = path.join(messages_input_path, "{}.json".format(show_name))
         if not path.exists(show_path):
@@ -154,6 +150,9 @@ if __name__ == "__main__":
         elif show_number == 4:
             return message_type(td["S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"])
 
+    # Load surveys
+    with open(survey_input_path, "r") as f:
+        surveys = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
     shows = {
         1: "wt_s06e1_activation",
