@@ -137,18 +137,29 @@ if __name__ == "__main__":
 
         if total_matches == 0:
             print("Warning: '{}' has no matching promo, advert, or show".format(iso_date))
-            return "NC"
+            return "NL"  # TODO: Change to Codes.NOT_LOGICAL
         if total_matches > 1:
             print("Warning: '{}' matches multiple promos, adverts, and/or shows".format(iso_date))
-            return "NC"
+            return "NL"  # TODO: Change to Codes.NOT_LOGICAL
 
         return message_type
 
+    def message_type_for_show(show_number, td):
+        if show_number == 1:
+            return message_type(td["S06E01_Risk_Perception (Time) - wt_s06e1_activation"])
+        elif show_number == 2:
+            return message_type(td["S06E02_Cholera_Preparedness (Time) - wt_s06e2_activation"])
+        elif show_number == 3:
+            return message_type(td["S06E03_Outbreak_Knowledge (Time) - wt_s06e03_activation"])
+        elif show_number == 4:
+            return message_type(td["S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"])
+
+
     shows = {
         1: "wt_s06e1_activation",
-        # 2: "wt_s06e2_activation",
-        # 3: "wt_s06e03_activation",
-        # 4: "wt_s06e04_activation"
+        2: "wt_s06e2_activation",
+        3: "wt_s06e03_activation",
+        4: "wt_s06e04_activation"
     }
 
     all_messages = []
@@ -178,7 +189,7 @@ if __name__ == "__main__":
                 "trustworthy_advisors_clean": get_code(td, "Trustworthy_Advisors (Text) - wt_practice"),
 
                 "radio_show": show_number,
-                "message_type": message_type(td["S06E01_Risk_Perception (Time) - wt_s06e1_activation"]),
+                "message_type": message_type_for_show(show_number, td),
 
                 "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", "NS"),
                 "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", "NS"),
