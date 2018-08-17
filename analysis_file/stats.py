@@ -44,11 +44,111 @@ if __name__ == "__main__":
         else:
             return td["{}_coded".format(variable)]
 
+    def message_type(iso_date):
+        dt = isoparse(iso_date)
+
+        promo_dates = [
+            ["2018-07-22T06:25:00+03:00", "2018-07-23T00:00:00+03:00"],
+            ["2018-07-23T00:00:00+03:00", "2018-07-24T00:00:00+03:00"],
+            ["2018-07-24T00:00:00+03:00", "2018-07-25T00:00:00+03:00"],
+            ["2018-07-25T00:00:00+03:00", "2018-07-26T00:00:00+03:00"],
+            ["2018-07-26T00:00:00+03:00", "2018-07-26T19:00:00+03:00"],
+
+            ["2018-07-29T06:25:00+03:00", "2018-07-30T00:00:00+03:00"],
+            ["2018-07-30T00:00:00+03:00", "2018-07-31T00:00:00+03:00"],
+            ["2018-07-31T00:00:00+03:00", "2018-08-01T00:00:00+03:00"],
+            ["2018-08-01T00:00:00+03:00", "2018-08-02T00:00:00+03:00"],
+            ["2018-08-02T00:00:00+03:00", "2018-08-02T19:00:00+03:00"],
+
+            ["2018-08-05T06:25:00+03:00", "2018-08-06T00:00:00+03:00"],
+            ["2018-08-06T00:00:00+03:00", "2018-08-07T00:00:00+03:00"],
+            ["2018-08-07T00:00:00+03:00", "2018-08-08T00:00:00+03:00"],
+            ["2018-08-08T00:00:00+03:00", "2018-08-09T00:00:00+03:00"],
+            ["2018-08-09T00:00:00+03:00", "2018-08-09T19:00:00+03:00"],
+
+            ["2018-08-12T06:25:00+03:00", "2018-08-13T00:00:00+03:00"],
+            ["2018-08-13T00:00:00+03:00", "2018-08-14T00:00:00+03:00"],
+            ["2018-08-14T00:00:00+03:00", "2018-08-15T00:00:00+03:00"],
+            ["2018-08-15T00:00:00+03:00", "2018-08-16T00:00:00+03:00"],
+            ["2018-08-16T00:00:00+03:00", "2018-08-16T19:00:00+03:00"],
+
+            ["2018-08-19T06:25:00+03:00", "2018-08-20T00:00:00+03:00"],
+            ["2018-08-20T00:00:00+03:00", "2018-08-21T00:00:00+03:00"],
+            ["2018-08-21T00:00:00+03:00", "2018-08-22T00:00:00+03:00"],
+            ["2018-08-22T00:00:00+03:00", "2018-08-23T00:00:00+03:00"],
+            ["2018-08-23T00:00:00+03:00", "2018-08-23T19:00:00+03:00"]
+        ]
+
+        advert_dates = [
+            ["2018-07-26T19:00:00+03:00", "2018-07-27T00:00:00+03:00"],
+            ["2018-07-27T00:00:00+03:00", "2018-07-27T08:30:00+03:00"],
+
+            ["2018-08-02T19:00:00+03:00", "2018-08-03T00:00:00+03:00"],
+            ["2018-08-03T00:00:00+03:00", "2018-08-03T08:30:00+03:00"],
+
+            ["2018-08-09T19:00:00+03:00", "2018-08-10T00:00:00+03:00"],
+            ["2018-08-10T00:00:00+03:00", "2018-08-10T08:30:00+03:00"],
+
+            ["2018-08-16T19:00:00+03:00", "2018-08-17T00:00:00+03:00"],
+            ["2018-08-17T00:00:00+03:00", "2018-08-17T08:30:00+03:00"],
+
+            ["2018-08-23T19:00:00+03:00", "2018-08-24T00:00:00+03:00"],
+            ["2018-08-24T00:00:00+03:00", "2018-08-24T08:30:00+03:00"],
+        ]
+
+        show_dates = [
+            ["2018-07-27T08:30:00+03:00", "2018-07-28T00:00:00+03:00"],
+            ["2018-07-28T00:00:00+03:00", "2018-07-29T00:00:00+03:00"],
+            ["2018-07-29T00:00:00+03:00", "2018-07-29T06:25:00+03:00"],
+
+            ["2018-08-03T08:30:00+03:00", "2018-08-04T00:00:00+03:00"],
+            ["2018-08-04T00:00:00+03:00", "2018-08-05T00:00:00+03:00"],
+            ["2018-08-05T00:00:00+03:00", "2018-08-05T06:25:00+03:00"],
+
+            ["2018-08-10T08:30:00+03:00", "2018-08-11T00:00:00+03:00"],
+            ["2018-08-11T00:00:00+03:00", "2018-08-12T00:00:00+03:00"],
+            ["2018-08-12T00:00:00+03:00", "2018-08-12T06:25:00+03:00"],
+
+            ["2018-08-17T08:30:00+03:00", "2018-08-18T00:00:00+03:00"],
+            ["2018-08-18T00:00:00+03:00", "2018-08-19T00:00:00+03:00"],
+            ["2018-08-19T00:00:00+03:00", "2018-08-19T06:25:00+03:00"],
+
+            ["2018-08-24T08:30:00+03:00", "2018-08-25T00:00:00+03:00"],
+            ["2018-08-25T00:00:00+03:00", "2018-08-26T00:00:00+03:00"],
+            ["2018-08-26T00:00:00+03:00", "2018-08-26T06:25:00+03:00"]
+        ]
+
+        total_matches = 0
+        message_type = ""
+        for p in promo_dates:
+            if isoparse(p[0]) <= dt < isoparse(p[1]):
+                message_type = "promo"
+                total_matches += 1
+
+        for a in advert_dates:
+            if isoparse(a[0]) <= dt < isoparse(a[1]):
+                message_type = "advert"
+                total_matches += 1
+
+        for s in show_dates:
+            if isoparse(s[0]) <= dt < isoparse(s[1]):
+                message_type = "show"
+                total_matches += 1
+
+        if total_matches == 0:
+            print("Warning: '{}' has no matching promo, advert, or show".format(iso_date))
+            return "NC"
+        if total_matches > 1:
+            print("Warning: '{}' matches multiple promos, adverts, and/or shows".format(iso_date))
+            return "NC"
+
+        return message_type
+
     shows = {
         1: "wt_s06e1_activation",
-        2: "wt_s06e2_activation",
-        3: "wt_s06e03_activation",
-        4: "wt_s06e04_activation"
+        # 2: "wt_s06e2_activation",
+        # 3: "wt_s06e03_activation",
+        # 4: "wt_s06e04_activation"
     }
 
     all_messages = []
@@ -58,7 +158,7 @@ if __name__ == "__main__":
 
         for td in show_messages:
             td.append_data({
-                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"), # TODO: Need to think about what to do when collating by date. Also need to consider converting to EAT.
+                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),  # TODO: Need to think about what to do when collating by date. Also need to consider converting to EAT.
                 # "consent_clean": TODO
                 "phone_uuid": td["avf_phone_id"],
 
@@ -78,8 +178,8 @@ if __name__ == "__main__":
                 "trustworthy_advisors_clean": get_code(td, "Trustworthy_Advisors (Text) - wt_practice"),
 
                 "radio_show": show_number,
-                
-                # "message_type": TODO
+                "message_type": message_type(td["S06E01_Risk_Perception (Time) - wt_s06e1_activation"]),
+
                 "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", "NS"),
                 "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", "NS"),
                 "raw_radio_q3": td.get("S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation", "NS"),
@@ -87,6 +187,8 @@ if __name__ == "__main__":
             }, Metadata(user, Metadata.get_call_location(), time.time()))
 
         all_messages.extend(show_messages)
+
+    # TODO: Save merged JSON output
 
     with open(csv_output_path, "w") as f:
         TracedDataCSVIO.export_traced_data_iterable_to_csv(
@@ -112,30 +214,12 @@ if __name__ == "__main__":
                 "trustworthy_advisors_clean",
 
                 "radio_show",
+                "message_type",
 
-                # "message_type",
                 "raw_radio_q1",
                 "raw_radio_q2",
                 "raw_radio_q3",
                 "raw_radio_q4"
             ]
         )
-
-    # survey_keys = {
-    #     "Cholera_Vaccination (Text) - wt_practice": surveys,
-    #     "Household_Sickness (Text) - wt_practice": surveys,
-    #     "Trustworthy_Advisors (Text) - wt_practice": surveys
-    # }
-    #
-    # shows = {
-    #     "S06E01_Risk_Perception (Text) - wt_s06e1_activation": "wt_s06e1_activation",
-    #     "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation": "wt_s06e2_activation",
-    #     "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation": "wt_s06e03_activation",
-    #     "S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation": "wt_s06e04_activation"
-    # }
-    # show_keys = {question_key: load_show(show_name) for question_key, show_name in shows.items()}
-    #
-    # keys = dict(show_keys)
-    # keys.update(survey_keys)
-
 

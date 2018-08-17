@@ -16,4 +16,4 @@ cd ../analysis_file
 mkdir -p "$DATA_ROOT/12 Analysis"
 
 sh docker-run.sh "$USER" "$DATA_ROOT/02 Clean Messages/" "$DATA_ROOT/10 Manually Coded/surveys.json" \
-    "$DATA_ROOT/12 Analysis/stats.csv"
+    "$DATA_ROOT/12 Analysis/wt_analysis_file.csv"
