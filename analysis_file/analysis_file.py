@@ -3,6 +3,7 @@ import csv
 import time
 from os import path
 
+import pytz as pytz
 from core_data_modules.cleaners import Codes
 from core_data_modules.traced_data import TracedData, Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
@@ -34,11 +35,14 @@ if __name__ == "__main__":
         with open(show_path, "r") as f:
             return list(TracedDataJsonIO.import_json_to_traced_data_iterable(f))
 
-    def get_code(td, variable):
-        if td[variable] == Codes.TRUE_MISSING:
+    def get_code(td, key_of_raw, key_of_coded=None):
+        if key_of_coded is None:
+            key_of_coded = "{}_coded".format(key_of_raw)
+
+        if td[key_of_raw] == Codes.TRUE_MISSING:
             return Codes.TRUE_MISSING
         else:
-            return td["{}_coded".format(variable)]
+            return td[key_of_coded]
 
     def message_type(iso_date):
         dt = isoparse(iso_date)
@@ -168,7 +172,9 @@ if __name__ == "__main__":
 
         for td in show_messages:
             td.append_data({
-                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),  # TODO: Need to think about what to do when collating by date. Also need to consider converting to EAT.
+                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),  # TODO: Need to think about what to do when collating by date.
+                "date_time_eat":
+                    isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M"),
                 # "consent_clean": TODO
                 "phone_uuid": td["avf_phone_id"],
 
@@ -180,10 +186,11 @@ if __name__ == "__main__":
                 "age_clean": get_code(td, "Age (Text) - wt_demog_2"),
                 "education_clean": get_code(td, "Education_Level (Text) - wt_demog_2"),
                 "idp_clean": get_code(td, "Idp (Text) - wt_demog_2"),
-                "origin_district": get_code(td, "Origin_District (Text) - wt_demog_2"),
+                "origin_district_clean": get_code(td, "Origin_District (Text) - wt_demog_2"),
 
                 "household_sickness_clean": get_code(td, "Household_Sickness (Text) - wt_practice"),
-                # "sickness_adult_child": TODO
+                "sickness_adult_child": get_code(td, "Household_Sickness (Text) - wt_practice",
+                                                 "Household_Sickness (Text) - wt_practice_coded_people"),
                 "cholera_vaccination_clean": get_code(td, "Cholera_Vaccination (Text) - wt_practice"),
                 "trustworthy_advisors_clean": get_code(td, "Trustworthy_Advisors (Text) - wt_practice"),
 
@@ -205,6 +212,7 @@ if __name__ == "__main__":
             all_messages, f,
             [
                 "date_time_utc",
+                "date_time_eat",
                 # "consent_clean", TODO
                 "phone_uuid",
 
@@ -216,10 +224,10 @@ if __name__ == "__main__":
                 "age_clean",
                 "education_clean",
                 "idp_clean",
-                "origin_district",
+                "origin_district_clean",
 
                 "household_sickness_clean",
-                # "sickness_adult_child,
+                "sickness_adult_child",
                 "cholera_vaccination_clean",
                 "trustworthy_advisors_clean",
 
