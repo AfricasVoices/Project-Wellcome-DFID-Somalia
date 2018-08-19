@@ -23,6 +23,7 @@ SHOWS=(
     "wt_s06e2_activation"
     "wt_s06e03_activation"
     "wt_s06e04_activation"
+    "wt_s06e05_activation"
     )
 
 for SHOW in ${SHOWS[@]}
