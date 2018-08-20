@@ -5,8 +5,8 @@ set -e
 IMAGE_NAME=wt-analysis-file
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 4 ]; then
-    echo "Usage: sh docker-run.sh <user> <messages-input-path> <survey-input-path> <stats-output-path>"
+if [ $# -ne 5 ]; then
+    echo "Usage: sh docker-run.sh <user> <messages-input-path> <survey-input-path> <json-output-path> <csv-output-path>"
     exit
 fi
 
@@ -14,7 +14,8 @@ fi
 USER=$1
 INPUT_MESSAGES_DIR=$2
 INPUT_SURVEY=$3
-OUTPUT_STATS=$4
+OUTPUT_JSON=$4
+OUTPUT_CSV=$5
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -36,5 +37,8 @@ docker cp "$INPUT_MESSAGES_DIR/." "$container:/data/messages-input"
 docker start -a -i "$container"
 
 # Copy the output data back out of the container
-mkdir -p "$(dirname "$OUTPUT_STATS")"
-docker cp "$container:/data/analysis-file-output.csv" "$OUTPUT_STATS"
+mkdir -p "$(dirname "$OUTPUT_JSON")"
+docker cp "$container:/data/output.csv" "$OUTPUT_JSON"
+
+mkdir -p "$(dirname "$OUTPUT_CSV")"
+docker cp "$container:/data/output.csv" "$OUTPUT_CSV"

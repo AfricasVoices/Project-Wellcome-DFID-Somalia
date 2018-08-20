@@ -1,5 +1,4 @@
 import argparse
-import csv
 import time
 from os import path
 
@@ -13,22 +12,26 @@ from dateutil.parser import isoparse
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Summarises response rates/coding rates for surveys")
     parser.add_argument("user", help="User launching this program")
-    parser.add_argument("messages_input_path", metavar="messages-input-path",
+    parser.add_argument("messages_input_dir", metavar="messages-input-dir",
                         help="Path to a directory containing JSON files of responses to each of the shows in this "
                              "project. Each JSON file should contain a list of serialized TracedData objects")
     parser.add_argument("survey_input_path", metavar="survey-input-path",
                         help="Path to a coded survey JSON file, containing a list of serialized TracedData objects")
+    parser.add_argument("json_output_path", metavar="json-output-path",
+                        help="Path to a JSON file to write serialized TracedData items to after modification by this"
+                             "pipeline stage")
     parser.add_argument("csv_output_path", metavar="csv-output-path",
                         help="Path to a CSV file to write the summarised stats to")
 
     args = parser.parse_args()
     user = args.user
-    messages_input_path = args.messages_input_path
+    messages_input_dir = args.messages_input_dir
     survey_input_path = args.survey_input_path
+    json_output_path = args.json_output_path
     csv_output_path = args.csv_output_path
 
     def load_show(show_name):
-        show_path = path.join(messages_input_path, "{}.json".format(show_name))
+        show_path = path.join(messages_input_dir, "{}.json".format(show_name))
         if not path.exists(show_path):
             print("Warning: No show found with file name '{}.json'".format(show_name))
             return []
@@ -205,8 +208,13 @@ if __name__ == "__main__":
 
         all_messages.extend(show_messages)
 
-    # TODO: Save merged JSON output
+    # Output analysis TracedData to JSON
+    IOUtils.ensure_dirs_exist_for_file(json_output_path)
+    with open(json_output_path, "w") as f:
+        TracedDataJsonIO.export_traced_data_iterable_to_json(all_messages, f, pretty_print=True)
 
+    # Output analysis file as CSV
+    IOUtils.ensure_dirs_exist_for_file(csv_output_path)
     with open(csv_output_path, "w") as f:
         TracedDataCSVIO.export_traced_data_iterable_to_csv(
             all_messages, f,
