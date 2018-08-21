@@ -165,7 +165,8 @@ if __name__ == "__main__":
         1: "wt_s06e1_activation",
         2: "wt_s06e2_activation",
         3: "wt_s06e03_activation",
-        4: "wt_s06e04_activation"
+        4: "wt_s06e04_activation",
+        5: "wt_s06e05_activation"
     }
 
     all_messages = []
@@ -203,7 +204,8 @@ if __name__ == "__main__":
                 "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", "NS"),
                 "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", "NS"),
                 "raw_radio_q3": td.get("S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation", "NS"),
-                "raw_radio_q4": td.get("S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation", "NS")
+                "raw_radio_q4": td.get("S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation", "NS"),
+                "raw_radio_q5": td.get("S06E05_Water_Quality (Text) - wt_s06e05_activation", "NS")
             }, Metadata(user, Metadata.get_call_location(), time.time()))
 
         all_messages.extend(show_messages)
@@ -245,7 +247,8 @@ if __name__ == "__main__":
                 "raw_radio_q1",
                 "raw_radio_q2",
                 "raw_radio_q3",
-                "raw_radio_q4"
+                "raw_radio_q4",
+                "raw_radio_q5"
             ]
         )
 
