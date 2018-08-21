@@ -1,7 +1,9 @@
 import argparse
 import os
+import time
 from os import path
 
+from core_data_modules.traced_data import Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO, TracedDataCodingCSVIO
 from core_data_modules.util import IOUtils
 
@@ -47,6 +49,11 @@ if __name__ == "__main__":
 
         if not path.exists(coda_file_path):
             print("Warning: No Coda file found for key '{}'".format(key))
+            for td in surveys:
+                td.append_data(
+                    {"{}_coded".format(key): None},
+                    Metadata(user, Metadata.get_call_location(), time.time())
+                )
             continue
 
         with open(coda_file_path, "r") as f:
