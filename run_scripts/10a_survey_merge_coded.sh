@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 2 ]; then
-    echo "Usage: sh 10_survey_merge_coded.sh <user> <data-root>"
+    echo "Usage: sh 10a_survey_merge_coded.sh <user> <data-root>"
     echo "Applies codes from a Coda file to survey responses"
     exit
 fi
