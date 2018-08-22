@@ -47,6 +47,14 @@ if __name__ == "__main__":
         else:
             return td[key_of_coded]
 
+
+    def get_origin_district(td):
+        if get_code(td, "Idp (Text) - wt_demog_2") == "No":  # TODO: Change to Codes.NO once recoded.
+            return Codes.SKIPPED
+        else:
+            return get_code(td, "Origin_District (Text) - wt_demog_2")
+
+
     def message_type(iso_date):
         dt = isoparse(iso_date)
 
@@ -169,6 +177,7 @@ if __name__ == "__main__":
         # 5: "wt_s06e05_activation"
     }
 
+    # Produce output columns for each input message
     all_messages = []
     show_1_keys = set()
     for show_number, show_name in shows.items():
@@ -177,8 +186,9 @@ if __name__ == "__main__":
 
         for td in show_messages:
             td.append_data({
-                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),  # TODO: Need to think about what to do when collating by date.
-                "date_time_eat":
+                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),
+                # TODO: Need to think about what to do when collating by date.
+                "date_time":
                     isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M"),
                 # "consent_clean": TODO
                 "phone_uuid": td["avf_phone_id"],
@@ -191,7 +201,7 @@ if __name__ == "__main__":
                 "age_clean": get_code(td, "Age (Text) - wt_demog_2"),
                 "education_clean": get_code(td, "Education_Level (Text) - wt_demog_2"),
                 "idp_clean": get_code(td, "Idp (Text) - wt_demog_2"),
-                "origin_district_clean": get_code(td, "Origin_District (Text) - wt_demog_2"),
+                "origin_district_clean": get_origin_district(td),
 
                 "household_sickness_clean": get_code(td, "Household_Sickness (Text) - wt_practice"),
                 "sickness_adult_child": get_code(td, "Household_Sickness (Text) - wt_practice",
