@@ -38,7 +38,7 @@ docker start -a -i "$container"
 
 # Copy the output data back out of the container
 mkdir -p "$(dirname "$OUTPUT_JSON")"
-docker cp "$container:/data/output.csv" "$OUTPUT_JSON"
+docker cp "$container:/data/output.json" "$OUTPUT_JSON"
 
 mkdir -p "$(dirname "$OUTPUT_CSV")"
 docker cp "$container:/data/output.csv" "$OUTPUT_CSV"
