@@ -21,6 +21,7 @@ SHOWS=(
     "wt_s06e2_activation" S06E02_Cholera_Preparedness
     "wt_s06e03_activation" S06E03_Outbreak_Knowledge
     "wt_s06e04_activation" S06E04_Cholera_Recurrency
+    "wt_s06e05_activation" S06E05_Water_Quality
     )
 
 for i in $(seq 0 $((${#SHOWS[@]} / 2 - 1)))
