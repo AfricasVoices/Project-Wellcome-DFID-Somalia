@@ -30,6 +30,7 @@ if __name__ == "__main__":
     json_output_path = args.json_output_path
     csv_output_path = args.csv_output_path
 
+
     def load_show(show_name):
         show_path = path.join(messages_input_dir, "{}.json".format(show_name))
         if not path.exists(show_path):
@@ -37,6 +38,7 @@ if __name__ == "__main__":
             return []
         with open(show_path, "r") as f:
             return list(TracedDataJsonIO.import_json_to_traced_data_iterable(f))
+
 
     def get_code(td, key_of_raw, key_of_coded=None):
         if key_of_coded is None:
@@ -154,6 +156,7 @@ if __name__ == "__main__":
             return "NL"  # TODO: Change to Codes.NOT_LOGICAL
 
         return message_type
+
 
     def message_type_for_show(show_number, td):
         if show_number == 1:
