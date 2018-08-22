@@ -163,13 +163,14 @@ if __name__ == "__main__":
 
     shows = {
         1: "wt_s06e1_activation",
-        2: "wt_s06e2_activation",
-        3: "wt_s06e03_activation",
-        4: "wt_s06e04_activation",
-        5: "wt_s06e05_activation"
+        # 2: "wt_s06e2_activation",
+        # 3: "wt_s06e03_activation",
+        # 4: "wt_s06e04_activation",
+        # 5: "wt_s06e05_activation"
     }
 
     all_messages = []
+    show_1_keys = set()
     for show_number, show_name in shows.items():
         show_messages = load_show(show_name)
         TracedData.update_iterable(user, "avf_phone_id", show_messages, surveys, "surveys")
@@ -208,6 +209,16 @@ if __name__ == "__main__":
                 "raw_radio_q5": td.get("S06E05_Water_Quality (Text) - wt_s06e05_activation", "NS")
             }, Metadata(user, Metadata.get_call_location(), time.time()))
 
+            if show_number == 1:
+                td.append_data({
+                    key.replace("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_", "radio_q1_"): td[key]
+                    for key in td if key.startswith("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_")
+                }, Metadata(user, Metadata.get_call_location(), time.time()))
+
+                show_1_keys.update(
+                    {key.replace("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_", "radio_q1_")
+                     for key in td if key.startswith("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_")})
+
         all_messages.extend(show_messages)
 
     # Output analysis TracedData to JSON
@@ -216,39 +227,38 @@ if __name__ == "__main__":
         TracedDataJsonIO.export_traced_data_iterable_to_json(all_messages, f, pretty_print=True)
 
     # Output analysis file as CSV
+    output_keys = [
+        "date_time",
+        "date_time_utc",
+        # "consent_clean", TODO
+        "phone_uuid",
+
+        "district_clean",
+        "urban_rural_clean",
+        "gender_clean",
+
+        "radio_station_clean",
+        "age_clean",
+        "education_clean",
+        "idp_clean",
+        "origin_district_clean",
+
+        "household_sickness_clean",
+        "sickness_adult_child",
+        "cholera_vaccination_clean",
+        "trustworthy_advisors_clean",
+
+        "radio_show",
+        "message_type",
+
+        "raw_radio_q1",
+        "raw_radio_q2",
+        "raw_radio_q3",
+        "raw_radio_q4",
+        "raw_radio_q5"
+    ]
+    output_keys.extend(show_1_keys)
+
     IOUtils.ensure_dirs_exist_for_file(csv_output_path)
     with open(csv_output_path, "w") as f:
-        TracedDataCSVIO.export_traced_data_iterable_to_csv(
-            all_messages, f,
-            [
-                "date_time_utc",
-                "date_time_eat",
-                # "consent_clean", TODO
-                "phone_uuid",
-
-                "district_clean",
-                "urban_rural_clean",
-                "gender_clean",
-
-                "radio_station_clean",
-                "age_clean",
-                "education_clean",
-                "idp_clean",
-                "origin_district_clean",
-
-                "household_sickness_clean",
-                "sickness_adult_child",
-                "cholera_vaccination_clean",
-                "trustworthy_advisors_clean",
-
-                "radio_show",
-                "message_type",
-
-                "raw_radio_q1",
-                "raw_radio_q2",
-                "raw_radio_q3",
-                "raw_radio_q4",
-                "raw_radio_q5"
-            ]
-        )
-
+        TracedDataCSVIO.export_traced_data_iterable_to_csv(all_messages, f, output_keys)
