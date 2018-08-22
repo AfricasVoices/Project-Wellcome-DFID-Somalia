@@ -1,11 +1,10 @@
 import argparse
-import os
 import time
 from collections import namedtuple
 from os import path
 
 from core_data_modules.traced_data import Metadata
-from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO, TracedDataCodingCSVIO
+from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCodaIO
 from core_data_modules.util import IOUtils
 
 if __name__ == "__main__":
