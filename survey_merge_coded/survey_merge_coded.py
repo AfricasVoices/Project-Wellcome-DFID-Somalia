@@ -24,11 +24,15 @@ if __name__ == "__main__":
     coded_input_path = args.coded_input_path
     json_output_path = args.json_output_path
 
+    # TODO: Refactor into a class before putting this code into the template library
     MergePlan = namedtuple("MergePlane", ["coda_filename", "key_of_raw", "scheme_keys"])
 
     def make_standard_merge_plan(variable_name, survey_name):
-        return MergePlan("{}_coded.csv".format(variable_name), "{} (Text) - {}".format(variable_name, survey_name),
-                         {variable_name: "{} (Text) - {}_coded".format(variable_name, survey_name)})
+        coda_filename = "{}_coded.csv".format(variable_name)
+        key_of_raw = "{} (Text) - {}".format(variable_name, survey_name)
+        key_of_coded = "{} (Text) - {}_coded".format(variable_name, survey_name)
+
+        return MergePlan(coda_filename, key_of_raw, {variable_name: key_of_coded})
 
     merge_plans = [
         make_standard_merge_plan("District", "wt_demog_1"),
