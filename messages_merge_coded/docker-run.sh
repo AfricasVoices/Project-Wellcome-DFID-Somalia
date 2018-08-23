@@ -5,8 +5,8 @@ set -e
 IMAGE_NAME=wt-messages-merge-coded
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 4 ]; then
-    echo "Usage: sh docker-run.sh <user> <json-input-path> <coded-output-path> <json-output-path>"
+if [ $# -ne 5 ]; then
+    echo "Usage: sh docker-run.sh <user> <json-input-path> <coded-output-path> <show-number> <json-output-path>"
     exit
 fi
 
@@ -14,13 +14,14 @@ fi
 USER=$1
 INPUT_JSON=$2
 CODED_CSV=$3
-OUTPUT_JSON=$4
+SHOW_NUMBER=$4
+OUTPUT_JSON=$5
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
 
 # Create a container from the image that was just built.
-container="$(docker container create --env USER="$USER" "$IMAGE_NAME")"
+container="$(docker container create --env USER="$USER" --env SHOW_NUMBER="$SHOW_NUMBER" "$IMAGE_NAME")"
 
 function finish {
     # Tear down the container when done.
