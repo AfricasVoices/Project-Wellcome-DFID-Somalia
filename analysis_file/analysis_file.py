@@ -174,7 +174,7 @@ if __name__ == "__main__":
 
     shows = {
         1: "wt_s06e1_activation",
-        # 2: "wt_s06e2_activation",
+        2: "wt_s06e2_activation",
         # 3: "wt_s06e03_activation",
         # 4: "wt_s06e04_activation",
         # 5: "wt_s06e05_activation"
@@ -182,7 +182,13 @@ if __name__ == "__main__":
 
     # Produce output columns for each input message
     all_messages = []
-    show_1_keys = set()
+    all_show_keys = {
+        1: set(),
+        2: set(),
+        3: set(),
+        4: set(),
+        5: set()
+    }
     for show_number, show_name in shows.items():
         show_messages = load_show(show_name)
         TracedData.update_iterable(user, "avf_phone_id", show_messages, surveys, "surveys")
@@ -223,16 +229,80 @@ if __name__ == "__main__":
             }, Metadata(user, Metadata.get_call_location(), time.time()))
 
             if show_number == 1:
-                td.append_data({
-                    key.replace("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_", "radio_q1_"): td[key]
-                    for key in td if key.startswith("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_")
-                }, Metadata(user, Metadata.get_call_location(), time.time()))
+                coded_shows_prefix = "S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_"
+                yes_no_key = "{}yes_no".format(coded_shows_prefix)
+                yes_prefix = "radio_q1_yes_"
+                no_prefix = "radio_q1_no_"
+            elif show_number == 2:
+                coded_shows_prefix = "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation_coded_"
+                yes_no_key = "{}yes_no".format(coded_shows_prefix)
+                yes_prefix = "radio_q2_yes_"
+                no_prefix = "radio_q2_no_"
+            else:
+                assert False
 
-                show_1_keys.update(
-                    {key.replace("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_", "radio_q1_")
-                     for key in td if key.startswith("S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_")})
+            d = dict()
+            yes_no = td[yes_no_key]
+            d["radio_q{}".format(show_number)] = yes_no
+            for key in td:
+                if key.startswith(coded_shows_prefix) and key != yes_no_key:
+                    code_yes_key = key.replace(coded_shows_prefix, yes_prefix)
+                    code_no_key = key.replace(coded_shows_prefix, no_prefix)
+                    all_show_keys[show_number].update({code_yes_key, code_no_key})
+
+                    if yes_no == Codes.YES:
+                        d[code_yes_key] = td[key]
+                        d[code_no_key] = "0"
+                    elif yes_no == Codes.NO:
+                        d[code_yes_key] = "0"
+                        d[code_no_key] = td[key]
+                    else:
+                        d[code_yes_key] = "0"
+                        d[code_no_key] = "0"
+
+            td.append_data(d, Metadata(user, Metadata.get_call_location(), time.time()))
 
         all_messages.extend(show_messages)
+
+    # Set keys to other shows to NS
+    for td in all_messages:
+        ns_show_answers = dict()
+        for show_number, show_keys in all_show_keys.items():
+            if td["raw_radio_q{}".format(show_number)] == Codes.SKIPPED:
+                ns_show_answers["radio_q{}".format(show_number)] = Codes.SKIPPED
+                for key in show_keys:
+                    ns_show_answers[key] = Codes.SKIPPED
+        td.append_data(ns_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
+
+    code_book_district = {
+
+    }
+
+    code_book_gender = {
+        "male": 1,
+        "female": 2
+    }
+
+    missing_code_book = {
+        Codes.SKIPPED: 777,
+        "NC": 888,
+        Codes.TRUE_MISSING: 999
+    }
+
+    # Apply code-book
+    code_books = {
+        "gender_clean": code_book_gender
+    }
+
+    for td in all_messages:
+        code_book_data = dict()
+        for key, code_book in code_books.values():
+            if td[key] in code_book:
+                code_book_data[key] = code_book[td[key]]
+            elif td[key] in missing_code_book:
+                code_book_data[key] = missing_code_book[td[key]]
+            else:
+                assert False, key
 
     # Output analysis TracedData to JSON
     IOUtils.ensure_dirs_exist_for_file(json_output_path)
@@ -268,9 +338,15 @@ if __name__ == "__main__":
         "raw_radio_q2",
         "raw_radio_q3",
         "raw_radio_q4",
-        "raw_radio_q5"
+        "raw_radio_q5",
+
+        "radio_q1",
+        "radio_q2"
     ]
-    output_keys.extend(show_1_keys)
+    for show_keys in all_show_keys.values():
+        show_keys = list(show_keys)
+        show_keys.sort()
+        output_keys.extend(show_keys)
 
     IOUtils.ensure_dirs_exist_for_file(csv_output_path)
     with open(csv_output_path, "w") as f:
