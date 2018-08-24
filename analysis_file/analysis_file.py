@@ -30,6 +30,144 @@ if __name__ == "__main__":
     json_output_path = args.json_output_path
     csv_output_path = args.csv_output_path
 
+    code_book_district = {
+        "mogadisho": 1,
+        "mogadishu": 1,
+        "kismayo": 2,
+        "baidoa": 3,
+        "belet weyne": 4,
+        "other": 5,  # TODO: Notify Johanna we need this.
+        "garowe": 5,
+        "wadajir": 5,
+        "wardhiigleey": 5,
+        "qardho": 5,
+        "heliwa": 5,
+        "hawl wadaag": 5,
+        "owdweyne": 5,
+        "xudur": 5,
+        "caluula": 5,
+        "dhuusamarreeb": 5,
+        "jamaame": 5,
+        "baardheere": 5,
+        "wanla weyne": 5,
+        "bu": 5,
+        "bulo burto": 5,
+        "afmadow": 5,
+        "ceel waaq": 5,
+        "cabudwaaq": 5,
+        "stop": 5,
+        "bossaso": 5,
+        "baki": 5,
+        "doolow": 5,
+        "hobyo": 5,
+        "hodan": 5,
+        "xamar jaabjab": 5,
+        "daynile": 5,
+        "marka": 5,
+        "waajid": 5,
+        "qoryooley": 5,
+        "jariiban": 5,
+        "ceerigaabo": 5,
+        "burtinle": 5,
+        "qandala": 5,
+        "berbera": 5,
+        "ceel buur": 5,
+        "shibis": 5,
+        "hargeisa": 5,
+        "burco": 5,
+        "galdogob": 5,
+        "saakow": 5,
+        "gebiley": 5,
+        "balcad": 5,
+        "balad": 5,
+        "luuq": 5,
+        "lughaye": 5,
+        "qansax dheere": 5,
+        "iskushuban": 5,
+        "gaalkacyo": 5,
+        "boondheere": 5,
+        "caynabo": 5,
+        "cabdlcasiis": 5,
+        "bandarbayla": 5,
+        "buur hakaba": 5,
+        "eyl": 5,
+        "jowhar": 5,
+        "waaberi": 5,
+        "dharkenley": 5,
+        "baraawe": 5,
+        "laas caanod": 5,
+        "buuhoodle": 5,
+        "sheikh": 5,
+        "yaaqshid": 5,
+        "adan yabaal": 5,
+        "borama": 5,
+        "garbahaarey": 5,
+        "laasqoray": 5,
+        "ceel afweyn": 5,
+        "taleex": 5,
+        "sanaag": 5,
+        "karaan": 5,
+        "cadaado": 5,
+        "xudun": 5
+    }
+
+    code_book_urban_rural = {
+        Codes.RURAL: 1,
+        Codes.URBAN: 2
+    }
+
+    code_book_yes_no = {
+        Codes.NO: 1,
+        Codes.YES: 2
+    }
+
+    code_book_gender = {
+        Codes.MALE: 1,
+        Codes.FEMALE: 2
+    }
+
+    code_book_radio_station = {
+        "radio star": 1,
+        "radio mustaqbal": 2,
+        "radio risaala": 3,
+        "radio dalsan": 4,
+        "radio kulminye": 5,
+        "radio sooyaal": 6,
+        "radio kismayo": 7,
+        "radio warsan": 8,
+        "radio baidoa": 9,
+        "radio hiran_way": 10
+    }
+
+    code_book_education = {
+        "no schooling": 1,
+        "primary education": 2,
+        "college/university": 3,
+        "secondary education": 4,
+        "islamic studies": 5
+    }
+
+    code_book_sickness_adult_child = {
+        "child": 1,
+        "adult": 2,
+        "relative": 3  # TODO: Notify Johanna of difference ('adult and child') in coding scheme
+    }
+
+    code_book_message_type = {
+        "promo": 1,
+        "advert": 2,
+        "show": 3
+    }
+
+    code_book_missing = {
+        Codes.SKIPPED: 777,
+        "NC": 888,
+        "belong to other": 888,
+        Codes.TRUE_MISSING: 999,
+        None: None,
+        "stop": "stop"
+    }
+
 
     def load_show(show_name):
         show_path = path.join(messages_input_dir, "{}.json".format(show_name))
@@ -167,6 +305,37 @@ if __name__ == "__main__":
             return message_type(td["S06E03_Outbreak_Knowledge (Time) - wt_s06e03_activation"])
         elif show_number == 4:
             return message_type(td["S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"])
+        elif show_number == 5:
+            return message_type(td["S06E05_Water_Quality (Time) - wt_s06e05_activation"])
+
+    def aggregate_messages(td_1, td_2):
+        new_d = dict()
+        if "radio_q1_raw" in td_1 and "radio_q1_raw" in td_2:
+            new_d["date_time"] = td_1["date_time"]
+            new_d["radio_q1_raw"] = "{};{}".format(td_1["radio_q1_raw"], td_2["radio_q1_raw"])
+
+        same_keys = [
+            "phone_uuid",
+
+            "district_clean",
+            "urban_rural_clean",
+            "gender_clean",
+
+            "radio_station_clean",
+            "age_clean",
+            "education_clean",
+            "idp_clean",
+            "origin_district_clean",
+
+            "household_sickness_clean",
+            "sickness_adult_child",
+            "cholera_vaccination_clean",
+            "trustworthy_advisors_clean"
+        ]
+
+        for key in same_keys:
+            pass
+
 
     # Load surveys
     with open(survey_input_path, "r") as f:
@@ -199,7 +368,6 @@ if __name__ == "__main__":
                 # TODO: Need to think about what to do when collating by date.
                 "date_time":
                     isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M"),
-                # "consent_clean": TODO
                 "phone_uuid": td["avf_phone_id"],
 
                 "district_clean": get_code(td, "District (Text) - wt_demog_1"),
@@ -244,18 +412,18 @@ if __name__ == "__main__":
             d = dict()
             yes_no = td[yes_no_key]
             d["radio_q{}".format(show_number)] = yes_no
-            for key in td:
-                if key.startswith(coded_shows_prefix) and key != yes_no_key:
-                    code_yes_key = key.replace(coded_shows_prefix, yes_prefix)
-                    code_no_key = key.replace(coded_shows_prefix, no_prefix)
+            for output_key in td:
+                if output_key.startswith(coded_shows_prefix) and output_key != yes_no_key:
+                    code_yes_key = output_key.replace(coded_shows_prefix, yes_prefix)
+                    code_no_key = output_key.replace(coded_shows_prefix, no_prefix)
                     all_show_keys[show_number].update({code_yes_key, code_no_key})
 
                     if yes_no == Codes.YES:
-                        d[code_yes_key] = td[key]
+                        d[code_yes_key] = td[output_key]
                         d[code_no_key] = "0"
                     elif yes_no == Codes.NO:
                         d[code_yes_key] = "0"
-                        d[code_no_key] = td[key]
+                        d[code_no_key] = td[output_key]
                     else:
                         d[code_yes_key] = "0"
                         d[code_no_key] = "0"
@@ -270,50 +438,59 @@ if __name__ == "__main__":
         for show_number, show_keys in all_show_keys.items():
             if td["raw_radio_q{}".format(show_number)] == Codes.SKIPPED:
                 ns_show_answers["radio_q{}".format(show_number)] = Codes.SKIPPED
-                for key in show_keys:
-                    ns_show_answers[key] = Codes.SKIPPED
+                for output_key in show_keys:
+                    ns_show_answers[output_key] = Codes.SKIPPED
         td.append_data(ns_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
 
-    code_book_district = {
-
-    }
-
-    code_book_gender = {
-        "male": 1,
-        "female": 2
-    }
-
-    missing_code_book = {
-        Codes.SKIPPED: 777,
-        "NC": 888,
-        Codes.TRUE_MISSING: 999
-    }
-
-    # Apply code-book
+    # Apply code-books
     code_books = {
-        "gender_clean": code_book_gender
+        "district_clean": code_book_district,
+        "urban_rural_clean": code_book_urban_rural,
+        "gender_clean": code_book_gender,
+
+        "radio_station_clean": code_book_radio_station,
+        # Skip age_clean because not applying code book
+        "education_clean": code_book_education,
+        "idp_clean": code_book_yes_no,
+        "origin_district_clean": code_book_district,  # TODO check this should be the same as district
+
+        "household_sickness_clean": code_book_yes_no,
+        "sickness_adult_child": code_book_sickness_adult_child,
+        "cholera_vaccination_clean": code_book_yes_no,
+        # "trustworthy_advisors_clean": TODO
+
+        "message_type": code_book_message_type,
+
+        "radio_q1": code_book_yes_no,
+        "radio_q2": code_book_yes_no,
+        # TODO: Other radio show questions
     }
-
+    not_found = set()
     for td in all_messages:
+        # Apply code books to coded data (mostly demographics)
         code_book_data = dict()
-        for key, code_book in code_books.values():
-            if td[key] in code_book:
-                code_book_data[key] = code_book[td[key]]
-            elif td[key] in missing_code_book:
-                code_book_data[key] = missing_code_book[td[key]]
+        for output_key, code_book in code_books.items():
+            if td[output_key] in code_book:
+                code_book_data[output_key] = code_book[td[output_key]]
+            elif td[output_key] in code_book_missing:
+                code_book_data[output_key] = code_book_missing[td[output_key]]
             else:
-                assert False, key
+                # assert False, key + "; " + td[key]  TODO: Re-enable when all schemes are coded correctly.
+                not_found.add("{}: {}".format(output_key, td[output_key]))
 
-    # Output analysis TracedData to JSON
-    IOUtils.ensure_dirs_exist_for_file(json_output_path)
-    with open(json_output_path, "w") as f:
-        TracedDataJsonIO.export_traced_data_iterable_to_json(all_messages, f, pretty_print=True)
+        # Map missing data in radio show columns to a code while keeping raw non-missing data
+        x = ["raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5", "age_clean"]
+        for keys in all_show_keys.values():
+            x.extend(keys)
+        for key in x:
+            code_book_data[key] = code_book_missing.get(td[key], td[key])
+        td.append_data(code_book_data, Metadata(user, Metadata.get_call_location(), time.time()))
+    for x in not_found:
+        print(x)
 
-    # Output analysis file as CSV
     output_keys = [
         "date_time",
         "date_time_utc",
-        # "consent_clean", TODO
         "phone_uuid",
 
         "district_clean",
@@ -348,6 +525,49 @@ if __name__ == "__main__":
         show_keys.sort()
         output_keys.extend(show_keys)
 
+    # Determine consent
+    print("Total Respondents:")
+    print(len({td["avf_phone_id"] for td in all_messages}))
+    print("Stopped Respondents:")
+    stopped_ids = set()
+    for td in all_messages:
+        stopped_updates = dict()
+        for output_key in output_keys:
+            if td[output_key] == "stop":
+                stopped_ids.add(td["avf_phone_id"])
+                for k in output_keys:
+                    stopped_updates[k] = "stop"
+                stopped_updates["consent_clean"] = code_book_yes_no[Codes.NO]
+        if "consent_clean" not in stopped_updates:
+            stopped_updates["consent_clean"] = code_book_yes_no[Codes.YES]
+        td.append_data(stopped_updates, Metadata(user, Metadata.get_call_location(), time.time()))
+    print(len(stopped_ids))
+
+    output_keys.insert(3, "consent_clean")
+
+    # Output analysis TracedData to JSON
+    IOUtils.ensure_dirs_exist_for_file(json_output_path)
+    with open(json_output_path, "w") as f:
+        TracedDataJsonIO.export_traced_data_iterable_to_json(all_messages, f, pretty_print=True)
+
+    # TODO: Group input messages by day
+    # lut = dict()  # of [avf_phone_id, date] -> (list of TracedData)
+    # # TODO: Fill in this dictionary
+    # for td in all_messages:
+    #     key = (td["phone_uuid"], isoparse(td["date_time"]).strftime("%Y-%m-%d"))
+    #     if key not in lut:
+    #         lut[key] = []
+    #     lut[key].append(td)
+    #
+    # collated_messages = []
+    # for messages in lut.values():
+    #     pass
+    
+    # TODO: Combine each item in the lists by: merging the messages/promos and anything else that might conflict
+
+    # TODO: Append one TracedData to the other.
+
+    # Output analysis file as CSV
     IOUtils.ensure_dirs_exist_for_file(csv_output_path)
     with open(csv_output_path, "w") as f:
         TracedDataCSVIO.export_traced_data_iterable_to_csv(all_messages, f, output_keys)
