@@ -288,10 +288,10 @@ if __name__ == "__main__":
 
         if total_matches == 0:
             print("Warning: '{}' has no matching promo, advert, or show".format(iso_date))
-            return "NL"  # TODO: Change to Codes.NOT_LOGICAL
+            return Codes.NOT_CODED
         if total_matches > 1:
             print("Warning: '{}' matches multiple promos, adverts, and/or shows".format(iso_date))
-            return "NL"  # TODO: Change to Codes.NOT_LOGICAL
+            return Codes.NOT_CODED
 
         return message_type
 
@@ -308,11 +308,9 @@ if __name__ == "__main__":
         elif show_number == 5:
             return message_type(td["S06E05_Water_Quality (Time) - wt_s06e05_activation"])
 
+
     def aggregate_messages(td_1, td_2):
         new_d = dict()
-        if "radio_q1_raw" in td_1 and "radio_q1_raw" in td_2:
-            new_d["date_time"] = td_1["date_time"]
-            new_d["radio_q1_raw"] = "{};{}".format(td_1["radio_q1_raw"], td_2["radio_q1_raw"])
 
         same_keys = [
             "phone_uuid",
@@ -330,11 +328,59 @@ if __name__ == "__main__":
             "household_sickness_clean",
             "sickness_adult_child",
             "cholera_vaccination_clean",
-            "trustworthy_advisors_clean"
+            "trustworthy_advisors_clean",
+
+            # "radio_q1",
+            # "radio_q2"
         ]
 
         for key in same_keys:
-            pass
+            assert td_1[key] == td_2[key], "Key '{}' has conflicting values: '{}' vs '{}'".format(key, td_1[key], td_2[key])
+            new_d[key] = td_1[key]
+
+        same_keys.extend([
+            "date_time",
+            "raw_radio_q1",
+            "raw_radio_q2",
+            "raw_radio_q3",
+            "raw_radio_q4",
+            "raw_radio_q5",
+            "message_type",
+            "radio_show",
+
+            "radio_q1",
+            "radio_q2"
+        ])
+
+        if "raw_radio_q1" in td_1 and "raw_radio_q1" in td_2:
+            new_d["date_time"] = td_1["date_time"][0:10]
+            new_d["raw_radio_q1"] = "{};{}".format(td_1["raw_radio_q1"], td_2["raw_radio_q1"])
+        elif "raw_radio_q2" in td_1 and "raw_radio_q2" in td_2:
+            new_d["date_time"] = td_1["date_time"][0:10]
+            new_d["raw_radio_q2"] = "{};{}".format(td_1["raw_radio_q2"], td_2["raw_radio_q2"])
+        else:
+            new_d["date_time"] = td_1["date_time"]
+
+        new_d["radio_q1"] = td_1.get("radio_q1") if td_1.get("radio_q1") == td_2.get("radio_q1") else "NL"
+        new_d["radio_q2"] = td_1.get("radio_q2") if td_1.get("radio_q2") == td_2.get("radio_q2") else "NL"
+
+        if td_1["message_type"] != td_2["message_type"]:
+            new_d["message_type"] = "NC"
+
+        if td_1["radio_show"] != td_2["radio_show"]:
+            new_d["radio_show"] = "NC"
+
+        for key in td_1:
+            if key.startswith("radio_q1_yes_") or key.startswith("radio_q1_no_") or \
+                    key.startswith("radio_q2_yes_") or key.startswith("radio_q2_no_"):
+                new_d[key] = "1" if td_1[key] == "1" or td_2[key] == "1" else "0"
+                same_keys.append(key)
+            if key not in same_keys:
+                new_d[key] = "PRE_MERGE_UNIFICATION"
+
+        td_out = td_1.copy()
+        td_out.append_data(new_d, Metadata(user, Metadata.get_call_location(), time.time()))
+        return td_out
 
 
     # Load surveys
@@ -365,7 +411,6 @@ if __name__ == "__main__":
         for td in show_messages:
             td.append_data({
                 "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),
-                # TODO: Need to think about what to do when collating by date.
                 "date_time":
                     isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M"),
                 "phone_uuid": td["avf_phone_id"],
@@ -420,7 +465,7 @@ if __name__ == "__main__":
 
                     if yes_no == Codes.YES:
                         d[code_yes_key] = td[output_key]
-                        d[code_no_key] = "0"
+                        d[code_no_key] = "0"  # "NC"
                     elif yes_no == Codes.NO:
                         d[code_yes_key] = "0"
                         d[code_no_key] = td[output_key]
@@ -439,8 +484,30 @@ if __name__ == "__main__":
             if td["raw_radio_q{}".format(show_number)] == Codes.SKIPPED:
                 ns_show_answers["radio_q{}".format(show_number)] = Codes.SKIPPED
                 for output_key in show_keys:
-                    ns_show_answers[output_key] = Codes.SKIPPED
+                    ns_show_answers[output_key] = "0"  # Codes.SKIPPED
         td.append_data(ns_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
+
+    # TODO: Group input messages by day
+    lut = dict()  # of [avf_phone_id, date] -> (list of TracedData)
+    for td in all_messages:
+        key = (td["phone_uuid"], isoparse(td["date_time"]).strftime("%Y-%m-%d"))
+        if key not in lut:
+            lut[key] = []
+        lut[key].append(td)
+
+    collated_messages = []
+    for messages in lut.values():
+        out = messages.pop(0)
+        while len(messages) > 0:
+            out = aggregate_messages(out, messages.pop(0))
+        collated_messages.append(out)
+
+    print("A")
+    print(len(all_messages))
+    print(len(collated_messages))
+
+    all_messages = collated_messages  # TODO: Undo this hack
+    print(len(all_messages))
 
     # Apply code-books
     code_books = {
@@ -480,8 +547,8 @@ if __name__ == "__main__":
 
         # Map missing data in radio show columns to a code while keeping raw non-missing data
         x = ["raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5", "age_clean"]
-        for keys in all_show_keys.values():
-            x.extend(keys)
+        # for keys in all_show_keys.values():
+        #     x.extend(keys)
         for key in x:
             code_book_data[key] = code_book_missing.get(td[key], td[key])
         td.append_data(code_book_data, Metadata(user, Metadata.get_call_location(), time.time()))
@@ -490,7 +557,6 @@ if __name__ == "__main__":
 
     output_keys = [
         "date_time",
-        "date_time_utc",
         "phone_uuid",
 
         "district_clean",
@@ -543,29 +609,12 @@ if __name__ == "__main__":
         td.append_data(stopped_updates, Metadata(user, Metadata.get_call_location(), time.time()))
     print(len(stopped_ids))
 
-    output_keys.insert(3, "consent_clean")
+    output_keys.insert(2, "consent_clean")
 
     # Output analysis TracedData to JSON
     IOUtils.ensure_dirs_exist_for_file(json_output_path)
     with open(json_output_path, "w") as f:
         TracedDataJsonIO.export_traced_data_iterable_to_json(all_messages, f, pretty_print=True)
-
-    # TODO: Group input messages by day
-    # lut = dict()  # of [avf_phone_id, date] -> (list of TracedData)
-    # # TODO: Fill in this dictionary
-    # for td in all_messages:
-    #     key = (td["phone_uuid"], isoparse(td["date_time"]).strftime("%Y-%m-%d"))
-    #     if key not in lut:
-    #         lut[key] = []
-    #     lut[key].append(td)
-    #
-    # collated_messages = []
-    # for messages in lut.values():
-    #     pass
-    
-    # TODO: Combine each item in the lists by: merging the messages/promos and anything else that might conflict
-
-    # TODO: Append one TracedData to the other.
 
     # Output analysis file as CSV
     IOUtils.ensure_dirs_exist_for_file(csv_output_path)
