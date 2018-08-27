@@ -95,6 +95,9 @@ class CodeBooks(object):
         Codes.YES: 2
     }
 
+    yes_no_both = dict(yes_no)
+    yes_no_both["both"] = 3
+
     gender = {
         Codes.MALE: 1,
         Codes.FEMALE: 2

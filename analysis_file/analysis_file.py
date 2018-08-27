@@ -9,8 +9,8 @@ from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
 from core_data_modules.util import IOUtils
 from dateutil.parser import isoparse
 
-from code_books import CodeBooks
-from message_types import MessageTypes
+from lib.code_books import CodeBooks
+from lib.message_types import MessageTypes
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generates a file for analysis from the cleaned and coded shows "
@@ -286,8 +286,8 @@ if __name__ == "__main__":
 
         "message_type": CodeBooks.message_type,
 
-        "radio_q1": CodeBooks.yes_no,
-        "radio_q2": CodeBooks.yes_no,
+        "radio_q1": CodeBooks.yes_no_both,
+        "radio_q2": CodeBooks.yes_no_both,
         # TODO: Other radio show questions
     }
     for td in all_messages:
