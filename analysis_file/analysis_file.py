@@ -9,8 +9,11 @@ from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
 from core_data_modules.util import IOUtils
 from dateutil.parser import isoparse
 
+from code_books import CodeBooks
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Summarises response rates/coding rates for surveys")
+    parser = argparse.ArgumentParser(description="Generates a file for analysis from the cleaned and coded shows "
+                                                 "and survey responses")
     parser.add_argument("user", help="User launching this program")
     parser.add_argument("messages_input_dir", metavar="messages-input-dir",
                         help="Path to a directory containing JSON files of responses to each of the shows in this "
@@ -29,143 +32,6 @@ if __name__ == "__main__":
     survey_input_path = args.survey_input_path
     json_output_path = args.json_output_path
     csv_output_path = args.csv_output_path
-
-    code_book_district = {
-        "mogadisho": 1,
-        "mogadishu": 1,
-        "kismayo": 2,
-        "baidoa": 3,
-        "belet weyne": 4,
-
-        "adan yabaal": 5,
-        "afmadow": 6,
-        "baardheere": 7,
-        "baki": 8,
-        "balad": 9,
-        "balcad": 10,
-        "bandarbayla": 11,
-        "baraawe": 12,
-        "berbera": 13,
-        "boondheere": 14,
-        "borama": 15,
-        "bossaso": 16,
-        "bu": 17,
-        "bulo burto": 18,
-        "burco": 19,
-        "burtinle": 20,
-        "buuhoodle": 21,
-        "buur hakaba": 22,
-        "cabdlcasiis": 23,
-        "cabudwaaq": 24,
-        "cadaado": 25,
-        "caluula": 26,
-        "caynabo": 27,
-        "ceel afweyn": 28,
-        "ceel buur": 29,
-        "ceel waaq": 30,
-        "ceerigaabo": 31,
-        "daynile": 32,
-        "dharkenley": 33,
-        "dhuusamarreeb": 34,
-        "doolow": 35,
-        "eyl": 36,
-        "gaalkacyo": 37,
-        "galdogob": 38,
-        "garbahaarey": 39,
-        "garowe": 40,
-        "gebiley": 41,
-        "hargeisa": 42,
-        "hawl wadaag": 43,
-        "heliwa": 44,
-        "hobyo": 45,
-        "hodan": 46,
-        "iskushuban": 47,
-        "jamaame": 48,
-        "jariiban": 49,
-        "jowhar": 50,
-        "karaan": 51,
-        "laas caanod": 52,
-        "laasqoray": 53,
-        "lughaye": 54,
-        "luuq": 55,
-        "marka": 56,
-        "owdweyne": 57,
-        "qandala": 58,
-        "qansax dheere": 59,
-        "qardho": 60,
-        "qoryooley": 61,
-        "saakow": 62,
-        "sanaag": 63,
-        "sheikh": 64,
-        "shibis": 65,
-        "taleex": 66,
-        "waaberi": 67,
-        "waajid": 68,
-        "wadajir": 69,
-        "wanla weyne": 70,
-        "wardhiigleey": 71,
-        "xamar jaabjab": 72,
-        "xudun": 73,
-        "xudur": 74,
-        "yaaqshid": 75
-    }
-
-    code_book_urban_rural = {
-        Codes.RURAL: 1,
-        Codes.URBAN: 2
-    }
-
-    code_book_yes_no = {
-        Codes.NO: 1,
-        Codes.YES: 2
-    }
-
-    code_book_gender = {
-        Codes.MALE: 1,
-        Codes.FEMALE: 2
-    }
-
-    code_book_radio_station = {
-        "radio star": 1,
-        "radio mustaqbal": 2,
-        "radio risaala": 3,
-        "radio dalsan": 4,
-        "radio kulminye": 5,
-        "radio sooyaal": 6,
-        "radio kismayo": 7,
-        "radio warsan": 8,
-        "radio baidoa": 9,
-        "radio hiran_way": 10
-    }
-
-    code_book_education = {
-        "no schooling": 1,
-        "primary education": 2,
-        "college/university": 3,
-        "secondary education": 4,
-        "islamic studies": 5
-    }
-
-    code_book_sickness_adult_child = {
-        "child": 1,
-        "adult": 2,
-        "relative": 3  # TODO: Notify Johanna of difference ('adult and child') in coding scheme
-    }
-
-    code_book_message_type = {
-        "promo": 1,
-        "advert": 2,
-        "show": 3
-    }
-
-    code_book_missing = {
-        Codes.SKIPPED: 777,
-        "NC": 888,
-        "belong to other": 888,
-        Codes.TRUE_MISSING: 999,
-        None: None,
-        "stop": "stop"
-    }
 
 
     def load_show(show_name):
@@ -517,49 +383,38 @@ if __name__ == "__main__":
 
     # Apply code-books
     code_books = {
-        "district_clean": code_book_district,
-        "urban_rural_clean": code_book_urban_rural,
-        "gender_clean": code_book_gender,
+        "district_clean": CodeBooks.district,
+        "urban_rural_clean": CodeBooks.urban_rural,
+        "gender_clean": CodeBooks.gender,
 
-        "radio_station_clean": code_book_radio_station,
+        "radio_station_clean": CodeBooks.radio_station,
         # Skip age_clean because not applying code book
-        "education_clean": code_book_education,
-        "idp_clean": code_book_yes_no,
-        "origin_district_clean": code_book_district,
+        "education_clean": CodeBooks.education,
+        "idp_clean": CodeBooks.yes_no,
+        "origin_district_clean": CodeBooks.district,
 
-        "household_sickness_clean": code_book_yes_no,
-        "sickness_adult_child": code_book_sickness_adult_child,
-        "cholera_vaccination_clean": code_book_yes_no,
+        "household_sickness_clean": CodeBooks.yes_no,
+        "sickness_adult_child": CodeBooks.sickness_adult_child,
+        "cholera_vaccination_clean": CodeBooks.yes_no,
         # "trustworthy_advisors_clean": TODO
 
-        "message_type": code_book_message_type,
+        "message_type": CodeBooks.message_type,
 
-        "radio_q1": code_book_yes_no,
-        "radio_q2": code_book_yes_no,
+        "radio_q1": CodeBooks.yes_no,
+        "radio_q2": CodeBooks.yes_no,
         # TODO: Other radio show questions
     }
-    not_found = set()
     for td in all_messages:
-        # Apply code books to coded data (mostly demographics)
-        code_book_data = dict()
-        for output_key, code_book in code_books.items():
-            if td[output_key] in code_book:
-                code_book_data[output_key] = code_book[td[output_key]]
-            elif td[output_key] in code_book_missing:
-                code_book_data[output_key] = code_book_missing[td[output_key]]
-            else:
-                # assert False, key + "; " + td[key]  TODO: Re-enable when all schemes are coded correctly.
-                not_found.add("{}: {}".format(output_key, td[output_key]))
+        CodeBooks.apply(user, code_books, td)
 
         # Map missing data in radio show columns to a code while keeping raw non-missing data
-        x = ["raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5", "age_clean"]
+        x = ["age_clean", "raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5"]
         # for keys in all_show_keys.values():
         #     x.extend(keys)
+        code_book_data = dict()
         for key in x:
-            code_book_data[key] = code_book_missing.get(td[key], td[key])
+            code_book_data[key] = CodeBooks.apply_missing_code_book(td[key])
         td.append_data(code_book_data, Metadata(user, Metadata.get_call_location(), time.time()))
-    for x in not_found:
-        print(x)
 
     output_keys = [
         "date_time",
@@ -609,9 +464,9 @@ if __name__ == "__main__":
                 stopped_ids.add(td["phone_uuid"])
                 for k in output_keys:
                     stopped_updates[k] = "stop"
-                stopped_updates["consent_clean"] = code_book_yes_no[Codes.NO]
+                stopped_updates["consent_clean"] = CodeBooks.yes_no[Codes.NO]
         if "consent_clean" not in stopped_updates:
-            stopped_updates["consent_clean"] = code_book_yes_no[Codes.YES]
+            stopped_updates["consent_clean"] = CodeBooks.yes_no[Codes.YES]
         td.append_data(stopped_updates, Metadata(user, Metadata.get_call_location(), time.time()))
     print(len(stopped_ids))
 
