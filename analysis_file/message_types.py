@@ -105,10 +105,10 @@ class MessageTypes(object):
 
         if total_matches == 0:
             print("Warning: '{}' has no matching promo, advert, or show".format(iso_date))
-            return Codes.NOT_CODED  # TODO: Change to "NC"
+            return "NC"  # TODO: Change to "Codes.NOT_CODED"
         if total_matches > 1:
             print("Warning: '{}' matches multiple promos, adverts, and/or shows".format(iso_date))
-            return Codes.NOT_CODED  # TODO: Change to "NC"
+            return "NC"  # TODO: Change to "Codes.NOT_CODED"
 
         return message_type
 
