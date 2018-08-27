@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-CoreDataModules = {editable = true, ref = "a1d4fcc94cef6735d271ff677c06faa0f107578b", git = "https://www.github.com/AfricasVoices/CoreDataModules"}
+CoreDataModules = {editable = true, ref = "v0.5.1", git = "https://www.github.com/AfricasVoices/CoreDataModules"}
 
 [dev-packages]
 
