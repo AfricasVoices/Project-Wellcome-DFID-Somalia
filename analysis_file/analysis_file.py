@@ -10,6 +10,7 @@ from core_data_modules.util import IOUtils
 from dateutil.parser import isoparse
 
 from code_books import CodeBooks
+from message_types import MessageTypes
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generates a file for analysis from the cleaned and coded shows "
@@ -58,121 +59,6 @@ if __name__ == "__main__":
             return Codes.SKIPPED
         else:
             return get_code(td, "Origin_District (Text) - wt_demog_2")
-
-
-    def message_type(iso_date):
-        dt = isoparse(iso_date)
-
-        promo_dates = [
-            ["2018-07-22T06:25:00+03:00", "2018-07-23T00:00:00+03:00"],
-            ["2018-07-23T00:00:00+03:00", "2018-07-24T00:00:00+03:00"],
-            ["2018-07-24T00:00:00+03:00", "2018-07-25T00:00:00+03:00"],
-            ["2018-07-25T00:00:00+03:00", "2018-07-26T00:00:00+03:00"],
-            ["2018-07-26T00:00:00+03:00", "2018-07-26T19:00:00+03:00"],
-
-            ["2018-07-29T06:25:00+03:00", "2018-07-30T00:00:00+03:00"],
-            ["2018-07-30T00:00:00+03:00", "2018-07-31T00:00:00+03:00"],
-            ["2018-07-31T00:00:00+03:00", "2018-08-01T00:00:00+03:00"],
-            ["2018-08-01T00:00:00+03:00", "2018-08-02T00:00:00+03:00"],
-            ["2018-08-02T00:00:00+03:00", "2018-08-02T19:00:00+03:00"],
-
-            ["2018-08-05T06:25:00+03:00", "2018-08-06T00:00:00+03:00"],
-            ["2018-08-06T00:00:00+03:00", "2018-08-07T00:00:00+03:00"],
-            ["2018-08-07T00:00:00+03:00", "2018-08-08T00:00:00+03:00"],
-            ["2018-08-08T00:00:00+03:00", "2018-08-09T00:00:00+03:00"],
-            ["2018-08-09T00:00:00+03:00", "2018-08-09T19:00:00+03:00"],
-
-            ["2018-08-12T06:25:00+03:00", "2018-08-13T00:00:00+03:00"],
-            ["2018-08-13T00:00:00+03:00", "2018-08-14T00:00:00+03:00"],
-            ["2018-08-14T00:00:00+03:00", "2018-08-15T00:00:00+03:00"],
-            ["2018-08-15T00:00:00+03:00", "2018-08-16T00:00:00+03:00"],
-            ["2018-08-16T00:00:00+03:00", "2018-08-16T19:00:00+03:00"],
-
-            ["2018-08-19T06:25:00+03:00", "2018-08-20T00:00:00+03:00"],
-            ["2018-08-20T00:00:00+03:00", "2018-08-21T00:00:00+03:00"],
-            ["2018-08-21T00:00:00+03:00", "2018-08-22T00:00:00+03:00"],
-            ["2018-08-22T00:00:00+03:00", "2018-08-23T00:00:00+03:00"],
-            ["2018-08-23T00:00:00+03:00", "2018-08-23T19:00:00+03:00"]
-        ]
-
-        advert_dates = [
-            ["2018-07-26T19:00:00+03:00", "2018-07-27T00:00:00+03:00"],
-            ["2018-07-27T00:00:00+03:00", "2018-07-27T08:30:00+03:00"],
-
-            ["2018-08-02T19:00:00+03:00", "2018-08-03T00:00:00+03:00"],
-            ["2018-08-03T00:00:00+03:00", "2018-08-03T08:30:00+03:00"],
-
-            ["2018-08-09T19:00:00+03:00", "2018-08-10T00:00:00+03:00"],
-            ["2018-08-10T00:00:00+03:00", "2018-08-10T08:30:00+03:00"],
-
-            ["2018-08-16T19:00:00+03:00", "2018-08-17T00:00:00+03:00"],
-            ["2018-08-17T00:00:00+03:00", "2018-08-17T08:30:00+03:00"],
-
-            ["2018-08-23T19:00:00+03:00", "2018-08-24T00:00:00+03:00"],
-            ["2018-08-24T00:00:00+03:00", "2018-08-24T08:30:00+03:00"],
-        ]
-
-        show_dates = [
-            ["2018-07-27T08:30:00+03:00", "2018-07-28T00:00:00+03:00"],
-            ["2018-07-28T00:00:00+03:00", "2018-07-29T00:00:00+03:00"],
-            ["2018-07-29T00:00:00+03:00", "2018-07-29T06:25:00+03:00"],
-
-            ["2018-08-03T08:30:00+03:00", "2018-08-04T00:00:00+03:00"],
-            ["2018-08-04T00:00:00+03:00", "2018-08-05T00:00:00+03:00"],
-            ["2018-08-05T00:00:00+03:00", "2018-08-05T06:25:00+03:00"],
-
-            ["2018-08-10T08:30:00+03:00", "2018-08-11T00:00:00+03:00"],
-            ["2018-08-11T00:00:00+03:00", "2018-08-12T00:00:00+03:00"],
-            ["2018-08-12T00:00:00+03:00", "2018-08-12T06:25:00+03:00"],
-
-            ["2018-08-17T08:30:00+03:00", "2018-08-18T00:00:00+03:00"],
-            ["2018-08-18T00:00:00+03:00", "2018-08-19T00:00:00+03:00"],
-            ["2018-08-19T00:00:00+03:00", "2018-08-19T06:25:00+03:00"],
-
-            ["2018-08-24T08:30:00+03:00", "2018-08-25T00:00:00+03:00"],
-            ["2018-08-25T00:00:00+03:00", "2018-08-26T00:00:00+03:00"],
-            ["2018-08-26T00:00:00+03:00", "2018-08-26T06:25:00+03:00"]
-        ]
-
-        total_matches = 0
-        message_type = ""
-        for p in promo_dates:
-            if isoparse(p[0]) <= dt < isoparse(p[1]):
-                message_type = "promo"
-                total_matches += 1
-
-        for a in advert_dates:
-            if isoparse(a[0]) <= dt < isoparse(a[1]):
-                message_type = "advert"
-                total_matches += 1
-
-        for s in show_dates:
-            if isoparse(s[0]) <= dt < isoparse(s[1]):
-                message_type = "show"
-                total_matches += 1
-
-        if total_matches == 0:
-            print("Warning: '{}' has no matching promo, advert, or show".format(iso_date))
-            return Codes.NOT_CODED
-        if total_matches > 1:
-            print("Warning: '{}' matches multiple promos, adverts, and/or shows".format(iso_date))
-            return Codes.NOT_CODED
-
-        return message_type
-
-
-    def message_type_for_show(show_number, td):
-        if show_number == 1:
-            return message_type(td["S06E01_Risk_Perception (Time) - wt_s06e1_activation"])
-        elif show_number == 2:
-            return message_type(td["S06E02_Cholera_Preparedness (Time) - wt_s06e2_activation"])
-        elif show_number == 3:
-            return message_type(td["S06E03_Outbreak_Knowledge (Time) - wt_s06e03_activation"])
-        elif show_number == 4:
-            return message_type(td["S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"])
-        elif show_number == 5:
-            return message_type(td["S06E05_Water_Quality (Time) - wt_s06e05_activation"])
-
 
     def aggregate_messages(td_1, td_2):
         new_d = dict()
@@ -304,7 +190,7 @@ if __name__ == "__main__":
                 "trustworthy_advisors_clean": get_code(td, "Trustworthy_Advisors (Text) - wt_practice"),
 
                 "radio_show": show_number,
-                "message_type": message_type_for_show(show_number, td),
+                "message_type": MessageTypes.for_show(show_number, td),
 
                 "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", "NS"),
                 "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", "NS"),
