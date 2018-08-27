@@ -36,79 +36,78 @@ if __name__ == "__main__":
         "kismayo": 2,
         "baidoa": 3,
         "belet weyne": 4,
-        "other": 5,  # TODO: Notify Johanna we need this.
-        "garowe": 5,
-        "wadajir": 5,
-        "wardhiigleey": 5,
-        "qardho": 5,
-        "heliwa": 5,
-        "hawl wadaag": 5,
-        "owdweyne": 5,
-        "xudur": 5,
-        "caluula": 5,
-        "dhuusamarreeb": 5,
-        "jamaame": 5,
-        "baardheere": 5,
-        "wanla weyne": 5,
-        "bu": 5,
-        "bulo burto": 5,
-        "afmadow": 5,
-        "ceel waaq": 5,
-        "cabudwaaq": 5,
-        "stop": 5,
-        "bossaso": 5,
-        "baki": 5,
-        "doolow": 5,
-        "hobyo": 5,
-        "hodan": 5,
-        "xamar jaabjab": 5,
-        "daynile": 5,
-        "marka": 5,
-        "waajid": 5,
-        "qoryooley": 5,
-        "jariiban": 5,
-        "ceerigaabo": 5,
-        "burtinle": 5,
-        "qandala": 5,
-        "berbera": 5,
-        "ceel buur": 5,
-        "shibis": 5,
-        "hargeisa": 5,
-        "burco": 5,
-        "galdogob": 5,
-        "saakow": 5,
-        "gebiley": 5,
-        "balcad": 5,
-        "balad": 5,
-        "luuq": 5,
-        "lughaye": 5,
-        "qansax dheere": 5,
-        "iskushuban": 5,
-        "gaalkacyo": 5,
-        "boondheere": 5,
-        "caynabo": 5,
-        "cabdlcasiis": 5,
-        "bandarbayla": 5,
-        "buur hakaba": 5,
-        "eyl": 5,
-        "jowhar": 5,
-        "waaberi": 5,
-        "dharkenley": 5,
-        "baraawe": 5,
-        "laas caanod": 5,
-        "buuhoodle": 5,
-        "sheikh": 5,
-        "yaaqshid": 5,
+
         "adan yabaal": 5,
-        "borama": 5,
-        "garbahaarey": 5,
-        "laasqoray": 5,
-        "ceel afweyn": 5,
-        "taleex": 5,
-        "sanaag": 5,
-        "karaan": 5,
-        "cadaado": 5,
-        "xudun": 5
+        "afmadow": 6,
+        "baardheere": 7,
+        "baki": 8,
+        "balad": 9,
+        "balcad": 10,
+        "bandarbayla": 11,
+        "baraawe": 12,
+        "berbera": 13,
+        "boondheere": 14,
+        "borama": 15,
+        "bossaso": 16,
+        "bu": 17,
+        "bulo burto": 18,
+        "burco": 19,
+        "burtinle": 20,
+        "buuhoodle": 21,
+        "buur hakaba": 22,
+        "cabdlcasiis": 23,
+        "cabudwaaq": 24,
+        "cadaado": 25,
+        "caluula": 26,
+        "caynabo": 27,
+        "ceel afweyn": 28,
+        "ceel buur": 29,
+        "ceel waaq": 30,
+        "ceerigaabo": 31,
+        "daynile": 32,
+        "dharkenley": 33,
+        "dhuusamarreeb": 34,
+        "doolow": 35,
+        "eyl": 36,
+        "gaalkacyo": 37,
+        "galdogob": 38,
+        "garbahaarey": 39,
+        "garowe": 40,
+        "gebiley": 41,
+        "hargeisa": 42,
+        "hawl wadaag": 43,
+        "heliwa": 44,
+        "hobyo": 45,
+        "hodan": 46,
+        "iskushuban": 47,
+        "jamaame": 48,
+        "jariiban": 49,
+        "jowhar": 50,
+        "karaan": 51,
+        "laas caanod": 52,
+        "laasqoray": 53,
+        "lughaye": 54,
+        "luuq": 55,
+        "marka": 56,
+        "owdweyne": 57,
+        "qandala": 58,
+        "qansax dheere": 59,
+        "qardho": 60,
+        "qoryooley": 61,
+        "saakow": 62,
+        "sanaag": 63,
+        "sheikh": 64,
+        "shibis": 65,
+        "taleex": 66,
+        "waaberi": 67,
+        "waajid": 68,
+        "wadajir": 69,
+        "wanla weyne": 70,
+        "wardhiigleey": 71,
+        "xamar jaabjab": 72,
+        "xudun": 73,
+        "xudur": 74,
+        "yaaqshid": 75
     }
 
     code_book_urban_rural = {
@@ -361,8 +360,15 @@ if __name__ == "__main__":
         else:
             new_d["date_time"] = td_1["date_time"]
 
-        new_d["radio_q1"] = td_1.get("radio_q1") if td_1.get("radio_q1") == td_2.get("radio_q1") else "NL"
-        new_d["radio_q2"] = td_1.get("radio_q2") if td_1.get("radio_q2") == td_2.get("radio_q2") else "NL"
+        if td_1.get("radio_q1") == "stop" or td_2.get("radio_q1") == "stop":
+            new_d["radio_q1"] = "stop"
+        else:
+            new_d["radio_q1"] = td_1.get("radio_q1") if td_1.get("radio_q1") == td_2.get("radio_q1") else "NL"
+
+        if td_1.get("radio_q2") == "stop" or td_2.get("radio_q2") == "stop":
+            new_d["radio_q2"] = "stop"
+        else:
+            new_d["radio_q2"] = td_1.get("radio_q2") if td_1.get("radio_q2") == td_2.get("radio_q2") else "NL"
 
         if td_1["message_type"] != td_2["message_type"]:
             new_d["message_type"] = "NC"
@@ -487,7 +493,7 @@ if __name__ == "__main__":
                     ns_show_answers[output_key] = "0"  # Codes.SKIPPED
         td.append_data(ns_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
 
-    # TODO: Group input messages by day
+    # Group input messages by participant/day
     lut = dict()  # of [avf_phone_id, date] -> (list of TracedData)
     for td in all_messages:
         key = (td["phone_uuid"], isoparse(td["date_time"]).strftime("%Y-%m-%d"))
@@ -519,7 +525,7 @@ if __name__ == "__main__":
         # Skip age_clean because not applying code book
         "education_clean": code_book_education,
         "idp_clean": code_book_yes_no,
-        "origin_district_clean": code_book_district,  # TODO check this should be the same as district
+        "origin_district_clean": code_book_district,
 
         "household_sickness_clean": code_book_yes_no,
         "sickness_adult_child": code_book_sickness_adult_child,
@@ -593,14 +599,14 @@ if __name__ == "__main__":
 
     # Determine consent
     print("Total Respondents:")
-    print(len({td["avf_phone_id"] for td in all_messages}))
+    print(len({td["phone_uuid"] for td in all_messages}))
     print("Stopped Respondents:")
     stopped_ids = set()
     for td in all_messages:
         stopped_updates = dict()
         for output_key in output_keys:
             if td[output_key] == "stop":
-                stopped_ids.add(td["avf_phone_id"])
+                stopped_ids.add(td["phone_uuid"])
                 for k in output_keys:
                     stopped_updates[k] = "stop"
                 stopped_updates["consent_clean"] = code_book_yes_no[Codes.NO]
