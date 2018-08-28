@@ -18,7 +18,7 @@ cd ../fetch_lost_week_4_runs
 
 SHOW="wt_s06e04_activation"
 
-echo "Exporting show $SHOW"
+echo "Updating show $SHOW with missing runs"
 
 sh docker-run.sh "$RP_SERVER" "$RP_TOKEN" "$USER" \
     "$DATA_ROOT/00 UUIDs/phone_uuids.json" "$DATA_ROOT/01 Raw Messages/$SHOW.json"
