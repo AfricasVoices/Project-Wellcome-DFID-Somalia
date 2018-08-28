@@ -20,4 +20,4 @@ RUN mkdir /data
 
 # Environment variables need to be set when constructing this container e.g. via
 # docker run or docker container create. Use docker-run.sh to set these automatically.
-CMD pipenv run python fetch_runs.py --server "$SERVER" "$TOKEN" --flow-name "$FLOW_NAME" "$USER" "$MODE" /data/phone-uuid-table.json /data/output.json
+CMD pipenv run python fetch_lost_week_4_runs.py --server "$SERVER" "$TOKEN" "$USER" /data/phone-uuid-table.json /data/data.json
