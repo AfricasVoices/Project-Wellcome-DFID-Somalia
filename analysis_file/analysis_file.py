@@ -220,13 +220,13 @@ if __name__ == "__main__":
 
     # Set keys to other shows to NS
     for td in all_messages:
-        ns_show_answers = dict()
+        skipped_show_answers = dict()
         for show_number, show_keys in all_show_keys.items():
-            if td["raw_radio_q{}".format(show_number)] == Codes.SKIPPED:
-                ns_show_answers["radio_q{}".format(show_number)] = Codes.SKIPPED
+            if td["radio_show"] != show_number:
+                skipped_show_answers["radio_q{}".format(show_number)] = Codes.SKIPPED
                 for output_key in show_keys:
-                    ns_show_answers[output_key] = Codes.SKIPPED
-        td.append_data(ns_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
+                    skipped_show_answers[output_key] = Codes.SKIPPED
+        td.append_data(skipped_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Group input messages by participant/day
     print("Aggregating")
