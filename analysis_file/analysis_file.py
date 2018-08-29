@@ -9,6 +9,7 @@ from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
 from core_data_modules.util import IOUtils
 from dateutil.parser import isoparse
 
+from lib.aggregate_traced_data import AggregateTracedData
 from lib.analysis_keys import AnalysisKeys
 from lib.code_books import CodeBooks
 from lib.message_types import MessageTypes
@@ -228,23 +229,11 @@ if __name__ == "__main__":
         td.append_data(ns_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Group input messages by participant/day
-    lut = dict()  # of [avf_phone_id, date] -> (list of TracedData)
-    for td in all_messages:
-        key = (td["phone_uuid"], isoparse(td["date_time"]).strftime("%Y-%m-%d"))
-        if key not in lut:
-            lut[key] = []
-        lut[key].append(td)
+    print("Aggregating")
+    collated_messages = AggregateTracedData.aggregate_by_respondent_and_date(user, all_messages)
 
-    collated_messages = []
-    for messages in lut.values():
-        out = messages.pop(0)
-        while len(messages) > 0:
-            out = aggregate_messages(out, messages.pop(0))
-        collated_messages.append(out)
-
-    print("A")
-    print(len(all_messages))
-    print(len(collated_messages))
+    print("  Pre-aggregation: {}".format(len(all_messages)))
+    print("  Post-aggregation: {}".format(len(collated_messages)))
 
     all_messages = collated_messages  # TODO: Undo this hack
     print(len(all_messages))
