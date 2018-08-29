@@ -79,10 +79,7 @@ if __name__ == "__main__":
             "household_sickness_clean",
             "sickness_adult_child",
             "cholera_vaccination_clean",
-            "trustworthy_advisors_clean",
-
-            # "radio_q1",
-            # "radio_q2"
+            "trustworthy_advisors_clean"
         ]
 
         for key in same_keys:
