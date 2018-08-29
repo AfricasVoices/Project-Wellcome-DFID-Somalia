@@ -8,7 +8,7 @@ from dateutil.parser import isoparse
 class AggregateTracedData(object):
     @staticmethod
     def aggregate_messages(user, td_1, td_2):
-        new_d = dict()
+        agg_d = dict()
 
         same_keys = [
             "phone_uuid",
@@ -32,7 +32,7 @@ class AggregateTracedData(object):
         for key in same_keys:
             assert td_1[key] == td_2[key], "Key '{}' has conflicting values: '{}' vs '{}'".format(key, td_1[key],
                                                                                                   td_2[key])
-            new_d[key] = td_1[key]
+            agg_d[key] = td_1[key]
 
         same_keys.extend([
             "date_time",
@@ -48,48 +48,48 @@ class AggregateTracedData(object):
             "radio_q2"
         ])
 
-        new_d["date_time"] = td_1["date_time"]
+        agg_d["date_time"] = td_1["date_time"]
         if td_1.get("raw_radio_q1", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q1",
                                                                                  Codes.SKIPPED) != Codes.SKIPPED:
-            new_d["date_time"] = td_1["date_time"][0:10]
-            new_d["raw_radio_q1"] = "{};{}".format(td_1["raw_radio_q1"], td_2["raw_radio_q1"])
+            agg_d["date_time"] = td_1["date_time"][0:10]
+            agg_d["raw_radio_q1"] = "{};{}".format(td_1["raw_radio_q1"], td_2["raw_radio_q1"])
         if td_1.get("raw_radio_q2", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q2",
                                                                                  Codes.SKIPPED) != Codes.SKIPPED:
-            new_d["date_time"] = td_1["date_time"][0:10]
-            new_d["raw_radio_q2"] = "{};{}".format(td_1["raw_radio_q2"], td_2["raw_radio_q2"])
+            agg_d["date_time"] = td_1["date_time"][0:10]
+            agg_d["raw_radio_q2"] = "{};{}".format(td_1["raw_radio_q2"], td_2["raw_radio_q2"])
         if td_1.get("raw_radio_q3", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q3",
                                                                                  Codes.SKIPPED) != Codes.SKIPPED:
-            new_d["date_time"] = td_1["date_time"][0:10]
-            new_d["raw_radio_q3"] = "{};{}".format(td_1["raw_radio_q3"], td_2["raw_radio_q3"])
+            agg_d["date_time"] = td_1["date_time"][0:10]
+            agg_d["raw_radio_q3"] = "{};{}".format(td_1["raw_radio_q3"], td_2["raw_radio_q3"])
 
         if td_1.get("radio_q1") == "stop" or td_2.get("radio_q1") == "stop":
-            new_d["radio_q1"] = "stop"
+            agg_d["radio_q1"] = "stop"
         else:
-            new_d["radio_q1"] = td_1.get("radio_q1") if td_1.get("radio_q1") == td_2.get("radio_q1") else "NL"
+            agg_d["radio_q1"] = td_1.get("radio_q1") if td_1.get("radio_q1") == td_2.get("radio_q1") else "NL"
 
         if td_1.get("radio_q2") == "stop" or td_2.get("radio_q2") == "stop":
-            new_d["radio_q2"] = "stop"
+            agg_d["radio_q2"] = "stop"
         else:
-            new_d["radio_q2"] = td_1.get("radio_q2") if td_1.get("radio_q2") == td_2.get("radio_q2") else "NL"
+            agg_d["radio_q2"] = td_1.get("radio_q2") if td_1.get("radio_q2") == td_2.get("radio_q2") else "NL"
 
         if td_1["message_type"] != td_2["message_type"]:
-            new_d["message_type"] = "NC"
+            agg_d["message_type"] = "NC"
 
         if td_1["radio_show"] != td_2["radio_show"]:
-            new_d["radio_show"] = "NC"
+            agg_d["radio_show"] = "NC"
 
         for key in td_1:
             if key.startswith("radio_q1_") or key.startswith("radio_q2_") or key.startswith("radio_q3_"):
                 if td_1[key] == Codes.SKIPPED:
-                    new_d[key] = Codes.SKIPPED
+                    agg_d[key] = Codes.SKIPPED
                 else:
-                    new_d[key] = "1" if td_1[key] == "1" or td_2[key] == "1" else "0"
+                    agg_d[key] = "1" if td_1[key] == "1" or td_2[key] == "1" else "0"
                 same_keys.append(key)
             if key not in same_keys:
-                new_d[key] = "PRE_MERGE_UNIFICATION"
+                agg_d[key] = "PRE_MERGE_UNIFICATION"
 
         td_out = td_1.copy()
-        td_out.append_data(new_d, Metadata(user, Metadata.get_call_location(), time.time()))
+        td_out.append_data(agg_d, Metadata(user, Metadata.get_call_location(), time.time()))
         return td_out
 
     @classmethod
