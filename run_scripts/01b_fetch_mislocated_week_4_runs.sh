@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 5 ]; then
-    echo "Usage: sh 01b_fetch_lost_week_4_runs.sh <user> <rapid-pro-root> <rapid-pro-server> <rapid-pro-token> <data-root>"
+    echo "Usage: sh 01b_fetch_mislocated_week_4_runs.sh <user> <rapid-pro-root> <rapid-pro-server> <rapid-pro-token> <data-root>"
     echo "Updates the raw messages dataset for week 4 with messages which were handled by the catchall in Rapid Pro rather than the week 4 activation flow"
     exit
 fi
@@ -14,7 +14,7 @@ RP_SERVER=$3
 RP_TOKEN=$4
 DATA_ROOT=$5
 
-cd ../fetch_lost_week_4_runs
+cd ../fetch_mislocated_week_4_runs
 
 SHOW="wt_s06e04_activation"
 

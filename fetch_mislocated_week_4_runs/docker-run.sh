@@ -2,7 +2,7 @@
 
 set -e
 
-IMAGE_NAME=wt-fetch-lost-week-4-runs
+IMAGE_NAME=wt-fetch-mislocated-week-4-runs
 
 # Check that the correct number of arguments were provided.
 if [ $# -ne 5 ]; then
