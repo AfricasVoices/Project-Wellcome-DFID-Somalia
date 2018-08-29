@@ -9,6 +9,7 @@ from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
 from core_data_modules.util import IOUtils
 from dateutil.parser import isoparse
 
+from lib.analysis_keys import AnalysisKeys
 from lib.code_books import CodeBooks
 from lib.message_types import MessageTypes
 
@@ -43,22 +44,6 @@ if __name__ == "__main__":
         with open(show_path, "r") as f:
             return list(TracedDataJsonIO.import_json_to_traced_data_iterable(f))
 
-
-    def get_code(td, key_of_raw, key_of_coded=None):
-        if key_of_coded is None:
-            key_of_coded = "{}_coded".format(key_of_raw)
-
-        if td[key_of_raw] == Codes.TRUE_MISSING:
-            return Codes.TRUE_MISSING
-        else:
-            return td[key_of_coded]
-
-
-    def get_origin_district(td):
-        if get_code(td, "Idp (Text) - wt_demog_2") == "No":  # TODO: Change to Codes.NO once recoded.
-            return Codes.SKIPPED
-        else:
-            return get_code(td, "Origin_District (Text) - wt_demog_2")
 
     def aggregate_messages(td_1, td_2):
         new_d = dict()
@@ -168,37 +153,7 @@ if __name__ == "__main__":
         TracedData.update_iterable(user, "avf_phone_id", show_messages, surveys, "surveys")
 
         for td in show_messages:
-            td.append_data({
-                "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),
-                "date_time":
-                    isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M"),
-                "phone_uuid": td["avf_phone_id"],
-
-                "district_clean": get_code(td, "District (Text) - wt_demog_1"),
-                "urban_rural_clean": get_code(td, "Urban_Rural (Text) - wt_demog_1"),
-                "gender_clean": get_code(td, "Gender (Text) - wt_demog_1"),
-
-                "radio_station_clean": get_code(td, "Radio_Station (Text) - wt_demog_2"),
-                "age_clean": get_code(td, "Age (Text) - wt_demog_2"),
-                "education_clean": get_code(td, "Education_Level (Text) - wt_demog_2"),
-                "idp_clean": get_code(td, "Idp (Text) - wt_demog_2"),
-                "origin_district_clean": get_origin_district(td),
-
-                "household_sickness_clean": get_code(td, "Household_Sickness (Text) - wt_practice"),
-                "sickness_adult_child": get_code(td, "Household_Sickness (Text) - wt_practice",
-                                                 "Household_Sickness (Text) - wt_practice_coded_people"),
-                "cholera_vaccination_clean": get_code(td, "Cholera_Vaccination (Text) - wt_practice"),
-                "trustworthy_advisors_clean": get_code(td, "Trustworthy_Advisors (Text) - wt_practice"),
-
-                "radio_show": show_number,
-                "message_type": MessageTypes.for_show(show_number, td),
-
-                "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", "NS"),
-                "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", "NS"),
-                "raw_radio_q3": td.get("S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation", "NS"),
-                "raw_radio_q4": td.get("S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation", "NS"),
-                "raw_radio_q5": td.get("S06E05_Water_Quality (Text) - wt_s06e05_activation", "NS")
-            }, Metadata(user, Metadata.get_call_location(), time.time()))
+            AnalysisKeys.set_analysis_keys(user, show_number, td)
 
             if show_number == 1:
                 coded_shows_prefix = "S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_"
