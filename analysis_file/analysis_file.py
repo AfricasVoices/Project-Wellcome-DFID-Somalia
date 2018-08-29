@@ -68,7 +68,8 @@ if __name__ == "__main__":
         ]
 
         for key in same_keys:
-            assert td_1[key] == td_2[key], "Key '{}' has conflicting values: '{}' vs '{}'".format(key, td_1[key], td_2[key])
+            assert td_1[key] == td_2[key], "Key '{}' has conflicting values: '{}' vs '{}'".format(key, td_1[key],
+                                                                                                  td_2[key])
             new_d[key] = td_1[key]
 
         same_keys.extend([
@@ -86,13 +87,16 @@ if __name__ == "__main__":
         ])
 
         new_d["date_time"] = td_1["date_time"]
-        if td_1.get("raw_radio_q1", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q1", Codes.SKIPPED) != Codes.SKIPPED:
+        if td_1.get("raw_radio_q1", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q1",
+                                                                                 Codes.SKIPPED) != Codes.SKIPPED:
             new_d["date_time"] = td_1["date_time"][0:10]
             new_d["raw_radio_q1"] = "{};{}".format(td_1["raw_radio_q1"], td_2["raw_radio_q1"])
-        if td_1.get("raw_radio_q2", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q2", Codes.SKIPPED) != Codes.SKIPPED:
+        if td_1.get("raw_radio_q2", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q2",
+                                                                                 Codes.SKIPPED) != Codes.SKIPPED:
             new_d["date_time"] = td_1["date_time"][0:10]
             new_d["raw_radio_q2"] = "{};{}".format(td_1["raw_radio_q2"], td_2["raw_radio_q2"])
-        if td_1.get("raw_radio_q3", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q3", Codes.SKIPPED) != Codes.SKIPPED:
+        if td_1.get("raw_radio_q3", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q3",
+                                                                                 Codes.SKIPPED) != Codes.SKIPPED:
             new_d["date_time"] = td_1["date_time"][0:10]
             new_d["raw_radio_q3"] = "{};{}".format(td_1["raw_radio_q3"], td_2["raw_radio_q3"])
 
