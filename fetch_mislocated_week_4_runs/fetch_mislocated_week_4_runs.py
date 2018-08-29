@@ -9,8 +9,9 @@ from dateutil.parser import isoparse
 from temba_client.v2 import TembaClient
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Downloads the lost week 4 messages from Rapid Pro, and adds "
-                                                 "them to the list of existing exported messages")
+    parser = argparse.ArgumentParser(description="Downloads the week 4 messages fom Rapid Pro that were not captured " 
+                                                 "by the wt_s06e04_activation flow, and adds them to an existing "
+                                                 "list of messages that were exported by normal means.")
     parser.add_argument("--server", help="Address of RapidPro server. Defaults to http://localhost:8000.",
                         nargs="?", default="http://localhost:8000")
     parser.add_argument("token", help="RapidPro API Token")
@@ -44,16 +45,16 @@ if __name__ == "__main__":
         week_4_messages = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
     # Fetch messages in the S06e04 resend group
-    lost_messages = rapid_pro.get_messages(label="S06e04_resend").all(retry_on_rate_exceed=True)
-    print("Number of lost messages found: {}".format(len(lost_messages)))
+    mislocated_messages = rapid_pro.get_messages(label="S06e04_resend").all(retry_on_rate_exceed=True)
+    print("Number of mislocated messages found: {}".format(len(mislocated_messages)))
 
     # Sort by ascending order of modification date.
-    lost_messages = list(lost_messages)
-    lost_messages.reverse()
+    mislocated_messages = list(mislocated_messages)
+    mislocated_messages.reverse()
 
-    # Convert the lost messages to de-identified TracedData
+    # Convert the mislocated messages to de-identified TracedData
     traced_messages = []
-    for message in lost_messages:
+    for message in mislocated_messages:
         traced_messages.append(
             TracedData(
                 {
