@@ -103,14 +103,16 @@ if __name__ == "__main__":
             "radio_q2"
         ])
 
-        if "raw_radio_q1" in td_1 and "raw_radio_q1" in td_2:
+        new_d["date_time"] = td_1["date_time"]
+        if td_1.get("raw_radio_q1", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q1", Codes.SKIPPED) != Codes.SKIPPED:
             new_d["date_time"] = td_1["date_time"][0:10]
             new_d["raw_radio_q1"] = "{};{}".format(td_1["raw_radio_q1"], td_2["raw_radio_q1"])
-        elif "raw_radio_q2" in td_1 and "raw_radio_q2" in td_2:
+        if td_1.get("raw_radio_q2", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q2", Codes.SKIPPED) != Codes.SKIPPED:
             new_d["date_time"] = td_1["date_time"][0:10]
             new_d["raw_radio_q2"] = "{};{}".format(td_1["raw_radio_q2"], td_2["raw_radio_q2"])
-        else:
-            new_d["date_time"] = td_1["date_time"]
+        if td_1.get("raw_radio_q3", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q3", Codes.SKIPPED) != Codes.SKIPPED:
+            new_d["date_time"] = td_1["date_time"][0:10]
+            new_d["raw_radio_q3"] = "{};{}".format(td_1["raw_radio_q3"], td_2["raw_radio_q3"])
 
         if td_1.get("radio_q1") == "stop" or td_2.get("radio_q1") == "stop":
             new_d["radio_q1"] = "stop"
@@ -129,9 +131,11 @@ if __name__ == "__main__":
             new_d["radio_show"] = "NC"
 
         for key in td_1:
-            if key.startswith("radio_q1_yes_") or key.startswith("radio_q1_no_") or \
-                    key.startswith("radio_q2_yes_") or key.startswith("radio_q2_no_"):
-                new_d[key] = "1" if td_1[key] == "1" or td_2[key] == "1" else "0"
+            if key.startswith("radio_q1_") or key.startswith("radio_q2_") or key.startswith("radio_q3_"):
+                if td_1[key] == Codes.SKIPPED:
+                    new_d[key] = Codes.SKIPPED
+                else:
+                    new_d[key] = "1" if td_1[key] == "1" or td_2[key] == "1" else "0"
                 same_keys.append(key)
             if key not in same_keys:
                 new_d[key] = "PRE_MERGE_UNIFICATION"
@@ -148,7 +152,7 @@ if __name__ == "__main__":
     shows = {
         1: "wt_s06e1_activation",
         2: "wt_s06e2_activation",
-        # 3: "wt_s06e03_activation",
+        3: "wt_s06e03_activation",
         # 4: "wt_s06e04_activation",
         # 5: "wt_s06e05_activation"
     }
@@ -210,26 +214,48 @@ if __name__ == "__main__":
                 yes_prefix = "radio_q2_yes_"
                 no_prefix = "radio_q2_no_"
             else:
-                assert False
+                coded_shows_prefix = "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation_coded_"
+                yes_no_key = None
+                prefix = "radio_q3_"
 
             d = dict()
-            yes_no = td[yes_no_key]
-            d["radio_q{}".format(show_number)] = yes_no
-            for output_key in td:
-                if output_key.startswith(coded_shows_prefix) and output_key != yes_no_key:
-                    code_yes_key = output_key.replace(coded_shows_prefix, yes_prefix)
-                    code_no_key = output_key.replace(coded_shows_prefix, no_prefix)
-                    all_show_keys[show_number].update({code_yes_key, code_no_key})
+            if yes_no_key is None:
+                special = None
+                if td["{}NC".format(coded_shows_prefix)] == "1":
+                    special = "NC"
+                if td["{}stop".format(coded_shows_prefix)] == "1":
+                    special = "stop"
 
-                    if yes_no == Codes.YES:
-                        d[code_yes_key] = td[output_key]
-                        d[code_no_key] = "0"  # "NC"
-                    elif yes_no == Codes.NO:
-                        d[code_yes_key] = "0"
-                        d[code_no_key] = td[output_key]
-                    else:
-                        d[code_yes_key] = "0"
-                        d[code_no_key] = "0"
+                for output_key in td:
+                    if output_key.startswith(coded_shows_prefix):
+                        code_key = output_key.replace(coded_shows_prefix, prefix)
+
+                        if code_key.endswith("_NC") or code_key.endswith("_stop"):
+                            continue
+
+                        all_show_keys[show_number].add(code_key)
+                        if special is not None:
+                            d[code_key] = special
+                        else:
+                            d[code_key] = td[output_key]
+            else:
+                yes_no = td[yes_no_key]
+                d["radio_q{}".format(show_number)] = yes_no
+                for output_key in td:
+                    if output_key.startswith(coded_shows_prefix) and output_key != yes_no_key:
+                        code_yes_key = output_key.replace(coded_shows_prefix, yes_prefix)
+                        code_no_key = output_key.replace(coded_shows_prefix, no_prefix)
+                        all_show_keys[show_number].update({code_yes_key, code_no_key})
+
+                        if yes_no == Codes.YES:
+                            d[code_yes_key] = td[output_key]
+                            d[code_no_key] = "0"
+                        elif yes_no == Codes.NO:
+                            d[code_yes_key] = "0"
+                            d[code_no_key] = td[output_key]
+                        else:
+                            d[code_yes_key] = "0"
+                            d[code_no_key] = "0"
 
             td.append_data(d, Metadata(user, Metadata.get_call_location(), time.time()))
 
@@ -242,7 +268,7 @@ if __name__ == "__main__":
             if td["raw_radio_q{}".format(show_number)] == Codes.SKIPPED:
                 ns_show_answers["radio_q{}".format(show_number)] = Codes.SKIPPED
                 for output_key in show_keys:
-                    ns_show_answers[output_key] = "0"  # Codes.SKIPPED
+                    ns_show_answers[output_key] = Codes.SKIPPED
         td.append_data(ns_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Group input messages by participant/day
@@ -295,8 +321,8 @@ if __name__ == "__main__":
 
         # Map missing data in radio show columns to a code while keeping raw non-missing data
         x = ["age_clean", "raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5"]
-        # for keys in all_show_keys.values():
-        #     x.extend(keys)
+        for keys in all_show_keys.values():
+            x.extend(keys)
         code_book_data = dict()
         for key in x:
             code_book_data[key] = CodeBooks.apply_missing_code_book(td[key])
