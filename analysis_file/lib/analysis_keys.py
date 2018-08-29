@@ -12,16 +12,16 @@ class AnalysisKeys(object):
     @staticmethod
     def get_code(td, key_of_raw, key_of_coded=None):
         """
-        Returns Codes.TRUE_MISSING if a given TracedData item does not contain
+        Returns the coded value for a response if one was provided, otherwise returns Codes.TRUE_MISSING
 
-        :param td:
-        :type td:
-        :param key_of_raw:
-        :type key_of_raw:
-        :param key_of_coded:
-        :type key_of_coded:
-        :return:
-        :rtype:
+        :param td: TracedData item to return the coded value of
+        :type td: TracedData
+        :param key_of_raw: Key in td of the raw response
+        :type key_of_raw: str
+        :param key_of_coded: Key in td of the coded response. Defaults to '<key_of_raw>_coded' if None
+        :type key_of_coded: str
+        :return: The coded value for a response if one was provided, otherwise Codes.TRUE_MISSING
+        :rtype: str
         """
         if key_of_coded is None:
             key_of_coded = "{}_coded".format(key_of_raw)
@@ -33,17 +33,33 @@ class AnalysisKeys(object):
 
     @classmethod
     def get_origin_district(cls, td):
+        """
+        Returns Codes.SKIPPED if this respondent has answered "no" to the IDP question; otherwise returns their
+        origin district as normal via cls.get_code
+
+        :param td: TracedData item to get the origin district from
+        :type td: TracedData
+        :return: Coded origin district
+        :rtype: str
+        """
         if cls.get_code(td, "Idp (Text) - wt_demog_2") == Codes.NO:
             return Codes.SKIPPED
         else:
             return cls.get_code(td, "Origin_District (Text) - wt_demog_2")
 
+    @staticmethod
+    def get_date_time_utc(td):
+        return isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M")
+
+    @staticmethod
+    def get_date_time_eat(td):
+        return isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M")
+
     @classmethod
     def set_analysis_keys(cls, user, show_number, td):
         td.append_data({
-            "date_time_utc": isoparse(td["created_on"]).strftime("%Y-%m-%d %H:%M"),
-            "date_time":
-                isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M"),
+            "date_time_utc": cls.get_date_time_utc(td),
+            "date_time": cls.get_date_time_eat(td),
             "phone_uuid": td["avf_phone_id"],
 
             "district_clean": cls.get_code(td, "District (Text) - wt_demog_1"),
