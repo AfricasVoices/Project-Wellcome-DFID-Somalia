@@ -11,7 +11,7 @@ if __name__ == "__main__":
     parser.add_argument("coded_input_path", metavar="coded-input-path",
                         help="Coda file to import coded labels from")
     parser.add_argument("show_number", metavar="show-number",
-                        help="")  # TODO
+                        help="A number representing the week number of the show being coded, from 1-5 inclusive")
     parser.add_argument("json_output_path", metavar="json-output-path",
                         help="Path to a JSON file to write merged results to")
 
@@ -41,9 +41,21 @@ if __name__ == "__main__":
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
         coda_yes_no_scheme = None
         coda_reason_schemes = {"default"}
+    elif show_number == 4:
+        assert False
+        key_of_raw = "S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"
+        key_of_coded_prefix = "{}_coded_".format(key_of_raw)
+        coda_yes_no_scheme = None
+        coda_reason_schemes = {}  # TODO
+    elif show_number == 5:
+        assert False
+        key_of_raw = "S06E05_Water_Quality (Time) - wt_s06e05_activation"
+        key_of_coded_prefix = "{}_coded_".format(key_of_raw)
+        coda_yes_no_scheme = "TODO"  # TODO
+        coda_reason_schemes = {}  # TODO
     # TODO: Configure for other shows
     else:
-        assert False, "Unrecognised show '{}'. Show should be a number from 1-5 inclusive.".format(show_number)
+        assert False, "Unrecognised show_number '{}'. Must be a number from 1-5 inclusive.".format(show_number)
 
     # Merge yes/no responses from the manually coded Coda files into the cleaned dataset
     if coda_yes_no_scheme is not None:
