@@ -3,6 +3,11 @@ from dateutil.parser import isoparse
 
 
 class MessageTypes(object):
+    """
+    Provides functions for determining the message type of a radio show message (advert, radio show, or promo),
+    by using the message send date and show number.
+    """
+
     promo_dates = [
         ["2018-07-22T06:25:00+03:00", "2018-07-23T00:00:00+03:00"],
         ["2018-07-23T00:00:00+03:00", "2018-07-24T00:00:00+03:00"],
@@ -88,6 +93,10 @@ class MessageTypes(object):
 
         total_matches = 0
         message_type = ""
+        if dt < isoparse("2018-07-22T06:25:00+03:00"):
+            message_type = "NC"  # Test data sent before the shows started
+            total_matches += 1
+
         for promo_range in cls.promo_dates:
             if isoparse(promo_range[0]) <= dt < isoparse(promo_range[1]):
                 message_type = "promo"
