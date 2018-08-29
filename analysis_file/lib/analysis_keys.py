@@ -33,7 +33,7 @@ class AnalysisKeys(object):
 
     @classmethod
     def get_origin_district(cls, td):
-        if cls.get_code(td, "Idp (Text) - wt_demog_2") == Codes.NO:  # TODO: Change to Codes.NO once recoded.
+        if cls.get_code(td, "Idp (Text) - wt_demog_2") == Codes.NO:
             return Codes.SKIPPED
         else:
             return cls.get_code(td, "Origin_District (Text) - wt_demog_2")
