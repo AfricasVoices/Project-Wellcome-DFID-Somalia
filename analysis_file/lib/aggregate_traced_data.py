@@ -94,15 +94,15 @@ class AggregateTracedData(object):
 
     @classmethod
     def aggregate_by_respondent_and_date(cls, user, all_messages):
-        lut = dict()  # of [avf_phone_id, date] -> (list of TracedData)
+        grouped_responses = dict()  # of [avf_phone_id, date] -> (list of TracedData)
         for td in all_messages:
             key = (td["phone_uuid"], isoparse(td["date_time"]).strftime("%Y-%m-%d"))
-            if key not in lut:
-                lut[key] = []
-            lut[key].append(td)
+            if key not in grouped_responses:
+                grouped_responses[key] = []
+            grouped_responses[key].append(td)
 
         collated_messages = []
-        for messages in lut.values():
+        for messages in grouped_responses.values():
             out = messages.pop(0)
             while len(messages) > 0:
                 out = cls.aggregate_messages(user, out, messages.pop(0))
