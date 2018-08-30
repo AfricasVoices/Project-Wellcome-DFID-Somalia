@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 2 ]; then
-    echo "Usage: sh checkout_rapid_pro.sh <rapid-pro-dir> <tag>"
+    echo "Usage: sh checkout_rapid_pro_tools.sh <rapid-pro-dir> <tag>"
     echo "Ensures that a copy of the RapidProTools project exists in  'rapid-pro-root' by cloning/fetching as, "
     echo "necessary, and checks-out the specified tag."
     exit
