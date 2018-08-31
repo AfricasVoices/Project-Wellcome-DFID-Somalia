@@ -34,6 +34,31 @@ class AggregateTracedData(object):
                                                                                                   td_2[key])
             agg_d[key] = td_1[key]
 
+        agg_d["date_time"] = td_1["date_time"]
+        for k in ["raw_radio_q1", "raw_radio_q2", "raw_radio_q3"]:
+            if td_1.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING and td_2.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING:
+                agg_d["date_time"] = td_1["date_time"][0:10]
+                agg_d[k] = "{};{}".format(td_1[k], td_2[k])
+
+        for k in ["radio_q1", "radio_q2"]:
+            if td_1.get(k) == "stop" or td_2.get(k) == "stop":
+                agg_d[k] = "stop"
+            elif td_1.get(k) == td_2.get(k):
+                agg_d[k] = td_1.get(k)
+            elif (td_1.get(k) == Codes.YES and td_2.get(k) == Codes.NO) or \
+                    (td_1.get(k) == Codes.NO and td_2.get(k) == Codes.YES):
+                agg_d[k] = "both"
+            elif td_1.get(k) is None:
+                agg_d[k] = td_2.get(k)
+            else:
+                agg_d[k] = td_1.get(k)
+
+        if td_1["message_type"] != td_2["message_type"]:
+            agg_d["message_type"] = "NC"
+
+        if td_1["radio_show"] != td_2["radio_show"]:
+            agg_d["radio_show"] = "NC"
+
         same_keys.extend([
             "date_time",
             "raw_radio_q1",
@@ -47,36 +72,6 @@ class AggregateTracedData(object):
             "radio_q1",
             "radio_q2"
         ])
-
-        agg_d["date_time"] = td_1["date_time"]
-        if td_1.get("raw_radio_q1", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q1",
-                                                                                 Codes.SKIPPED) != Codes.SKIPPED:
-            agg_d["date_time"] = td_1["date_time"][0:10]
-            agg_d["raw_radio_q1"] = "{};{}".format(td_1["raw_radio_q1"], td_2["raw_radio_q1"])
-        if td_1.get("raw_radio_q2", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q2",
-                                                                                 Codes.SKIPPED) != Codes.SKIPPED:
-            agg_d["date_time"] = td_1["date_time"][0:10]
-            agg_d["raw_radio_q2"] = "{};{}".format(td_1["raw_radio_q2"], td_2["raw_radio_q2"])
-        if td_1.get("raw_radio_q3", Codes.SKIPPED) != Codes.SKIPPED and td_2.get("raw_radio_q3",
-                                                                                 Codes.SKIPPED) != Codes.SKIPPED:
-            agg_d["date_time"] = td_1["date_time"][0:10]
-            agg_d["raw_radio_q3"] = "{};{}".format(td_1["raw_radio_q3"], td_2["raw_radio_q3"])
-
-        if td_1.get("radio_q1") == "stop" or td_2.get("radio_q1") == "stop":
-            agg_d["radio_q1"] = "stop"
-        else:
-            agg_d["radio_q1"] = td_1.get("radio_q1") if td_1.get("radio_q1") == td_2.get("radio_q1") else "NL"
-
-        if td_1.get("radio_q2") == "stop" or td_2.get("radio_q2") == "stop":
-            agg_d["radio_q2"] = "stop"
-        else:
-            agg_d["radio_q2"] = td_1.get("radio_q2") if td_1.get("radio_q2") == td_2.get("radio_q2") else "NL"
-
-        if td_1["message_type"] != td_2["message_type"]:
-            agg_d["message_type"] = "NC"
-
-        if td_1["radio_show"] != td_2["radio_show"]:
-            agg_d["radio_show"] = "NC"
 
         for key in td_1:
             if key.startswith("radio_q1_") or key.startswith("radio_q2_") or key.startswith("radio_q3_"):
