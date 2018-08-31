@@ -169,22 +169,23 @@ if __name__ == "__main__":
         output_keys.extend(show_keys)
 
     # Determine consent
-    print("Total Respondents:")
-    print(len({td["phone_uuid"] for td in all_messages}))
-    print("Stopped Respondents:")
+    print("Consent")
+    print("  Total Respondents:")
+    print("  " + str(len({td["phone_uuid"] for td in all_messages})))
+    print("  Stopped Respondents:")
     stopped_ids = set()
     for td in all_messages:
-        stopped_updates = dict()
+        stop_d = dict()
         for output_key in output_keys:
             if td[output_key] == "stop":
                 stopped_ids.add(td["phone_uuid"])
                 for k in output_keys:
-                    stopped_updates[k] = "stop"
-                stopped_updates["consent_clean"] = CodeBooks.yes_no[Codes.NO]
-        if "consent_clean" not in stopped_updates:
-            stopped_updates["consent_clean"] = CodeBooks.yes_no[Codes.YES]
-        td.append_data(stopped_updates, Metadata(user, Metadata.get_call_location(), time.time()))
-    print(len(stopped_ids))
+                    stop_d[k] = "stop"
+                stop_d["consent_clean"] = CodeBooks.yes_no[Codes.NO]
+        if "consent_clean" not in stop_d:
+            stop_d["consent_clean"] = CodeBooks.yes_no[Codes.YES]
+        td.append_data(stop_d, Metadata(user, Metadata.get_call_location(), time.time()))
+    print("  " + str(len(stopped_ids)))
 
     output_keys.insert(2, "consent_clean")
 
