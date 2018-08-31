@@ -79,13 +79,13 @@ if __name__ == "__main__":
 
     # Set keys to other shows to NS
     for td in all_messages:
-        skipped_show_answers = dict()
+        other_show_answers = dict()
         for show_number, show_keys in all_show_keys.items():
             if td["radio_show"] != show_number:
-                skipped_show_answers["radio_q{}".format(show_number)] = Codes.SKIPPED
+                other_show_answers["radio_q{}".format(show_number)] = Codes.TRUE_MISSING  # TODO: Asserts
                 for output_key in show_keys:
-                    skipped_show_answers[output_key] = Codes.SKIPPED
-        td.append_data(skipped_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
+                    other_show_answers[output_key] = Codes.TRUE_MISSING
+        td.append_data(other_show_answers, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Group input messages by participant/day
     print("Aggregating")
