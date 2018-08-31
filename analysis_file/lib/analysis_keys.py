@@ -77,6 +77,31 @@ class AnalysisKeys(object):
 
         td.append_data(matrix_d, Metadata(user, Metadata.get_call_location(), time.time()))
 
+    @staticmethod
+    def set_matrix_keys(user, td, show_keys, coded_shows_prefix, radio_q_prefix):
+        matrix_d = dict()
+
+        special = None
+        if td["{}_NC".format(coded_shows_prefix)] == "1":
+            special = "0"
+        if td["{}_stop".format(coded_shows_prefix)] == "1":
+            special = "stop"
+
+        for output_key in td:
+            if output_key.startswith(coded_shows_prefix):
+                code_key = output_key.replace(coded_shows_prefix, radio_q_prefix)
+
+                if code_key.endswith("_NC") or code_key.endswith("_stop"):
+                    continue
+
+                show_keys.add(code_key)
+                if special is not None:
+                    matrix_d[code_key] = special
+                else:
+                    matrix_d[code_key] = td[output_key]
+
+        td.append_data(matrix_d, Metadata(user, Metadata.get_call_location(), time.time()))
+
     @classmethod
     def set_matrix_analysis_keys(cls, user, show_keys, show_number, td):
         if show_number == 1:
@@ -85,31 +110,14 @@ class AnalysisKeys(object):
         elif show_number == 2:
             cls.set_yes_no_matrix_keys(
                 user, td, show_keys, "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation_coded", "radio_q2")
+        elif show_number == 3:
+            cls.set_matrix_keys(
+                user, td, show_keys, "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation_coded", "radio_q3")
+        # TODO: Shows 4 and 5
         else:
-            coded_shows_prefix = "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation_coded_"
-            prefix = "radio_q3_"
+            assert False, "Error: show_number must be in range 1-5"
 
-            d = dict()
-            special = None
-            if td["{}NC".format(coded_shows_prefix)] == "1":
-                special = "0"
-            if td["{}stop".format(coded_shows_prefix)] == "1":
-                special = "stop"
 
-            for output_key in td:
-                if output_key.startswith(coded_shows_prefix):
-                    code_key = output_key.replace(coded_shows_prefix, prefix)
-
-                    if code_key.endswith("_NC") or code_key.endswith("_stop"):
-                        continue
-
-                    show_keys.add(code_key)
-                    if special is not None:
-                        d[code_key] = special
-                    else:
-                        d[code_key] = td[output_key]
-
-            td.append_data(d, Metadata(user, Metadata.get_call_location(), time.time()))
 
     @classmethod
     def set_analysis_keys(cls, user, show_number, td):
