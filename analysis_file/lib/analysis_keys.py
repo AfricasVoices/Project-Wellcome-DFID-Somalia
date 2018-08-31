@@ -55,6 +55,62 @@ class AnalysisKeys(object):
     def get_date_time_eat(td):
         return isoparse(td["created_on"]).astimezone(pytz.timezone("Africa/Nairobi")).strftime("%Y-%m-%d %H:%M")
 
+    @staticmethod
+    def set_yes_no_matrix_keys(user, td, show_keys, coded_shows_prefix, radio_q_prefix):
+        matrix_d = dict()
+
+        yes_no_key = coded_shows_prefix + "_yes_no"
+        yes_no = td[yes_no_key]
+        matrix_d[radio_q_prefix] = yes_no
+
+        for key in td:
+            if key.startswith(coded_shows_prefix) and key != yes_no_key:
+                yes_prefix = radio_q_prefix + "_yes"
+                no_prefix = radio_q_prefix + "_no"
+
+                code_yes_key = key.replace(coded_shows_prefix, yes_prefix)
+                code_no_key = key.replace(coded_shows_prefix, no_prefix)
+                show_keys.update({code_yes_key, code_no_key})
+
+                matrix_d[code_yes_key] = td[key] if yes_no == Codes.YES else "0"
+                matrix_d[code_no_key] = td[key] if yes_no == Codes.NO else "0"
+
+        td.append_data(matrix_d, Metadata(user, Metadata.get_call_location(), time.time()))
+
+    @classmethod
+    def set_matrix_analysis_keys(cls, user, show_keys, show_number, td):
+        if show_number == 1:
+            cls.set_yes_no_matrix_keys(
+                user, td, show_keys, "S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded", "radio_q1")
+        elif show_number == 2:
+            cls.set_yes_no_matrix_keys(
+                user, td, show_keys, "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation_coded", "radio_q2")
+        else:
+            coded_shows_prefix = "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation_coded_"
+            prefix = "radio_q3_"
+
+            d = dict()
+            special = None
+            if td["{}NC".format(coded_shows_prefix)] == "1":
+                special = "0"
+            if td["{}stop".format(coded_shows_prefix)] == "1":
+                special = "stop"
+
+            for output_key in td:
+                if output_key.startswith(coded_shows_prefix):
+                    code_key = output_key.replace(coded_shows_prefix, prefix)
+
+                    if code_key.endswith("_NC") or code_key.endswith("_stop"):
+                        continue
+
+                    show_keys.add(code_key)
+                    if special is not None:
+                        d[code_key] = special
+                    else:
+                        d[code_key] = td[output_key]
+
+            td.append_data(d, Metadata(user, Metadata.get_call_location(), time.time()))
+
     @classmethod
     def set_analysis_keys(cls, user, show_number, td):
         td.append_data({
@@ -81,9 +137,9 @@ class AnalysisKeys(object):
             "radio_show": show_number,
             "message_type": MessageTypes.for_show(show_number, td),
 
-            "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", "NS"),
-            "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", "NS"),
-            "raw_radio_q3": td.get("S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation", "NS"),
-            "raw_radio_q4": td.get("S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation", "NS"),
-            "raw_radio_q5": td.get("S06E05_Water_Quality (Text) - wt_s06e05_activation", "NS")
+            "raw_radio_q1": td.get("S06E01_Risk_Perception (Text) - wt_s06e1_activation", Codes.TRUE_MISSING),
+            "raw_radio_q2": td.get("S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation", Codes.TRUE_MISSING),
+            "raw_radio_q3": td.get("S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation", Codes.TRUE_MISSING),
+            "raw_radio_q4": td.get("S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation", Codes.TRUE_MISSING),
+            "raw_radio_q5": td.get("S06E05_Water_Quality (Text) - wt_s06e05_activation", Codes.TRUE_MISSING)
         }, Metadata(user, Metadata.get_call_location(), time.time()))

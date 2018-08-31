@@ -159,62 +159,7 @@ if __name__ == "__main__":
 
         for td in show_messages:
             AnalysisKeys.set_analysis_keys(user, show_number, td)
-
-            if show_number == 1:
-                coded_shows_prefix = "S06E01_Risk_Perception (Text) - wt_s06e1_activation_coded_"
-                yes_no_key = "{}yes_no".format(coded_shows_prefix)
-                yes_prefix = "radio_q1_yes_"
-                no_prefix = "radio_q1_no_"
-            elif show_number == 2:
-                coded_shows_prefix = "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation_coded_"
-                yes_no_key = "{}yes_no".format(coded_shows_prefix)
-                yes_prefix = "radio_q2_yes_"
-                no_prefix = "radio_q2_no_"
-            else:
-                coded_shows_prefix = "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation_coded_"
-                yes_no_key = None
-                prefix = "radio_q3_"
-
-            d = dict()
-            if yes_no_key is None:
-                special = None
-                if td["{}NC".format(coded_shows_prefix)] == "1":
-                    special = "NC"
-                if td["{}stop".format(coded_shows_prefix)] == "1":
-                    special = "stop"
-
-                for output_key in td:
-                    if output_key.startswith(coded_shows_prefix):
-                        code_key = output_key.replace(coded_shows_prefix, prefix)
-
-                        if code_key.endswith("_NC") or code_key.endswith("_stop"):
-                            continue
-
-                        all_show_keys[show_number].add(code_key)
-                        if special is not None:
-                            d[code_key] = special
-                        else:
-                            d[code_key] = td[output_key]
-            else:
-                yes_no = td[yes_no_key]
-                d["radio_q{}".format(show_number)] = yes_no
-                for output_key in td:
-                    if output_key.startswith(coded_shows_prefix) and output_key != yes_no_key:
-                        code_yes_key = output_key.replace(coded_shows_prefix, yes_prefix)
-                        code_no_key = output_key.replace(coded_shows_prefix, no_prefix)
-                        all_show_keys[show_number].update({code_yes_key, code_no_key})
-
-                        if yes_no == Codes.YES:
-                            d[code_yes_key] = td[output_key]
-                            d[code_no_key] = "0"
-                        elif yes_no == Codes.NO:
-                            d[code_yes_key] = "0"
-                            d[code_no_key] = td[output_key]
-                        else:
-                            d[code_yes_key] = "0"
-                            d[code_no_key] = "0"
-
-            td.append_data(d, Metadata(user, Metadata.get_call_location(), time.time()))
+            AnalysisKeys.set_matrix_analysis_keys(user, all_show_keys[show_number], show_number, td)
 
         all_messages.extend(show_messages)
 
