@@ -68,7 +68,8 @@ if __name__ == "__main__":
             "Raw District": td[raw_district_key],
             "Coded District": td[coded_district_key],
             "District Mogadishu": "Yes" if is_mogadishu else "No",
-            "FGD/CC Consented and District Mogadishu": "Yes" if is_mogadishu and td[fgd_cc_consent_key] == "Yes" else "No"
+            "FGD/CC Consented and District Mogadishu":
+                "Yes" if is_mogadishu and td[fgd_cc_consent_key] == "Yes" else "No"
         }, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # TODO: Filter out people whose district is not mogadishu?
