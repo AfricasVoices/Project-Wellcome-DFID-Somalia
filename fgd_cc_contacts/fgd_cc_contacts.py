@@ -29,12 +29,10 @@ if __name__ == "__main__":
     contacts_csv_output_path = args.contacts_csv_output_path
 
     # Load FGD/CC survey responses
-    print("loading FGD/CC")
     with open(fgd_cc_input_path, "r") as f:
         fgd_cc_data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
     # Load coded demog surveys
-    print("loading demog surveys")
     with open(demog_surveys_input_path, "r") as f:
         surveys = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
@@ -43,13 +41,11 @@ if __name__ == "__main__":
     fgd_cc_data = [td for td in fgd_cc_data if fgd_cc_consent_key in td]
 
     # Apply the demog surveys to the fgd_cc data
-    print("Updating")
     TracedData.update_iterable(user, "avf_phone_id", fgd_cc_data, surveys, "surveys")
 
     # Annotate fgd_cc_data with whether or not the respondent's district is Mogadishu
     raw_district_key = "District (Text) - wt_demog_1"
     coded_district_key = "District (Text) - wt_demog_1_coded"
-    print("annotating")
     for td in fgd_cc_data:
         if raw_district_key not in td:
             td.append_data({
