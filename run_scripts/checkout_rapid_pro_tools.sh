@@ -2,17 +2,17 @@
 
 set -e
 
-if [ $# -ne 2 ]; then
-    echo "Usage: sh checkout_rapid_pro_tools.sh <rapid-pro-dir> <tag>"
+if [ $# -ne 1 ]; then
+    echo "Usage: sh checkout_rapid_pro_tools.sh <rapid-pro-dir>"
     echo "Ensures that a copy of the RapidProTools project exists in  'rapid-pro-root' by cloning/fetching as, "
-    echo "necessary, and checks-out the specified tag."
+    echo "necessary, and checking-out the version needed by this project"
     exit
 fi
 
 RAPID_PRO_DIR="$1"
-TAG="$2"
 
 RAPID_PRO_REPO="https://github.com/AfricasVoices/RapidProTools.git"
+TAG="v0.1.0"
 
 mkdir -p "$RAPID_PRO_DIR"
 cd "$RAPID_PRO_DIR"
