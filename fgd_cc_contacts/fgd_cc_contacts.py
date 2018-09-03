@@ -46,6 +46,7 @@ if __name__ == "__main__":
     # Annotate fgd_cc_data with whether or not the respondent's district is Mogadishu
     raw_district_key = "District (Text) - wt_demog_1"
     coded_district_key = "District (Text) - wt_demog_1_coded"
+    coded_age_key = "Age (text) - wt_demog_1_coded"
     for td in fgd_cc_data:
         if raw_district_key not in td:
             td.append_data({
@@ -63,6 +64,7 @@ if __name__ == "__main__":
             "FGD/CC Consented": td[fgd_cc_consent_key],
             "Raw District": td[raw_district_key],
             "Coded District": td[coded_district_key],
+            "Coded Age": td[coded_age_key],
             "District Mogadishu": "Yes" if is_mogadishu else "No",
             "FGD/CC Consented and District Mogadishu":
                 "Yes" if is_mogadishu and td[fgd_cc_consent_key] == "Yes" else "No"
@@ -82,6 +84,7 @@ if __name__ == "__main__":
         "FGD/CC Consented",
         "Raw District",
         "Coded District",
+        "Coded Age",
         "District Mogadishu",
         "FGD/CC Consented and District Mogadishu"
     ]
