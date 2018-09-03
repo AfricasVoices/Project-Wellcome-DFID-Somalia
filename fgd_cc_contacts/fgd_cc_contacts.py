@@ -1,6 +1,7 @@
 import argparse
 import time
 
+from core_data_modules.cleaners import Codes
 from core_data_modules.traced_data import Metadata, TracedData
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
 from core_data_modules.util import IOUtils
@@ -46,7 +47,8 @@ if __name__ == "__main__":
     # Annotate fgd_cc_data with whether or not the respondent's district is Mogadishu
     raw_district_key = "District (Text) - wt_demog_1"
     coded_district_key = "District (Text) - wt_demog_1_coded"
-    coded_age_key = "Age (text) - wt_demog_1_coded"
+    raw_age_key = "Age (Text) - wt_demog_2"
+    coded_age_key = "Age (Text) - wt_demog_2_coded"
     for td in fgd_cc_data:
         if raw_district_key not in td:
             td.append_data({
@@ -63,14 +65,12 @@ if __name__ == "__main__":
             "Raw FGD/CC Response": td["Response_1 (Text) - wt_fgd_cc"],
             "FGD/CC Consented": td[fgd_cc_consent_key],
             "Raw District": td[raw_district_key],
-            "Coded District": td[coded_district_key],
-            "Coded Age": td[coded_age_key],
+            "Coded District": td[coded_district_key] if td[raw_district_key] is not Codes.TRUE_MISSING else Codes.TRUE_MISSING,
+            "Coded Age": td[coded_age_key] if td[raw_age_key] is not Codes.TRUE_MISSING else Codes.TRUE_MISSING,
             "District Mogadishu": "Yes" if is_mogadishu else "No",
             "FGD/CC Consented and District Mogadishu":
                 "Yes" if is_mogadishu and td[fgd_cc_consent_key] == "Yes" else "No"
         }, Metadata(user, Metadata.get_call_location(), time.time()))
-
-    # TODO: Filter out people whose district is not mogadishu?
 
     # Write json output
     IOUtils.ensure_dirs_exist_for_file(json_output_path)
