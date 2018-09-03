@@ -35,5 +35,5 @@ do
     sh docker-run.sh "$USER" "$DATA_ROOT/01 Raw Messages/$SHOW.json" \
         "$SHOW" "$VARIABLE" \
         "$DATA_ROOT/02 Clean Messages/$SHOW.json" "$DATA_ROOT/03 Message CSVs/$SHOW.csv" \
-        "$DATA_ROOT/06 Coda files/$SHOW.csv"
+        "$DATA_ROOT/06 Coda files/$SHOW.csv" "$DATA_ROOT/16 ICR CSVs/${SHOW}_icr.csv"  # TODO: Renumber to make this nice?
 done
