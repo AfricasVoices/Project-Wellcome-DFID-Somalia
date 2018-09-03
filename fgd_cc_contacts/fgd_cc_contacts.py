@@ -66,8 +66,8 @@ if __name__ == "__main__":
             "FGD/CC Consented": td[fgd_cc_consent_key],
             "Raw District": td[raw_district_key],
             "Coded District":
-                td[coded_district_key] if td[raw_district_key] is not Codes.TRUE_MISSING else Codes.TRUE_MISSING,
-            "Coded Age": td[coded_age_key] if td[raw_age_key] is not Codes.TRUE_MISSING else Codes.TRUE_MISSING,
+                td[coded_district_key] if td[raw_district_key] != Codes.TRUE_MISSING else Codes.TRUE_MISSING,
+            "Coded Age": td[coded_age_key] if td[raw_age_key] != Codes.TRUE_MISSING else Codes.TRUE_MISSING,
             "District Mogadishu": "Yes" if is_mogadishu else "No",
             "FGD/CC Consented and District Mogadishu":
                 "Yes" if is_mogadishu and td[fgd_cc_consent_key] == "Yes" else "No"
