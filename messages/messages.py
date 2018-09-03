@@ -63,19 +63,3 @@ if __name__ == "__main__":
     with open(coda_output_path, "w") as f:
         TracedDataCodaIO.export_traced_data_iterable_to_coda(
             data, "{} (Text) - {}".format(variable_name, flow_name), f)
-
-    # Filter in preparation for ICR
-    print("Noise items:")
-    show_message_key = "{} (Text) - {}".format(variable_name, flow_name)
-    not_noise = []
-    for td in data:
-        if somali.DemographicCleaner.is_noise(td[show_message_key]):
-            print(td[show_message_key])
-        else:
-            not_noise.append(td)
-
-    # Take 200 items pseudo-randomly for ICR
-    random.seed(0)
-    random.shuffle(not_noise)
-    icr_messages = not_noise[:200]
-    print(len(icr_messages))
