@@ -4,7 +4,7 @@ set -e
 
 if [ $# -ne 2 ]; then
     echo "Usage: sh 14_15_fgd_cc_contacts <user> <data-root>"
-    echo "Downloads radio show answers from each show"
+    echo "Produces a CSV containing contacts for follow-up in focus group discussions/call centre interviews"
     exit
 fi
 
