@@ -5,8 +5,8 @@ set -e
 IMAGE_NAME=wt-fgd-cc-contacts
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 6 ]; then
-    echo "Usage: sh docker-run.sh <user> <phone-uuid-path> <fgd-cc-survey-path> <coded-demog-surveys-path> <json-output-path> <contacts-csv-output-path>"
+if [ $# -ne 7 ]; then
+    echo "Usage: sh docker-run.sh <user> <phone-uuid-path> <fgd-cc-survey-path> <coded-demog-surveys-path> <json-output-path> <fgd-csv-output-path> <cc-csv-ouput-path>"
     exit
 fi
 
@@ -16,7 +16,8 @@ PHONE_UUID_TABLE=$2
 FGD_CC=$3
 CODED_DEMOG_SURVEYS=$4
 OUTPUT_JSON=$5
-OUTPUT_CONTACTS_CSV=$6
+OUTPUT_FGD_CSV=$6
+OUTPUT_CC_CSV=$7
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -42,5 +43,8 @@ docker start -a -i "$container"
 mkdir -p "$(dirname "$OUTPUT_JSON")"
 docker cp "$container:/data/output.json" "$OUTPUT_JSON"
 
-mkdir -p "$(dirname "$OUTPUT_CONTACTS_CSV")"
-docker cp "$container:/data/output-contacts.csv" "$OUTPUT_CONTACTS_CSV"
+mkdir -p "$(dirname "$OUTPUT_FGD_CSV")"
+docker cp "$container:/data/output-contacts-fgd.csv" "$OUTPUT_FGD_CSV"
+
+mkdir -p "$(dirname "$OUTPUT_CC_CSV")"
+docker cp "$container:/data/output-contacts-cc.csv" "$OUTPUT_CC_CSV"
