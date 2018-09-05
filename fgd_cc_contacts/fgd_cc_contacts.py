@@ -136,22 +136,22 @@ if __name__ == "__main__":
     with open(json_output_path, "w") as f:
         TracedDataJsonIO.export_traced_data_iterable_to_json(fgd_cc_data, f, pretty_print=True)
 
-    # Set FGD data
-    fgd_data = fgd_cc_data[:160]
+    # Set CC data
+    cc_data = fgd_cc_data[:160]
     fgd_cc_data = fgd_cc_data[160:]
 
-    # Set CC data
-    cc_data = []
+    # Set FGD data
+    fgd_data = []
     male_count = 0
     female_count = 0
     target_count = 20
     for td in fgd_cc_data:
         if td["Gender"] == Codes.MALE and male_count < target_count:
             male_count += 1
-            cc_data.append(td)
+            fgd_data.append(td)
         if td["Gender"] == Codes.FEMALE and female_count < target_count:
             female_count += 1
-            cc_data.append(td)
+            fgd_data.append(td)
 
     # Output to FGD/CC CSVs
     headers = [
