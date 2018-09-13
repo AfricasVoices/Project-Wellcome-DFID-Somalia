@@ -22,7 +22,7 @@ if __name__ == "__main__":
     parser.add_argument("fgd_csv_output_path", metavar="fgd-csv-output-path",
                         help="Path to a CSV file to write 160 call centre contacts to")
     parser.add_argument("cc_csv_output_path", metavar="cc-csv-output-path",
-                        help="Path to a CSV file to write 40 focus group discussion contacts to")
+                        help="Path to a CSV file to write 40 gender-balanced focus group discussion contacts to")
 
     args = parser.parse_args()
     user = args.user
@@ -32,6 +32,10 @@ if __name__ == "__main__":
     json_output_path = args.json_output_path
     fgd_csv_output_path = args.fgd_csv_output_path
     cc_csv_output_path = args.cc_csv_output_path
+
+    MINIMUM_AGE = 18
+    TOTAL_CC_CONTACTS = 160
+    TOTAL_FGD_CONTACTS = 40
 
     # Load phone uuid table
     with open(phone_uuid_table_path, "r") as f:
@@ -99,20 +103,20 @@ if __name__ == "__main__":
                 td[coded_district_key] if td[raw_district_key] != Codes.TRUE_MISSING else Codes.TRUE_MISSING,
             "Coded Age": td[coded_age_key] if td[raw_age_key] != Codes.TRUE_MISSING else Codes.TRUE_MISSING,
             "Coded Gender": td[coded_gender_key] if td[raw_gender_key] != Codes.TRUE_MISSING else Codes.TRUE_MISSING,
-            "District Mogadishu": "Yes" if is_mogadishu else "No",
+            "District Mogadishu": Codes.YES if is_mogadishu else Codes.NO,
             "FGD/CC Consented and District Mogadishu":
-                "Yes" if is_mogadishu and td[fgd_cc_consent_key] == "Yes" else "No"
+                Codes.YES if is_mogadishu and td[fgd_cc_consent_key] == Codes.YES else Codes.NO
         }, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Filter out respondents who aren't from Mogadishu
-    fgd_cc_data = [td for td in fgd_cc_data if td["District Mogadishu"] == "Yes"]
+    fgd_cc_data = [td for td in fgd_cc_data if td["District Mogadishu"] == Codes.YES]
 
     # Filter out respondents who are definitely younger than 18
     adults = []
     for td in fgd_cc_data:
         try:
             age = int(td["Coded Age"])
-            if age >= 18:
+            if age >= MINIMUM_AGE:
                 adults.append(td)
         except:
             adults.append(td)
@@ -136,24 +140,24 @@ if __name__ == "__main__":
     with open(json_output_path, "w") as f:
         TracedDataJsonIO.export_traced_data_iterable_to_json(fgd_cc_data, f, pretty_print=True)
 
-    # Set CC data
-    cc_data = fgd_cc_data[:160]
-    fgd_cc_data = fgd_cc_data[160:]
+    # Set call center data
+    cc_data = fgd_cc_data[:TOTAL_CC_CONTACTS]
+    fgd_cc_data = fgd_cc_data[TOTAL_CC_CONTACTS:]
 
-    # Set FGD data
+    # Set focus group discussion data
     fgd_data = []
     male_count = 0
     female_count = 0
-    target_count = 20
+    target_count = TOTAL_FGD_CONTACTS
     for td in fgd_cc_data:
-        if td["Gender"] == Codes.MALE and male_count < target_count:
+        if td["Gender"] == Codes.MALE and male_count < target_count / 2:
             male_count += 1
             fgd_data.append(td)
-        if td["Gender"] == Codes.FEMALE and female_count < target_count:
+        if td["Gender"] == Codes.FEMALE and female_count < target_count / 2:
             female_count += 1
             fgd_data.append(td)
 
-    # Output to FGD/CC CSVs
+    # Output to focus group discussion/call center CSVs
     headers = [
         "Phone Number",
         "Gender",
