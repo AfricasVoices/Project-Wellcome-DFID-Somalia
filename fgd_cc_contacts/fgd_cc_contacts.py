@@ -111,15 +111,17 @@ if __name__ == "__main__":
     # Filter out respondents who aren't from Mogadishu
     fgd_cc_data = [td for td in fgd_cc_data if td["District Mogadishu"] == Codes.YES]
 
-    # Filter out respondents who are definitely younger than 18
+    # Filter out respondents who are definitely younger than MINIMUM_AGE
     adults = []
     for td in fgd_cc_data:
         try:
             age = int(td["Coded Age"])
-            if age >= MINIMUM_AGE:
-                adults.append(td)
-        except:
-            adults.append(td)
+            if age < MINIMUM_AGE:
+                continue
+        except (ValueError, TypeError):
+            pass  # Accept all messages which do not have coded ages
+
+        adults.append(td)
     fgd_cc_data = adults
 
     # Rename columns for final output
