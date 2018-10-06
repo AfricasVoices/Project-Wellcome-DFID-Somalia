@@ -29,7 +29,7 @@ do
     SHOW="${SHOWS[2 * i]}"
     VARIABLE="${SHOWS[2 * i + 1]}"
 
-    echo "Merging $SHOW"
+    echo "Joining raw data for $SHOW"
 
     # Note: This is still merging raw surveys (for now)
     sh docker-run.sh "$USER" "$DATA_ROOT/02 Clean Messages/$SHOW.json" \
