@@ -29,8 +29,8 @@ if __name__ == "__main__":
     if show_number == 1:
         key_of_raw = "S06E01_Risk_Perception (Text) - wt_s06e1_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
-        coda_yes_no_scheme = "Yes/No"
-        coda_reason_schemes = {"Reason", "Reason 2"}
+        coda_yes_no_scheme = "Relevance"
+        coda_reason_schemes = {"Reason", "Reason"}
     elif show_number == 2:
         key_of_raw = "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
@@ -40,20 +40,17 @@ if __name__ == "__main__":
         key_of_raw = "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
         coda_yes_no_scheme = None
-        coda_reason_schemes = {"default"}
+        coda_reason_schemes = {"s06e03", "s06e03 2"}
     elif show_number == 4:
-        assert False
         key_of_raw = "S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
         coda_yes_no_scheme = None
-        coda_reason_schemes = {}  # TODO
+        coda_reason_schemes = {"reasons 2", "reasons 3", "reasons 4", "reasons 5"}
     elif show_number == 5:
-        assert False
         key_of_raw = "S06E05_Water_Quality (Time) - wt_s06e05_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
-        coda_yes_no_scheme = "TODO"  # TODO
-        coda_reason_schemes = {}  # TODO
-    # TODO: Configure for other shows
+        coda_yes_no_scheme = "Relevance"
+        coda_reason_schemes = {"reason 2", "reason 3"}
     else:
         assert False, "Unrecognised show_number '{}'. Must be a number from 1-5 inclusive.".format(show_number)
 

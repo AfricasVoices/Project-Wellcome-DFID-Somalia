@@ -49,7 +49,7 @@ if __name__ == "__main__":
                   {
                      "Household_Sickness": "Household_Sickness (Text) - wt_practice_coded",
                      "People": "Household_Sickness (Text) - wt_practice_coded_people"
-                 }),
+                  }),
         make_standard_merge_plan("Trustworthy_Advisors", "wt_practice")
     ]
 
@@ -74,6 +74,35 @@ if __name__ == "__main__":
         with open(coda_file_path, "r") as f:
             TracedDataCodaIO.import_coda_to_traced_data_iterable(
                 user, surveys, plan_item.key_of_raw, plan_item.scheme_keys, f, True)
+
+    # Fix empty NC column
+    sickness_people_key = "Household_Sickness (Text) - wt_practice_coded_people"
+    for td in surveys:
+        if td.get(sickness_people_key) is None:
+            td.append_data({sickness_people_key: "NC"}, Metadata(user, Metadata.get_call_location(), user))
+
+    # Import Trustworthy Advisors using matrix import
+    coda_file_path = path.join(coded_input_path, "Trustworthy_Advisors_coded.csv")
+    trustworthy_advisors_raw_key = "Trustworthy_Advisors (Text) - wt_practice"
+
+    with open(coda_file_path, "r") as f:
+        TracedDataCodaIO.import_coda_to_traced_data_iterable_as_matrix(
+            user, surveys, trustworthy_advisors_raw_key, {"Trustworthy advisors", "Trustworthy advisors 2"}, f,
+            key_of_coded_prefix="{}_coded_".format(trustworthy_advisors_raw_key))
+
+    with open(coda_file_path, "r") as f:
+        TracedDataCodaIO.import_coda_to_traced_data_iterable_as_matrix(
+            user, surveys, trustworthy_advisors_raw_key,
+            {"what to do during an ourbreak", "what to do during outbreak"}, f,
+            key_of_coded_prefix="{}_outbreak_coded_".format(trustworthy_advisors_raw_key))
+
+    # for td in surveys:
+    #     for nc_key in {"{}_coded_NC".format(trustworthy_advisors_raw_key),
+    #                    "{}_coded_stop".format(trustworthy_advisors_raw_key),
+    #                    "{}_outbreak_coded_NC".format(trustworthy_advisors_raw_key),
+    #                    "{}_outbreak_coded_stop".format(trustworthy_advisors_raw_key)}:
+    #         if nc_key not in td:
+    #             td.append_data({nc_key: "0"}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Write coded data back out to disk
     IOUtils.ensure_dirs_exist_for_file(json_output_path)

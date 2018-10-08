@@ -19,6 +19,8 @@ SHOWS=(
     1 "wt_s06e1_activation"
     2 "wt_s06e2_activation"
     3 "wt_s06e03_activation"
+    4 "wt_s06e04_activation"
+    5 "wt_s06e05_activation"
     )
 
 for i in $(seq 0 $((${#SHOWS[@]} / 2 - 1)))
