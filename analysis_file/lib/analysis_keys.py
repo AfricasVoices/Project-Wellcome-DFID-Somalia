@@ -26,10 +26,10 @@ class AnalysisKeys(object):
         if key_of_coded is None:
             key_of_coded = "{}_coded".format(key_of_raw)
 
-        if td[key_of_raw] == Codes.TRUE_MISSING:
+        if td.get(key_of_raw) == Codes.TRUE_MISSING:
             return Codes.TRUE_MISSING
         else:
-            return td[key_of_coded]
+            return td.get(key_of_coded)
 
     @classmethod
     def get_origin_district(cls, td):
@@ -82,9 +82,9 @@ class AnalysisKeys(object):
         matrix_d = dict()
 
         special = None
-        if td["{}_NC".format(coded_shows_prefix)] == "1":
+        if td.get("{}_NC".format(coded_shows_prefix)) == "1":
             special = "0"
-        if td["{}_stop".format(coded_shows_prefix)] == "1":
+        if td.get("{}_stop".format(coded_shows_prefix)) == "1":
             special = "stop"
 
         for output_key in td:
@@ -113,7 +113,10 @@ class AnalysisKeys(object):
         elif show_number == 3:
             cls.set_matrix_keys(
                 user, td, show_keys, "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation_coded", "radio_q3")
-        # TODO: Shows 4 and 5
+        elif show_number == 4:
+            cls.set_matrix_keys(
+                user, td, show_keys, "S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation_coded", "radio_q4")
+        # TODO: Show 5
         else:
             assert False, "Error: show_number must be in range 1-5"
 

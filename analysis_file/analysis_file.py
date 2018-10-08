@@ -54,7 +54,7 @@ if __name__ == "__main__":
         1: "wt_s06e1_activation",
         2: "wt_s06e2_activation",
         3: "wt_s06e03_activation",
-        # 4: "wt_s06e04_activation",
+        4: "wt_s06e04_activation",
         # 5: "wt_s06e05_activation"
     }
 
@@ -67,6 +67,9 @@ if __name__ == "__main__":
         4: set(),
         5: set()
     }
+    trustworthy_advisors_keys = set()
+    outbreak_keys = set()
+    trustworthy_advisors_raw_key = "Trustworthy_Advisors (Text) - wt_practice"
     for show_number, show_name in shows.items():
         show_messages = load_show(show_name)
         TracedData.update_iterable(user, "avf_phone_id", show_messages, surveys, "surveys")
@@ -74,6 +77,14 @@ if __name__ == "__main__":
         for td in show_messages:
             AnalysisKeys.set_analysis_keys(user, show_number, td)
             AnalysisKeys.set_matrix_analysis_keys(user, all_show_keys[show_number], show_number, td)
+
+            AnalysisKeys.set_matrix_keys(
+                user, td, trustworthy_advisors_keys, "{}_coded".format(trustworthy_advisors_raw_key),
+                "trustworthy_advisors_clean")
+
+            AnalysisKeys.set_matrix_keys(
+                user, td, outbreak_keys, "{}_outbreak_coded".format(trustworthy_advisors_raw_key),
+                "outbreak_action")
 
         all_messages.extend(show_messages)
 
@@ -127,9 +138,11 @@ if __name__ == "__main__":
         x = ["age_clean", "raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5"]
         for keys in all_show_keys.values():
             x.extend(keys)
+        x.extend(trustworthy_advisors_keys)
+        x.extend(outbreak_keys)
         code_book_data = dict()
         for key in x:
-            code_book_data[key] = CodeBooks.apply_missing_code_book(td[key])
+            code_book_data[key] = CodeBooks.apply_missing_code_book(td.get(key))
         td.append_data(code_book_data, Metadata(user, Metadata.get_call_location(), time.time()))
 
     output_keys = [
@@ -149,8 +162,10 @@ if __name__ == "__main__":
         "household_sickness_clean",
         "sickness_adult_child",
         "cholera_vaccination_clean",
-        "trustworthy_advisors_clean",
-
+    ]
+    output_keys.extend(trustworthy_advisors_keys)
+    output_keys.extend(outbreak_keys)
+    output_keys.extend([
         "radio_show",
         "message_type",
 
@@ -162,7 +177,7 @@ if __name__ == "__main__":
 
         "radio_q1",
         "radio_q2"
-    ]
+    ])
     for show_keys in all_show_keys.values():
         show_keys = list(show_keys)
         show_keys.sort()

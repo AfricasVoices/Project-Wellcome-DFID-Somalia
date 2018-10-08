@@ -35,7 +35,7 @@ class AggregateTracedData(object):
             agg_d[key] = td_1[key]
 
         agg_d["date_time"] = td_1["date_time"]
-        for k in ["raw_radio_q1", "raw_radio_q2", "raw_radio_q3"]:
+        for k in ["raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4"]:
             if td_1.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING and td_2.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING:
                 agg_d["date_time"] = td_1["date_time"][0:10]
                 agg_d[k] = "{};{}".format(td_1[k], td_2[k])
@@ -74,9 +74,11 @@ class AggregateTracedData(object):
         ])
 
         for key in td_1:
-            if key.startswith("radio_q1_") or key.startswith("radio_q2_") or key.startswith("radio_q3_"):
-                if td_1[key] == Codes.SKIPPED:
-                    agg_d[key] = Codes.SKIPPED
+            if key.startswith("radio_q1_") or key.startswith("radio_q2_") or key.startswith("radio_q3_") or \
+                    key.startswith("radio_q4_") or \
+                    key.startswith("trustworthy_advisors_clean_") or key.startswith("outbreak_action_"):
+                if td_1[key] == Codes.TRUE_MISSING:
+                    agg_d[key] = Codes.TRUE_MISSING
                 else:
                     agg_d[key] = "1" if td_1[key] == "1" or td_2[key] == "1" else "0"
                 same_keys.append(key)
