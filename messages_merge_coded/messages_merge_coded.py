@@ -34,8 +34,8 @@ if __name__ == "__main__":
     elif show_number == 2:
         key_of_raw = "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
-        coda_yes_no_scheme = "yes/no"
-        coda_reason_schemes = {"Reasons"}
+        coda_yes_no_scheme = "Relevance"
+        coda_reason_schemes = {"reasons 2", "reasons 3"}
     elif show_number == 3:
         key_of_raw = "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
