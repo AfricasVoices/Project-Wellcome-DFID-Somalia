@@ -86,12 +86,12 @@ if __name__ == "__main__":
     for td in fgd_cc_data:
         if raw_district_key not in td:
             td.append_data({
-                raw_district_key: "NA"
+                raw_district_key: Codes.TRUE_MISSING
             }, Metadata(user, Metadata.get_call_location(), time.time()))
 
         if coded_district_key not in td:
             td.append_data({
-                coded_district_key: "none"
+                coded_district_key: None
             }, Metadata(user, Metadata.get_call_location(), time.time()))
 
         is_mogadishu = td[coded_district_key] in mogadishu_districts
