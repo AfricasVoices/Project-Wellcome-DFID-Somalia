@@ -10,6 +10,8 @@ if __name__ == "__main__":
                         help="Path to JSON input file, which contains a list of TracedData objects to code")
     parser.add_argument("coded_input_path", metavar="coded-input-path",
                         help="Coda file to import coded labels from")
+    parser.add_argument("show_number", metavar="show-number",
+                        help="A number representing the week number of the show being coded, from 1-5 inclusive")
     parser.add_argument("json_output_path", metavar="json-output-path",
                         help="Path to a JSON file to write merged results to")
 
@@ -17,31 +19,52 @@ if __name__ == "__main__":
     user = args.user
     json_input_path = args.json_input_path
     coded_input_path = args.coded_input_path
+    show_number = int(args.show_number)
     json_output_path = args.json_output_path
 
     # Load data from JSON file
     with open(json_input_path, "r") as f:
         show_messages = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
-    show_number = 1  # TODO: Move to command line arg
-
     if show_number == 1:
         key_of_raw = "S06E01_Risk_Perception (Text) - wt_s06e1_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
-    # TODO: Configure for other shows
+        coda_yes_no_scheme = "Relevance"
+        coda_reason_schemes = {"Reason", "Reason"}
+    elif show_number == 2:
+        key_of_raw = "S06E02_Cholera_Preparedness (Text) - wt_s06e2_activation"
+        key_of_coded_prefix = "{}_coded_".format(key_of_raw)
+        coda_yes_no_scheme = "Relevance"
+        coda_reason_schemes = {"reasons 2", "reasons 3"}
+    elif show_number == 3:
+        key_of_raw = "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation"
+        key_of_coded_prefix = "{}_coded_".format(key_of_raw)
+        coda_yes_no_scheme = None
+        coda_reason_schemes = {"s06e03", "s06e03 2"}
+    elif show_number == 4:
+        key_of_raw = "S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"
+        key_of_coded_prefix = "{}_coded_".format(key_of_raw)
+        coda_yes_no_scheme = None
+        coda_reason_schemes = {"reasons 2", "reasons 3", "reasons 4", "reasons 5"}
+    elif show_number == 5:
+        key_of_raw = "S06E05_Water_Quality (Time) - wt_s06e05_activation"
+        key_of_coded_prefix = "{}_coded_".format(key_of_raw)
+        coda_yes_no_scheme = "Relevance"
+        coda_reason_schemes = {"reason 2", "reason 3"}
     else:
-        assert False, "Unrecognised show '{}'. Show should be a number from 1-5 inclusive.".format(show_number)
+        assert False, "Unrecognised show_number '{}'. Must be a number from 1-5 inclusive.".format(show_number)
 
     # Merge yes/no responses from the manually coded Coda files into the cleaned dataset
-    with open(coded_input_path, "r") as f:
-        TracedDataCodaIO.import_coda_to_traced_data_iterable(
-            user, show_messages, key_of_raw, {"Yes/No": "{}yes_no".format(key_of_coded_prefix)}, f,
-            overwrite_existing_codes=True)
+    if coda_yes_no_scheme is not None:
+        with open(coded_input_path, "r") as f:
+            TracedDataCodaIO.import_coda_to_traced_data_iterable(
+                user, show_messages, key_of_raw, {coda_yes_no_scheme: "{}yes_no".format(key_of_coded_prefix)}, f,
+                overwrite_existing_codes=True)
 
     # Merge matrix data from the manually coded Coda files into the cleaned dataset
     with open(coded_input_path, "r") as f:
         TracedDataCodaIO.import_coda_to_traced_data_iterable_as_matrix(
-            user, show_messages, key_of_raw, {"Reason", "Reason 2"}, f, key_of_coded_prefix=key_of_coded_prefix)
+            user, show_messages, key_of_raw, coda_reason_schemes, f, key_of_coded_prefix=key_of_coded_prefix)
         
     # Write coded data back out to disk
     IOUtils.ensure_dirs_exist_for_file(json_output_path)
