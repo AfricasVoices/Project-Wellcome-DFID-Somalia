@@ -22,6 +22,7 @@ SURVEYS=(
     "wt_demog_1"
     "wt_demog_2"
     "wt_practice"
+    "wt_fgd_cc"
     )
 
 for SURVEY in ${SURVEYS[@]}
