@@ -87,14 +87,15 @@ if __name__ == "__main__":
     trustworthy_advisors_raw_key = "Trustworthy_Advisors (Text) - wt_practice"
 
     with open(coda_file_path, "r") as f:
+        coda_scheme_names = {"Trustworthy advisors", "Trustworthy advisors 2"}
         TracedDataCodaIO.import_coda_to_traced_data_iterable_as_matrix(
-            user, surveys, trustworthy_advisors_raw_key, {"Trustworthy advisors", "Trustworthy advisors 2"}, f,
+            user, surveys, trustworthy_advisors_raw_key, coda_scheme_names, f,
             key_of_coded_prefix="{}_coded_".format(trustworthy_advisors_raw_key))
 
     with open(coda_file_path, "r") as f:
+        coda_scheme_names = {"what to do during an ourbreak", "what to do during outbreak"}
         TracedDataCodaIO.import_coda_to_traced_data_iterable_as_matrix(
-            user, surveys, trustworthy_advisors_raw_key,
-            {"what to do during an ourbreak", "what to do during outbreak"}, f,
+            user, surveys, trustworthy_advisors_raw_key, coda_scheme_names, f,
             key_of_coded_prefix="{}_outbreak_coded_".format(trustworthy_advisors_raw_key))
 
     # Write coded data back out to disk
