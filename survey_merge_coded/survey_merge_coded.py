@@ -24,7 +24,7 @@ if __name__ == "__main__":
     json_output_path = args.json_output_path
 
     # TODO: Refactor into a class before putting this code into the template library
-    MergePlan = namedtuple("MergePlane", ["coda_filename", "key_of_raw", "scheme_keys"])
+    MergePlan = namedtuple("MergePlan", ["coda_filename", "key_of_raw", "scheme_keys"])
 
     def make_standard_merge_plan(variable_name, survey_name):
         coda_filename = "{}_coded.csv".format(variable_name)
@@ -49,8 +49,7 @@ if __name__ == "__main__":
                   {
                      "Household_Sickness": "Household_Sickness (Text) - wt_practice_coded",
                      "People": "Household_Sickness (Text) - wt_practice_coded_people"
-                  }),
-        make_standard_merge_plan("Trustworthy_Advisors", "wt_practice")
+                  })
     ]
 
     # Load data from JSON file
@@ -75,13 +74,15 @@ if __name__ == "__main__":
             TracedDataCodaIO.import_coda_to_traced_data_iterable(
                 user, surveys, plan_item.key_of_raw, plan_item.scheme_keys, f, True)
 
-    # Fix empty NC column
+    # Items coded under household sickness are not explicitly coded under People. For these cases, set the
+    # people column to 'NC'
     sickness_people_key = "Household_Sickness (Text) - wt_practice_coded_people"
+    household_sickness_key = "Household_Sickness (Text) - wt_practice_coded"
     for td in surveys:
-        if td.get(sickness_people_key) is None:
+        if td.get(household_sickness_key) is not None and td.get(sickness_people_key) is None:
             td.append_data({sickness_people_key: "NC"}, Metadata(user, Metadata.get_call_location(), user))
 
-    # Import Trustworthy Advisors using matrix import
+    # Import Trustworthy Advisors using matrix imports
     coda_file_path = path.join(coded_input_path, "Trustworthy_Advisors_coded.csv")
     trustworthy_advisors_raw_key = "Trustworthy_Advisors (Text) - wt_practice"
 
@@ -95,14 +96,6 @@ if __name__ == "__main__":
             user, surveys, trustworthy_advisors_raw_key,
             {"what to do during an ourbreak", "what to do during outbreak"}, f,
             key_of_coded_prefix="{}_outbreak_coded_".format(trustworthy_advisors_raw_key))
-
-    # for td in surveys:
-    #     for nc_key in {"{}_coded_NC".format(trustworthy_advisors_raw_key),
-    #                    "{}_coded_stop".format(trustworthy_advisors_raw_key),
-    #                    "{}_outbreak_coded_NC".format(trustworthy_advisors_raw_key),
-    #                    "{}_outbreak_coded_stop".format(trustworthy_advisors_raw_key)}:
-    #         if nc_key not in td:
-    #             td.append_data({nc_key: "0"}, Metadata(user, Metadata.get_call_location(), time.time()))
 
     # Write coded data back out to disk
     IOUtils.ensure_dirs_exist_for_file(json_output_path)
