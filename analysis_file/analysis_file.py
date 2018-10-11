@@ -55,7 +55,7 @@ if __name__ == "__main__":
         2: "wt_s06e2_activation",
         3: "wt_s06e03_activation",
         4: "wt_s06e04_activation",
-        # 5: "wt_s06e05_activation"
+        5: "wt_s06e05_activation"
     }
 
     # Produce output columns for each input message
@@ -122,14 +122,13 @@ if __name__ == "__main__":
 
         "household_sickness_clean": CodeBooks.yes_no,
         "sickness_adult_child": CodeBooks.sickness_adult_child,
-        "cholera_vaccination_clean": CodeBooks.yes_no,
-        # "trustworthy_advisors_clean": TODO
+        "cholera_vaccination_clean": CodeBooks.cholera_vaccination,
 
         "message_type": CodeBooks.message_type,
 
         "radio_q1": CodeBooks.yes_no_both,
         "radio_q2": CodeBooks.yes_no_both,
-        # TODO: Other radio show questions
+        "radio_q5": CodeBooks.yes_no_both
     }
     for td in all_messages:
         CodeBooks.apply(user, code_books, td)
@@ -176,7 +175,8 @@ if __name__ == "__main__":
         "raw_radio_q5",
 
         "radio_q1",
-        "radio_q2"
+        "radio_q2",
+        "radio_q5"
     ])
     for show_keys in all_show_keys.values():
         show_keys = list(show_keys)

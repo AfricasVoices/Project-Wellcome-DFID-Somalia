@@ -1,4 +1,3 @@
-from core_data_modules.cleaners import Codes
 from dateutil.parser import isoparse
 
 
@@ -111,6 +110,10 @@ class MessageTypes(object):
             if isoparse(show_range[0]) <= dt < isoparse(show_range[1]):
                 message_type = "show"
                 total_matches += 1
+
+        if dt > isoparse(cls.show_dates[-1][1]):
+            message_type = "after-last-show"
+            total_matches += 1
 
         assert total_matches == 1, "'{}' should match only 1 promo, advert, or show, " \
                                    "but actually matches {}".format(iso_date, total_matches)

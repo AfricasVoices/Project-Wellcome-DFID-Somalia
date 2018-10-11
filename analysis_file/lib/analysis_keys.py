@@ -116,7 +116,10 @@ class AnalysisKeys(object):
         elif show_number == 4:
             cls.set_matrix_keys(
                 user, td, show_keys, "S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation_coded", "radio_q4")
-        # TODO: Show 5
+        elif show_number == 5:
+            cls.set_yes_no_matrix_keys(
+                user, td, show_keys, "S06E05_Water_Quality (Time) - wt_s06e05_activation_coded", "radio_q5")
+
         else:
             assert False, "Error: show_number must be in range 1-5"
 
