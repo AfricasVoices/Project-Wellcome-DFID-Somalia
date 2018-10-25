@@ -127,7 +127,10 @@ class CodeBooks(object):
         "xarardheere": 117,
         "xudun": 118,
         "xudur": 119,
-        "yaaqshid": 120
+        "yaaqshid": 120,
+        
+        # TODO: Renumber district codes
+        "laasqoray": 121
     }
 
     urban_rural = {
