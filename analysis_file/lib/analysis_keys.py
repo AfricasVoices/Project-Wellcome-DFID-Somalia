@@ -26,7 +26,7 @@ class AnalysisKeys(object):
         if key_of_coded is None:
             key_of_coded = "{}_coded".format(key_of_raw)
 
-        if td.get(key_of_raw) == Codes.TRUE_MISSING:
+        if td.get(key_of_raw, Codes.TRUE_MISSING) == Codes.TRUE_MISSING or td.get(key_of_raw) == "":
             return Codes.TRUE_MISSING
         else:
             return td.get(key_of_coded)
@@ -115,15 +115,12 @@ class AnalysisKeys(object):
                 user, td, show_keys, "S06E03_Outbreak_Knowledge (Text) - wt_s06e03_activation_coded", "radio_q3")
         elif show_number == 4:
             cls.set_matrix_keys(
-                user, td, show_keys, "S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation_coded", "radio_q4")
+                user, td, show_keys, "S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation_coded", "radio_q4")
         elif show_number == 5:
             cls.set_yes_no_matrix_keys(
-                user, td, show_keys, "S06E05_Water_Quality (Time) - wt_s06e05_activation_coded", "radio_q5")
-
+                user, td, show_keys, "S06E05_Water_Quality (Text) - wt_s06e05_activation_coded", "radio_q5")
         else:
             assert False, "Error: show_number must be in range 1-5"
-
-
 
     @classmethod
     def set_analysis_keys(cls, user, show_number, td):
