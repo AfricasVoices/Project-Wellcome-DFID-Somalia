@@ -42,12 +42,12 @@ if __name__ == "__main__":
         coda_yes_no_scheme = None
         coda_reason_schemes = {"s06e03", "s06e03 2"}
     elif show_number == 4:
-        key_of_raw = "S06E04_Cholera_Recurrency (Time) - wt_s06e04_activation"
+        key_of_raw = "S06E04_Cholera_Recurrency (Text) - wt_s06e04_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
         coda_yes_no_scheme = None
         coda_reason_schemes = {"reasons 2", "reasons 3", "reasons 4", "reasons 5"}
     elif show_number == 5:
-        key_of_raw = "S06E05_Water_Quality (Time) - wt_s06e05_activation"
+        key_of_raw = "S06E05_Water_Quality (Text) - wt_s06e05_activation"
         key_of_coded_prefix = "{}_coded_".format(key_of_raw)
         coda_yes_no_scheme = "Relevance"
         coda_reason_schemes = {"reason 2", "reason 3"}
