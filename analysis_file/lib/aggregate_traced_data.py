@@ -14,19 +14,29 @@ class AggregateTracedData(object):
             "phone_uuid",
 
             "district_clean",
+            "district_raw",
             "urban_rural_clean",
+            "urban_rural_raw",
             "gender_clean",
+            "gender_raw",
 
             "radio_station_clean",
+            "radio_station_raw",
             "age_clean",
+            "age_raw",
             "education_clean",
+            "education_raw",
             "idp_clean",
+            "idp_raw",
             "origin_district_clean",
+            "origin_district_raw",
 
             "household_sickness_clean",
             "sickness_adult_child",
+            "household_sickness_raw",
             "cholera_vaccination_clean",
-            "trustworthy_advisors_clean"
+            "cholera_vaccination_raw",
+            "trustworthy_advisors_raw"
         ]
 
         for key in same_keys:
@@ -35,8 +45,9 @@ class AggregateTracedData(object):
             agg_d[key] = td_1[key]
 
         agg_d["date_time"] = td_1["date_time"]
-        for k in ["raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5"]:
-            if td_1.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING and td_2.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING:
+        for k in ["date_time_raw", "raw_radio_q1", "raw_radio_q2", "raw_radio_q3", "raw_radio_q4", "raw_radio_q5"]:
+            if td_1.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING and \
+                    td_2.get(k, Codes.TRUE_MISSING) != Codes.TRUE_MISSING:
                 agg_d["date_time"] = td_1["date_time"][0:10]
                 agg_d[k] = "{};{}".format(td_1[k], td_2[k])
 
@@ -61,11 +72,16 @@ class AggregateTracedData(object):
 
         same_keys.extend([
             "date_time",
+            "date_time_raw",
+            
+            "trustworthy_advisors_raw",
+            
             "raw_radio_q1",
             "raw_radio_q2",
             "raw_radio_q3",
             "raw_radio_q4",
             "raw_radio_q5",
+            
             "message_type",
             "radio_show",
 

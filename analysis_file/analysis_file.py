@@ -2,17 +2,14 @@ import argparse
 import time
 from os import path
 
-import pytz as pytz
 from core_data_modules.cleaners import Codes
 from core_data_modules.traced_data import TracedData, Metadata
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO
 from core_data_modules.util import IOUtils
-from dateutil.parser import isoparse
 
 from lib.aggregate_traced_data import AggregateTracedData
 from lib.analysis_keys import AnalysisKeys
 from lib.code_books import CodeBooks
-from lib.message_types import MessageTypes
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generates a file for analysis from the cleaned and coded shows "
@@ -146,24 +143,36 @@ if __name__ == "__main__":
 
     output_keys = [
         "date_time",
+        "date_time_raw",
         "phone_uuid",
 
         "district_clean",
+        "district_raw",
         "urban_rural_clean",
+        "urban_rural_raw",
         "gender_clean",
+        "gender_raw",
 
         "radio_station_clean",
+        "radio_station_raw",
         "age_clean",
+        "age_raw",
         "education_clean",
+        "education_raw",
         "idp_clean",
+        "idp_raw",
         "origin_district_clean",
+        "origin_district_raw",
 
         "household_sickness_clean",
         "sickness_adult_child",
+        "household_sickness_raw",
         "cholera_vaccination_clean",
+        "cholera_vaccination_raw",
     ]
     output_keys.extend(trustworthy_advisors_keys)
     output_keys.extend(outbreak_keys)
+    output_keys.append("trustworthy_advisors_raw")
     output_keys.extend([
         "radio_show",
         "message_type",
