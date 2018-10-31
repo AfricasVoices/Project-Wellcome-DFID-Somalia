@@ -22,4 +22,4 @@ RUN mkdir /data
 # docker run or docker container create. Use docker-run.sh to set these automatically.
 CMD pipenv run python -u fgd_cc_contacts.py "$USER" /data/phone-uuid-table.json \
     /data/input-fgd-cc.json /data/input-demog-surveys.json \
-    /data/output.json /data/output-contacts-fgd.csv /data/output-contacts-cc.csv
+    /data/output.json /data/output-contacts-fgd.csv /data/output-contacts-cc.csv $PREV_EXPORT_ARG
