@@ -112,7 +112,7 @@ if __name__ == "__main__":
                 if output["MessageID"] not in message_ids:
                     messages_to_code.append(output)
                     message_ids.append(output["MessageID"])
-                output["avf_phone_id"] = td["avf_phone_id"]
+#                output["avf_phone_id"] = td["avf_phone_id"]
         with open(coded_output_file_path, "w") as f:
             jsonpickle.set_encoder_options("json", sort_keys=True)
             f.write(jsonpickle.dumps(messages_to_code))
