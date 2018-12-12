@@ -5,8 +5,8 @@ set -e
 IMAGE_NAME=wt-fgd-cc-contacts
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 7 ]; then
-    echo "Usage: sh docker-run.sh <user> <phone-uuid-path> <fgd-cc-survey-path> <coded-demog-surveys-path> <json-output-path> <fgd-csv-output-path> <cc-csv-ouput-path>"
+if [ $# -ne 7 ] && [ $# -ne 8 ]; then
+    echo "Usage: sh docker-run.sh <user> <phone-uuid-path> <fgd-cc-survey-path> <coded-demog-surveys-path> <json-output-path> <fgd-csv-output-path> <cc-csv-output-path> <[prev-output-path]>"
     exit
 fi
 
@@ -23,7 +23,13 @@ OUTPUT_CC_CSV=$7
 docker build -t "$IMAGE_NAME" .
 
 # Create a container from the image that was just built.
-container="$(docker container create --env USER="$USER" "$IMAGE_NAME")"
+if [ $# -eq 8 ]; then
+    PREV_EXPORT_PATH=$8
+    PREV_EXPORT_ARG="/data/prev-export.csv"
+    container="$(docker container create --env USER="$USER" --env PREV_EXPORT_ARG="$PREV_EXPORT_ARG" "$IMAGE_NAME")"
+else
+    container="$(docker container create --env USER="$USER" "$IMAGE_NAME")"
+fi
 
 function finish {
     # Tear down the container when done.
@@ -35,6 +41,10 @@ trap finish EXIT
 docker cp "$PHONE_UUID_TABLE" "$container:/data/phone-uuid-table.json"
 docker cp "$FGD_CC" "$container:/data/input-fgd-cc.json"
 docker cp "$CODED_DEMOG_SURVEYS" "$container:/data/input-demog-surveys.json"
+
+if [ -f "$PREV_EXPORT_PATH" ]; then
+    docker cp "$PREV_EXPORT_PATH" "$container:/data/prev-export.csv"
+fi
 
 # Run the image as a container.
 docker start -a -i "$container"

@@ -23,6 +23,9 @@ if __name__ == "__main__":
                         help="Path to a CSV file to write 160 call centre contacts to")
     parser.add_argument("cc_csv_output_path", metavar="cc-csv-output-path",
                         help="Path to a CSV file to write 40 gender-balanced focus group discussion contacts to")
+    parser.add_argument("prev_exports_path", metavar="prev-exports-path", nargs="?", default=None,
+                        help="Path to a CSV file containing all previous exports concatenated together. "
+                             "Contacts listed in this file will not be exported again.")
 
     args = parser.parse_args()
     user = args.user
@@ -32,10 +35,11 @@ if __name__ == "__main__":
     json_output_path = args.json_output_path
     fgd_csv_output_path = args.fgd_csv_output_path
     cc_csv_output_path = args.cc_csv_output_path
+    prev_exports_path = args.prev_exports_path
 
     MINIMUM_AGE = 18
     TOTAL_CC_CONTACTS = 160
-    TOTAL_FGD_CONTACTS = 40
+    TOTAL_FGD_CONTACTS = 100
 
     # Load phone uuid table
     with open(phone_uuid_table_path, "r") as f:
@@ -45,6 +49,12 @@ if __name__ == "__main__":
     with open(fgd_cc_input_path, "r") as f:
         fgd_cc_data = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
 
+    # Load the previous export
+    prev_exports = []
+    if prev_exports_path is not None:
+        with open(prev_exports_path, "r") as f:
+            prev_exports = list(TracedDataCSVIO.import_csv_to_traced_data_iterable(user, f))
+
     # Load coded demog surveys
     with open(demog_surveys_input_path, "r") as f:
         surveys = TracedDataJsonIO.import_json_to_traced_data_iterable(f)
@@ -52,6 +62,10 @@ if __name__ == "__main__":
     # Filter out people who haven't answered the fgd_cc consent question
     fgd_cc_consent_key = "Response_1 (Category) - wt_fgd_cc"
     fgd_cc_data = [td for td in fgd_cc_data if fgd_cc_consent_key in td]
+
+    # Filter out people that we have exported in the past
+    prev_contacts = {td["Phone Number"] for td in prev_exports}
+    fgd_cc_data = [td for td in fgd_cc_data if "+{}".format(phone_uuids.get_phone(td["avf_phone_id"])) not in prev_contacts]
 
     # Apply the demog surveys to the fgd_cc data
     TracedData.update_iterable(user, "avf_phone_id", fgd_cc_data, surveys, "surveys")
