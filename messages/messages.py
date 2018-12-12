@@ -1,6 +1,7 @@
 import argparse
 import os
 import random
+import sys
 
 from core_data_modules.cleaners import somali
 from core_data_modules.traced_data.io import TracedDataJsonIO, TracedDataCSVIO, TracedDataCodaIO
@@ -22,6 +23,9 @@ if __name__ == "__main__":
                         help="Path to a CSV file to write processed messages to")
     parser.add_argument("coda_output_path", metavar="coda-output-path",
                         help="Path to a Coda file to write processed messages to")
+    parser.add_argument("icr_output_path", metavar="icr-output-path",
+                        help="Path to a CSV file to write 200 messages and run ids to, for the purposes of testing"
+                             "inter-coder reliability")
 
     args = parser.parse_args()
     user = args.user
@@ -31,6 +35,7 @@ if __name__ == "__main__":
     json_output_path = args.json_output_path
     csv_output_path = args.csv_output_path
     coda_output_path = args.coda_output_path
+    icr_output_path = args.icr_output_path
 
     # Load data from JSON file
     with open(json_input_path, "r") as f:
@@ -63,3 +68,25 @@ if __name__ == "__main__":
     with open(coda_output_path, "w") as f:
         TracedDataCodaIO.export_traced_data_iterable_to_coda(
             data, "{} (Text) - {}".format(variable_name, flow_name), f)
+
+    # Get 200 non-noise messages and output to CSVs for ICR.
+    print("Noise items:")
+    show_message_key = "{} (Text) - {}".format(variable_name, flow_name)
+    not_noise = []
+    for td in data:
+        if somali.DemographicCleaner.is_noise(td[show_message_key]):
+            print(td[show_message_key])
+        else:
+            not_noise.append(td)
+
+    # Take 200 items pseudo-randomly for ICR
+    random.seed(0)
+    random.shuffle(not_noise)
+    icr_messages = not_noise[:200]
+
+    # Write ICR data to a file
+    run_id_key = "{} (Run ID) - {}".format(variable_name, flow_name)
+    raw_text_key = "{} (Text) - {}".format(variable_name, flow_name)
+    IOUtils.ensure_dirs_exist_for_file(icr_output_path)
+    with open(icr_output_path, "w") as f:
+        TracedDataCSVIO.export_traced_data_iterable_to_csv(icr_messages, f, headers=[run_id_key, raw_text_key])
