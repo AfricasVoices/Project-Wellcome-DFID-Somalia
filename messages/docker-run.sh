@@ -5,8 +5,8 @@ set -e
 IMAGE_NAME=wt-messages
 
 # Check that the correct number of arguments were provided.
-if [ $# -ne 7 ]; then
-    echo "Usage: sh docker-run.sh <user> <json-input-path> <flow-name> <variable-name> <json-output-path> <csv-output-path> <coda-output-path>"
+if [ $# -ne 8 ]; then
+    echo "Usage: sh docker-run.sh <user> <json-input-path> <flow-name> <variable-name> <json-output-path> <csv-output-path> <coda-output-path> <icr-output-path>"
     exit
 fi
 
@@ -18,6 +18,7 @@ VARIABLE_NAME=$4
 OUTPUT_JSON=$5
 OUTPUT_CSV=$6
 OUTPUT_CODA=$7
+OUTPUT_ICR=$8
 
 # Build an image for this pipeline stage.
 docker build -t "$IMAGE_NAME" .
@@ -46,3 +47,6 @@ docker cp "$container:/data/output.csv" "$OUTPUT_CSV"
 
 mkdir -p "$(dirname "$OUTPUT_CODA")"
 docker cp "$container:/data/output-coda.csv" "$OUTPUT_CODA"
+
+mkdir -p "$(dirname "$OUTPUT_ICR")"
+docker cp "$container:/data/output-icr.csv" "$OUTPUT_ICR"
