@@ -1,0 +1,196 @@
+{
+  "Codes": [
+    {
+      "CodeID": "code-a2639c638eb0",
+      "CodeType": "Normal",
+      "DisplayText": "access to health services",
+      "NumericValue": 0,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-89ad6fff9ad3",
+      "CodeType": "Normal",
+      "DisplayText": "awareness ",
+      "NumericValue": 1,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-f9c7dcbfb52a",
+      "CodeType": "Normal",
+      "DisplayText": "water treatment",
+      "NumericValue": 2,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-fef65a4945f7",
+      "CodeType": "Normal",
+      "DisplayText": "community collaboration",
+      "NumericValue": 3,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-2558a28dd949",
+      "CodeType": "Normal",
+      "DisplayText": "prevention",
+      "NumericValue": 4,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-fd1bd4c6d367",
+      "CodeType": "Normal",
+      "DisplayText": "ORS",
+      "NumericValue": 5,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-7c0432f91db6",
+      "CodeType": "Normal",
+      "DisplayText": "vaccination ",
+      "NumericValue": 6,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-19a54ef476b2",
+      "CodeType": "Normal",
+      "DisplayText": "good hygiene",
+      "NumericValue": 7,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-c4a26566b55c",
+      "CodeType": "Normal",
+      "DisplayText": "lack of community collaboration",
+      "NumericValue": 8,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-5bfdf1aeaa8e",
+      "CodeType": "Normal",
+      "DisplayText": "lack of awareness",
+      "NumericValue": 9,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-012bcb8b53b8",
+      "CodeType": "Normal",
+      "DisplayText": "lack of ORS",
+      "NumericValue": 10,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-f8cf2bf4acc2",
+      "CodeType": "Normal",
+      "DisplayText": "lack of clean food",
+      "NumericValue": 11,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-cb63b22aad0e",
+      "CodeType": "Normal",
+      "DisplayText": "lack of health services",
+      "NumericValue": 12,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-c63f2275a9bb",
+      "CodeType": "Normal",
+      "DisplayText": "poor sanitation",
+      "NumericValue": 13,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-2f944aade5e6",
+      "CodeType": "Normal",
+      "DisplayText": "other",
+      "NumericValue": 14,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-4c7903adb468",
+      "CodeType": "Normal",
+      "DisplayText": "don't know",
+      "NumericValue": 15,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-e26df1d05ff2",
+      "CodeType": "Normal",
+      "DisplayText": "yes",
+      "NumericValue": 16,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-fa79e653ed80",
+      "CodeType": "Normal",
+      "DisplayText": "no",
+      "NumericValue": 17,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-NA-f93d3eb7",
+      "CodeType": "Control",
+      "ControlCode": "NA",
+      "DisplayText": "NA (missing)",
+      "NumericValue": -10,
+      "StringValue": "NA",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NS-2c11b7c9",
+      "CodeType": "Control",
+      "ControlCode": "NS",
+      "DisplayText": "NS (skip)",
+      "NumericValue": -20,
+      "StringValue": "NS",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NC-42f1d983",
+      "CodeType": "Control",
+      "ControlCode": "NC",
+      "DisplayText": "NC (not coded)",
+      "NumericValue": -30,
+      "StringValue": "NC",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-NR-5e3eee23",
+      "CodeType": "Control",
+      "ControlCode": "NR",
+      "DisplayText": "NR (not reviewed)",
+      "NumericValue": -40,
+      "StringValue": "NR",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NIC-99631cb8",
+      "CodeType": "Control",
+      "ControlCode": "NIC",
+      "DisplayText": "NIC (not internally consistent)",
+      "NumericValue": -50,
+      "StringValue": "NIC",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-STOP-08b832a8",
+      "CodeType": "Control",
+      "ControlCode": "STOP",
+      "DisplayText": "STOP",
+      "NumericValue": -90,
+      "StringValue": "STOP",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-WS-adb25603b7af",
+      "CodeType": "Control",
+      "ControlCode": "WS",
+      "DisplayText": "WS (wrong scheme)",
+      "NumericValue": -100,
+      "StringValue": "WS",
+      "VisibleInCoda": true
+    }
+  ],
+  "Name": "RQ2 Frame",
+  "SchemeID": "Scheme-183fded2d255",
+  "Version": "0.0.0.1"
+}
