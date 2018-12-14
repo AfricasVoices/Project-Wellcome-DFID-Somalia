@@ -1,0 +1,174 @@
+{
+  "Codes": [
+    {
+      "CodeID": "code-a8915f4fcec6",
+      "CodeType": "Normal",
+      "DisplayText": "radio stations",
+      "NumericValue": 0,
+      "StringValue": "radio_stations",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-b2dda1fc2623",
+      "CodeType": "Normal",
+      "DisplayText": "education centers",
+      "NumericValue": 1,
+      "StringValue": "education_centers",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-86313ce8ec3e",
+      "CodeType": "Normal",
+      "DisplayText": "doctors",
+      "NumericValue": 2,
+      "StringValue": "doctors",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-a76eb9ee5600",
+      "CodeType": "Normal",
+      "DisplayText": "NGOs",
+      "NumericValue": 3,
+      "StringValue": "ngos",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-7743475facbf",
+      "CodeType": "Normal",
+      "DisplayText": "women",
+      "NumericValue": 4,
+      "StringValue": "women",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-1de172bf96fa",
+      "CodeType": "Normal",
+      "DisplayText": "ministry of health",
+      "NumericValue": 5,
+      "StringValue": "ministry_of_health",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-4a1f57274ccb",
+      "CodeType": "Normal",
+      "DisplayText": "community leaders",
+      "NumericValue": 6,
+      "StringValue": "community_leaders",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-78694e6d7db4",
+      "CodeType": "Normal",
+      "DisplayText": "health services",
+      "NumericValue": 7,
+      "StringValue": "health_services",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-b2a2b0866fcb",
+      "CodeType": "Normal",
+      "DisplayText": "pharmacy",
+      "NumericValue": 8,
+      "StringValue": "pharmacy",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-2e76c09237c4",
+      "CodeType": "Normal",
+      "DisplayText": "relatives",
+      "NumericValue": 9,
+      "StringValue": "relatives",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-ab2a9d00a766",
+      "CodeType": "Normal",
+      "DisplayText": "don't know",
+      "NumericValue": 10,
+      "StringValue": "dont_know",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-b2a8a4643359",
+      "CodeType": "Normal",
+      "DisplayText": "community",
+      "NumericValue": 11,
+      "StringValue": "community",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-36b08ff9d4e7",
+      "CodeType": "Normal",
+      "DisplayText": "religious leaders",
+      "NumericValue": 12,
+      "StringValue": "religious_leaders",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-NA-f93d3eb7",
+      "CodeType": "Control",
+      "ControlCode": "NA",
+      "DisplayText": "NA (missing)",
+      "NumericValue": -10,
+      "StringValue": "NA",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NS-2c11b7c9",
+      "CodeType": "Control",
+      "ControlCode": "NS",
+      "DisplayText": "NS (skip)",
+      "NumericValue": -20,
+      "StringValue": "NS",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NC-42f1d983",
+      "CodeType": "Control",
+      "ControlCode": "NC",
+      "DisplayText": "NC (not coded)",
+      "NumericValue": -30,
+      "StringValue": "NC",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-NR-5e3eee23",
+      "CodeType": "Control",
+      "ControlCode": "NR",
+      "DisplayText": "NR (not reviewed)",
+      "NumericValue": -40,
+      "StringValue": "NR",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NIC-99631cb8",
+      "CodeType": "Control",
+      "ControlCode": "NIC",
+      "DisplayText": "NIC (not internally consistent)",
+      "NumericValue": -50,
+      "StringValue": "NIC",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-STOP-08b832a8",
+      "CodeType": "Control",
+      "ControlCode": "STOP",
+      "DisplayText": "STOP",
+      "NumericValue": -90,
+      "StringValue": "STOP",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-WS-adb25603b7af",
+      "CodeType": "Control",
+      "ControlCode": "WS",
+      "DisplayText": "WS (wrong scheme)",
+      "NumericValue": -100,
+      "StringValue": "WS",
+      "VisibleInCoda": true
+    }
+  ],
+  "Name": "Trustworthy_advisors",
+  "SchemeID": "Scheme-3d3cdfaefbc6",
+  "Version": "0.0.0.1"
+}

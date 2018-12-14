@@ -1,0 +1,158 @@
+{
+  "Codes": [
+    {
+      "CodeID": "code-1575326b48e8",
+      "CodeType": "Normal",
+      "DisplayText": "proper sanitation",
+      "NumericValue": 0,
+      "StringValue": "proper_sanitation",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-0a0fbd90dc03",
+      "CodeType": "Normal",
+      "DisplayText": "good hygiene",
+      "NumericValue": 1,
+      "StringValue": "good_hygiene",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-035734bed13c",
+      "CodeType": "Normal",
+      "DisplayText": "water treatment",
+      "NumericValue": 2,
+      "StringValue": "water_treatment",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-84ab6a583242",
+      "CodeType": "Normal",
+      "DisplayText": "dig boreholes",
+      "NumericValue": 3,
+      "StringValue": "dig_boreholes",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-40c0ce2e7798",
+      "CodeType": "Normal",
+      "DisplayText": "community collaboration",
+      "NumericValue": 4,
+      "StringValue": "community_collaboration",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-a32ebbacc479",
+      "CodeType": "Normal",
+      "DisplayText": "awareness",
+      "NumericValue": 5,
+      "StringValue": "awareness",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-fd5520cb9e9d",
+      "CodeType": "Normal",
+      "DisplayText": "lack funds",
+      "NumericValue": 6,
+      "StringValue": "lack_funds",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-4496a4947b7c",
+      "CodeType": "Normal",
+      "DisplayText": "clean water storage tanks",
+      "NumericValue": 7,
+      "StringValue": "clean_water_storage_tanks",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-fe4d1702f264",
+      "CodeType": "Normal",
+      "DisplayText": "other",
+      "NumericValue": 8,
+      "StringValue": "other",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-95487b6c64c7",
+      "CodeType": "Normal",
+      "DisplayText": "yes",
+      "NumericValue": 9,
+      "StringValue": "yes",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-c95f5c574780",
+      "CodeType": "Normal",
+      "DisplayText": "no",
+      "NumericValue": 10,
+      "StringValue": "no",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-NA-f93d3eb7",
+      "CodeType": "Control",
+      "ControlCode": "NA",
+      "DisplayText": "NA (missing)",
+      "NumericValue": -10,
+      "StringValue": "NA",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NS-2c11b7c9",
+      "CodeType": "Control",
+      "ControlCode": "NS",
+      "DisplayText": "NS (skip)",
+      "NumericValue": -20,
+      "StringValue": "NS",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NC-42f1d983",
+      "CodeType": "Control",
+      "ControlCode": "NC",
+      "DisplayText": "NC (not coded)",
+      "NumericValue": -30,
+      "StringValue": "NC",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-NR-5e3eee23",
+      "CodeType": "Control",
+      "ControlCode": "NR",
+      "DisplayText": "NR (not reviewed)",
+      "NumericValue": -40,
+      "StringValue": "NR",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-NIC-99631cb8",
+      "CodeType": "Control",
+      "ControlCode": "NIC",
+      "DisplayText": "NIC (not internally consistent)",
+      "NumericValue": -50,
+      "StringValue": "NIC",
+      "VisibleInCoda": false
+    },
+    {
+      "CodeID": "code-STOP-08b832a8",
+      "CodeType": "Control",
+      "ControlCode": "STOP",
+      "DisplayText": "STOP",
+      "NumericValue": -90,
+      "StringValue": "STOP",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-WS-adb25603b7af",
+      "CodeType": "Control",
+      "ControlCode": "WS",
+      "DisplayText": "WS (wrong scheme)",
+      "NumericValue": -100,
+      "StringValue": "WS",
+      "VisibleInCoda": true
+    }
+  ],
+  "Name": "Wellcome_cc_RQ5_Frame",
+  "SchemeID": "Scheme-fdd6f0434029",
+  "Version": "0.0.0.1"
+}
