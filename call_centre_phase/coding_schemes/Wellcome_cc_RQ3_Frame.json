@@ -193,6 +193,22 @@
       "VisibleInCoda": true
     },
     {
+      "CodeID": "code-b5c6bc03a555",
+      "CodeType": "Normal",
+      "DisplayText": "other",
+      "NumericValue": 24,
+      "StringValue": "other",
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-4bb21070e0d0",
+      "CodeType": "Normal",
+      "DisplayText": "rainy season",
+      "NumericValue": 25,
+      "StringValue": "rainy season",
+      "VisibleInCoda": true
+    },
+    {
       "CodeID": "code-NA-f93d3eb7",
       "CodeType": "Control",
       "ControlCode": "NA",
