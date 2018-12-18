@@ -113,17 +113,31 @@
       "VisibleInCoda": true
     },
     {
+      "CodeType": "Normal",
+      "DisplayText": "poor hygiene",
+      "VisibleInCoda": true,
+      "CodeID": "code-ffb602451c17",
+      "NumericValue": 16
+    },
+    {
+      "CodeType": "Normal",
+      "DisplayText": "lack of clean water",
+      "VisibleInCoda": true,
+      "CodeID": "code-ecc60b41093a",
+      "NumericValue": 17
+    },
+    {
       "CodeID": "code-e26df1d05ff2",
       "CodeType": "Normal",
       "DisplayText": "yes",
-      "NumericValue": 16,
+      "NumericValue": 18,
       "VisibleInCoda": true
     },
     {
       "CodeID": "code-fa79e653ed80",
       "CodeType": "Normal",
       "DisplayText": "no",
-      "NumericValue": 17,
+      "NumericValue": 19,
       "VisibleInCoda": true
     },
     {
