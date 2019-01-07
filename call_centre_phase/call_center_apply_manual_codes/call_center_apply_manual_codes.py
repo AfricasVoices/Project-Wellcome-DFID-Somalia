@@ -244,8 +244,8 @@ if __name__ == "__main__":
     merge_plan = [
         MergePlan("informationcc_raw_radio_q1_why", "Wellcome_cc_RQ1_Coded", "informationcc_raw_radio_q1_why_Coded", "Wellcome_cc_RQ1_Frame"),
         MergePlan("informationcc_raw_radio_q2_why", "Wellcome_cc_RQ2_Coded", "informationcc_raw_radio_q2_why_Coded", "Wellcome_cc_RQ2_Frame"),
-        MergePlan("informationcc_raw_radio_q3_why", "Wellcome_cc_RQ3_Coded", "informationcc_raw_radio_q3_why_Coded", "Wellcome_cc_RQ3_Frame"),
-        MergePlan("informationcc_raw_radio_q4_why", "Wellcome_cc_RQ4_Coded", "informationcc_raw_radio_q4_why_Coded", "Wellcome_cc_RQ4_Frame"),
+        MergePlan("informationcc_raw_radio_q3", "Wellcome_cc_RQ3_Coded", "informationcc_raw_radio_q3_Coded", "Wellcome_cc_RQ3_Frame"),
+        MergePlan("informationcc_raw_radio_q4", "Wellcome_cc_RQ4_Coded", "informationcc_raw_radio_q4_Coded", "Wellcome_cc_RQ4_Frame"),
         MergePlan("informationcc_raw_radio_q5_why", "Wellcome_cc_RQ5_Coded", "informationcc_raw_radio_q5_why_Coded", "Wellcome_cc_RQ5_Frame"),
         MergePlan("informationcc_trustworthy_adviso", "Wellcome_cc_trustworthy_advisors_Coded", "informationcc_trustworthy_adviso_Coded", "Trustworthy_advisors"),
     ]
