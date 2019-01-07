@@ -25,7 +25,7 @@ if __name__ == "__main__":
                              "New data will be appended to this file.")
     parser.add_argument("json_output_path", metavar="json-output-path",
                         help="Path to a JSON file to write processed TracedData messages to")
-    parser.add_argument("coded_output_path", metavar="coding-output-path",
+    parser.add_argument("coding_output_path", metavar="coding-output-path",
                         help="Directory to write coding files to")
     parser.add_argument("flow_name", metavar="flow-name")
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     json_input_path = args.json_input_path
     prev_coded_path = args.prev_coded_path
     json_output_path = args.json_output_path
-    coded_output_path = args.coded_output_path
+    coding_output_path = args.coding_output_path
     flow_name = args.flow_name
 
     CONTROL_CODES = ["NA", "NC", "WS"]
@@ -52,8 +52,16 @@ if __name__ == "__main__":
         [CleaningPlan("informationcc_raw_radio_q1_why", "informationcc_radio_q1_why_clean", "RadioQ1",
                      None, None),
         CleaningPlan("informationcc_raw_radio_q2_why", "informationcc_radio_q2_why_clean", "RadioQ2",
-                     None, None)              
-       ]    
+                     None, None),
+        CleaningPlan("informationcc_raw_radio_q3", "informationcc_radio_q3_clean", "RadioQ3",
+                     None, None),
+        CleaningPlan("informationcc_raw_radio_q4", "informationcc_radio_q4_clean", "RadioQ4",
+                     None, None),
+        CleaningPlan("informationcc_raw_radio_q5_why", "informationcc_radio_q5_why_clean", "RadioQ5",
+                     None, None),
+        CleaningPlan("informationcc_trustworthy_adviso", "informationcc_trustworthy_adviso_clean", "Trustworthy_advisors",
+                     None, None)                                                                                      
+       ]   
     }
 
     cleaning_plan = cleaning_plans[flow_name]
@@ -94,13 +102,15 @@ if __name__ == "__main__":
 
     # Write json output
     IOUtils.ensure_dirs_exist_for_file(json_output_path)
+    print("Writing json output")
     with open(json_output_path, "w") as f:
         TracedDataJsonIO.export_traced_data_iterable_to_json(data, f, pretty_print=True)
     
     # Output for manual verification + coding
-    IOUtils.ensure_dirs_exist(coded_output_path)
+    IOUtils.ensure_dirs_exist(coding_output_path)
+    print("Writing Coda files")
     for plan in cleaning_plan:
-        coded_output_file_path = path.join(coded_output_path, "{}.json".format(plan.coda_name))
+        coded_output_file_path = path.join(coding_output_path, "{}.json".format(plan.coda_name))
         message_ids = list()
         messages_to_code = list()
         for td in data:
