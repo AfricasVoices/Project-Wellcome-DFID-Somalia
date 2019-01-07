@@ -1,6 +1,7 @@
 {
   "Version": "0.0.0.1",
   "Name": "Wellcome_cc_RQ5_Frame",
+  "SchemeID": "Scheme-fdd6f0434029-2",
   "Codes": [
     {
       "DisplayText": "proper sanitation",
@@ -19,44 +20,44 @@
       "StringValue": "good_hygiene"
     },
     {
-      "NumericValue": 2,
-      "CodeID": "code-035734bed13c",
-      "CodeType": "Normal",
       "StringValue": "water_treatment",
       "DisplayText": "water treatment",
-      "VisibleInCoda": true
+      "VisibleInCoda": true,
+      "NumericValue": 2,
+      "CodeID": "code-035734bed13c",
+      "CodeType": "Normal"
     },
     {
+      "DisplayText": "dig boreholes",
+      "VisibleInCoda": true,
       "NumericValue": 3,
       "CodeID": "code-84ab6a583242",
       "CodeType": "Normal",
-      "StringValue": "dig_boreholes",
-      "DisplayText": "dig boreholes",
-      "VisibleInCoda": true
+      "StringValue": "dig_boreholes"
     },
     {
-      "StringValue": "community_collaboration",
       "DisplayText": "community collaboration",
       "VisibleInCoda": true,
       "NumericValue": 4,
       "CodeID": "code-40c0ce2e7798",
-      "CodeType": "Normal"
+      "CodeType": "Normal",
+      "StringValue": "community_collaboration"
     },
     {
+      "StringValue": "awareness",
       "DisplayText": "awareness",
       "VisibleInCoda": true,
       "NumericValue": 5,
       "CodeID": "code-a32ebbacc479",
-      "CodeType": "Normal",
-      "StringValue": "awareness"
+      "CodeType": "Normal"
     },
     {
+      "StringValue": "lack_funds",
       "DisplayText": "lack funds",
       "VisibleInCoda": true,
-      "CodeID": "code-fd5520cb9e9d",
       "NumericValue": 6,
-      "CodeType": "Normal",
-      "StringValue": "lack_funds"
+      "CodeID": "code-fd5520cb9e9d",
+      "CodeType": "Normal"
     },
     {
       "NumericValue": 7,
@@ -67,12 +68,12 @@
       "VisibleInCoda": true
     },
     {
-      "DisplayText": "other",
-      "VisibleInCoda": true,
       "NumericValue": 8,
       "CodeID": "code-fe4d1702f264",
       "CodeType": "Normal",
-      "StringValue": "other"
+      "StringValue": "other",
+      "DisplayText": "other",
+      "VisibleInCoda": true
     },
     {
       "NumericValue": 9,
@@ -83,12 +84,12 @@
       "VisibleInCoda": true
     },
     {
-      "CodeType": "Normal",
       "StringValue": "no",
       "DisplayText": "no",
       "VisibleInCoda": true,
       "NumericValue": 10,
-      "CodeID": "code-c95f5c574780"
+      "CodeID": "code-c95f5c574780",
+      "CodeType": "Normal"
     },
     {
       "CodeType": "Normal",
@@ -131,68 +132,67 @@
       "CodeID": "code-c8f19e70189b"
     },
     {
-      "DisplayText": "NA (missing)",
-      "VisibleInCoda": false,
       "NumericValue": -10,
       "CodeID": "code-NA-f93d3eb7",
       "CodeType": "Control",
       "StringValue": "NA",
-      "ControlCode": "NA"
+      "ControlCode": "NA",
+      "DisplayText": "NA (missing)",
+      "VisibleInCoda": false
     },
     {
+      "CodeType": "Control",
       "StringValue": "NS",
       "ControlCode": "NS",
       "DisplayText": "NS (skip)",
       "VisibleInCoda": false,
-      "NumericValue": -20,
       "CodeID": "code-NS-2c11b7c9",
-      "CodeType": "Control"
+      "NumericValue": -20
     },
     {
+      "StringValue": "NC",
+      "ControlCode": "NC",
       "DisplayText": "NC (not coded)",
       "VisibleInCoda": true,
       "NumericValue": -30,
       "CodeID": "code-NC-42f1d983",
-      "CodeType": "Control",
-      "StringValue": "NC",
-      "ControlCode": "NC"
+      "CodeType": "Control"
     },
     {
+      "ControlCode": "NR",
       "DisplayText": "NR (not reviewed)",
       "VisibleInCoda": false,
       "NumericValue": -40,
       "CodeID": "code-NR-5e3eee23",
       "CodeType": "Control",
-      "StringValue": "NR",
-      "ControlCode": "NR"
+      "StringValue": "NR"
     },
     {
+      "ControlCode": "NIC",
+      "DisplayText": "NIC (not internally consistent)",
+      "VisibleInCoda": false,
       "NumericValue": -50,
       "CodeID": "code-NIC-99631cb8",
       "CodeType": "Control",
-      "StringValue": "NIC",
-      "ControlCode": "NIC",
-      "DisplayText": "NIC (not internally consistent)",
-      "VisibleInCoda": false
+      "StringValue": "NIC"
     },
     {
+      "ControlCode": "STOP",
       "DisplayText": "STOP",
       "VisibleInCoda": true,
       "CodeID": "code-STOP-08b832a8",
       "NumericValue": -90,
       "CodeType": "Control",
-      "StringValue": "STOP",
-      "ControlCode": "STOP"
+      "StringValue": "STOP"
     },
     {
-      "DisplayText": "WS (wrong scheme)",
-      "VisibleInCoda": true,
-      "NumericValue": -100,
       "CodeID": "code-WS-adb25603b7af",
+      "NumericValue": -100,
       "CodeType": "Control",
       "StringValue": "WS",
-      "ControlCode": "WS"
+      "ControlCode": "WS",
+      "DisplayText": "WS (wrong scheme)",
+      "VisibleInCoda": true
     }
-  ],
-  "SchemeID": "Scheme-fdd6f0434029"
+  ]
 }

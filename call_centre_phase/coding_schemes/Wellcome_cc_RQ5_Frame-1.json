@@ -3,68 +3,68 @@
   "Name": "Wellcome_cc_RQ5_Frame",
   "Codes": [
     {
-      "DisplayText": "proper sanitation",
-      "VisibleInCoda": true,
       "NumericValue": 0,
       "CodeID": "code-1575326b48e8",
       "CodeType": "Normal",
-      "StringValue": "proper_sanitation"
+      "StringValue": "proper_sanitation",
+      "DisplayText": "proper sanitation",
+      "VisibleInCoda": true
     },
     {
       "DisplayText": "good hygiene",
       "VisibleInCoda": true,
-      "NumericValue": 1,
       "CodeID": "code-0a0fbd90dc03",
+      "NumericValue": 1,
       "CodeType": "Normal",
       "StringValue": "good_hygiene"
     },
     {
-      "NumericValue": 2,
-      "CodeID": "code-035734bed13c",
-      "CodeType": "Normal",
       "StringValue": "water_treatment",
       "DisplayText": "water treatment",
-      "VisibleInCoda": true
+      "VisibleInCoda": true,
+      "NumericValue": 2,
+      "CodeID": "code-035734bed13c",
+      "CodeType": "Normal"
     },
     {
+      "VisibleInCoda": true,
       "NumericValue": 3,
       "CodeID": "code-84ab6a583242",
       "CodeType": "Normal",
       "StringValue": "dig_boreholes",
-      "DisplayText": "dig boreholes",
-      "VisibleInCoda": true
+      "DisplayText": "dig boreholes"
     },
     {
+      "CodeType": "Normal",
       "StringValue": "community_collaboration",
       "DisplayText": "community collaboration",
       "VisibleInCoda": true,
       "NumericValue": 4,
-      "CodeID": "code-40c0ce2e7798",
-      "CodeType": "Normal"
+      "CodeID": "code-40c0ce2e7798"
     },
     {
       "DisplayText": "awareness",
       "VisibleInCoda": true,
-      "NumericValue": 5,
       "CodeID": "code-a32ebbacc479",
+      "NumericValue": 5,
       "CodeType": "Normal",
       "StringValue": "awareness"
     },
     {
       "DisplayText": "lack funds",
       "VisibleInCoda": true,
-      "CodeID": "code-fd5520cb9e9d",
       "NumericValue": 6,
+      "CodeID": "code-fd5520cb9e9d",
       "CodeType": "Normal",
       "StringValue": "lack_funds"
     },
     {
+      "DisplayText": "clean water storage tanks",
+      "VisibleInCoda": true,
       "NumericValue": 7,
       "CodeID": "code-4496a4947b7c",
       "CodeType": "Normal",
-      "StringValue": "clean_water_storage_tanks",
-      "DisplayText": "clean water storage tanks",
-      "VisibleInCoda": true
+      "StringValue": "clean_water_storage_tanks"
     },
     {
       "DisplayText": "other",
@@ -75,20 +75,20 @@
       "StringValue": "other"
     },
     {
+      "DisplayText": "yes",
+      "VisibleInCoda": true,
       "NumericValue": 9,
       "CodeID": "code-95487b6c64c7",
       "CodeType": "Normal",
-      "StringValue": "yes",
-      "DisplayText": "yes",
-      "VisibleInCoda": true
+      "StringValue": "yes"
     },
     {
-      "CodeType": "Normal",
-      "StringValue": "no",
-      "DisplayText": "no",
       "VisibleInCoda": true,
       "NumericValue": 10,
-      "CodeID": "code-c95f5c574780"
+      "CodeID": "code-c95f5c574780",
+      "CodeType": "Normal",
+      "StringValue": "no",
+      "DisplayText": "no"
     },
     {
       "CodeType": "Normal",
@@ -131,13 +131,13 @@
       "CodeID": "code-c8f19e70189b"
     },
     {
-      "DisplayText": "NA (missing)",
-      "VisibleInCoda": false,
       "NumericValue": -10,
       "CodeID": "code-NA-f93d3eb7",
       "CodeType": "Control",
       "StringValue": "NA",
-      "ControlCode": "NA"
+      "ControlCode": "NA",
+      "DisplayText": "NA (missing)",
+      "VisibleInCoda": false
     },
     {
       "StringValue": "NS",
@@ -149,50 +149,50 @@
       "CodeType": "Control"
     },
     {
+      "ControlCode": "NC",
       "DisplayText": "NC (not coded)",
       "VisibleInCoda": true,
       "NumericValue": -30,
       "CodeID": "code-NC-42f1d983",
       "CodeType": "Control",
-      "StringValue": "NC",
-      "ControlCode": "NC"
+      "StringValue": "NC"
     },
     {
-      "DisplayText": "NR (not reviewed)",
-      "VisibleInCoda": false,
       "NumericValue": -40,
       "CodeID": "code-NR-5e3eee23",
       "CodeType": "Control",
       "StringValue": "NR",
-      "ControlCode": "NR"
+      "ControlCode": "NR",
+      "DisplayText": "NR (not reviewed)",
+      "VisibleInCoda": false
     },
     {
-      "NumericValue": -50,
+      "DisplayText": "NIC (not internally consistent)",
+      "VisibleInCoda": false,
       "CodeID": "code-NIC-99631cb8",
+      "NumericValue": -50,
       "CodeType": "Control",
       "StringValue": "NIC",
-      "ControlCode": "NIC",
-      "DisplayText": "NIC (not internally consistent)",
-      "VisibleInCoda": false
+      "ControlCode": "NIC"
     },
     {
       "DisplayText": "STOP",
       "VisibleInCoda": true,
-      "CodeID": "code-STOP-08b832a8",
       "NumericValue": -90,
+      "CodeID": "code-STOP-08b832a8",
       "CodeType": "Control",
       "StringValue": "STOP",
       "ControlCode": "STOP"
     },
     {
-      "DisplayText": "WS (wrong scheme)",
-      "VisibleInCoda": true,
       "NumericValue": -100,
       "CodeID": "code-WS-adb25603b7af",
       "CodeType": "Control",
       "StringValue": "WS",
-      "ControlCode": "WS"
+      "ControlCode": "WS",
+      "DisplayText": "WS (wrong scheme)",
+      "VisibleInCoda": true
     }
   ],
-  "SchemeID": "Scheme-fdd6f0434029"
+  "SchemeID": "Scheme-fdd6f0434029-1"
 }
