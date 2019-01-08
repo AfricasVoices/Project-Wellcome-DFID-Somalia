@@ -166,9 +166,7 @@ class TracedDataCoda2IO(object):
                 # and sort oldest first.
                 labels = []
                 for scheme_id in scheme_keys[coded_key]:
-                    #print(coda_dataset.get(td[message_id_key]))
                     labels.extend(coda_dataset.get(td[message_id_key], dict()).get(scheme_id, []))
-                # print("labels: ", labels)
                 labels.sort(key=lambda l: isoparse(l["DateTimeUTC"]))
                 
                 # Get the currently assigned list of codes for this multi-coded scheme
@@ -244,8 +242,8 @@ if __name__ == "__main__":
     merge_plan = [
         MergePlan("informationcc_raw_radio_q1_why", "Wellcome_cc_RQ1_Coded", "informationcc_raw_radio_q1_why_Coded", "Wellcome_cc_RQ1_Frame"),
         MergePlan("informationcc_raw_radio_q2_why", "Wellcome_cc_RQ2_Coded", "informationcc_raw_radio_q2_why_Coded", "Wellcome_cc_RQ2_Frame"),
-        MergePlan("informationcc_raw_radio_q3_why", "Wellcome_cc_RQ3_Coded", "informationcc_raw_radio_q3_why_Coded", "Wellcome_cc_RQ3_Frame"),
-        MergePlan("informationcc_raw_radio_q4_why", "Wellcome_cc_RQ4_Coded", "informationcc_raw_radio_q4_why_Coded", "Wellcome_cc_RQ4_Frame"),
+        MergePlan("informationcc_raw_radio_q3", "Wellcome_cc_RQ3_Coded", "informationcc_raw_radio_q3_Coded", "Wellcome_cc_RQ3_Frame"),
+        MergePlan("informationcc_raw_radio_q4", "Wellcome_cc_RQ4_Coded", "informationcc_raw_radio_q4_Coded", "Wellcome_cc_RQ4_Frame"),
         MergePlan("informationcc_raw_radio_q5_why", "Wellcome_cc_RQ5_Coded", "informationcc_raw_radio_q5_why_Coded", "Wellcome_cc_RQ5_Frame"),
         MergePlan("informationcc_trustworthy_adviso", "Wellcome_cc_trustworthy_advisors_Coded", "informationcc_trustworthy_adviso_Coded", "Trustworthy_advisors"),
     ]
@@ -283,7 +281,7 @@ if __name__ == "__main__":
                 # TODO: remove hardcode hack and accomodate multiple schemes
                 TracedDataCoda2IO.import_coda_2_to_traced_data_iterable_multi_coded(
                     user, data, message_id_field, {plan.coded_name: [coding_scheme["SchemeID"], "Scheme-3a438b1dca20"]}, nr_label, f)
-        elif "RQ1" in plan.raw_field or "RQ2" in plan.raw_field:
+        elif "q1" in plan.raw_field or "q2" in plan.raw_field:
             with open(coda_file_path, "r") as f:
                 TracedDataCoda2IO.import_coda_2_to_traced_data_iterable_multi_coded(
                     user, data, message_id_field, {plan.coded_name: [coding_scheme["SchemeID"]]}, nr_label, f)
