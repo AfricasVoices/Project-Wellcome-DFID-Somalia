@@ -1,158 +1,198 @@
 {
+  "Version": "0.0.0.1",
+  "Name": "Wellcome_cc_RQ5_Frame",
   "Codes": [
     {
+      "DisplayText": "proper sanitation",
+      "VisibleInCoda": true,
+      "NumericValue": 0,
       "CodeID": "code-1575326b48e8",
       "CodeType": "Normal",
-      "DisplayText": "proper sanitation",
-      "NumericValue": 0,
-      "StringValue": "proper_sanitation",
-      "VisibleInCoda": true
+      "StringValue": "proper_sanitation"
     },
     {
+      "DisplayText": "good hygiene",
+      "VisibleInCoda": true,
+      "NumericValue": 1,
       "CodeID": "code-0a0fbd90dc03",
       "CodeType": "Normal",
-      "DisplayText": "good hygiene",
-      "NumericValue": 1,
-      "StringValue": "good_hygiene",
-      "VisibleInCoda": true
+      "StringValue": "good_hygiene"
     },
     {
+      "NumericValue": 2,
       "CodeID": "code-035734bed13c",
       "CodeType": "Normal",
-      "DisplayText": "water treatment",
-      "NumericValue": 2,
       "StringValue": "water_treatment",
+      "DisplayText": "water treatment",
       "VisibleInCoda": true
     },
     {
+      "NumericValue": 3,
       "CodeID": "code-84ab6a583242",
       "CodeType": "Normal",
-      "DisplayText": "dig boreholes",
-      "NumericValue": 3,
       "StringValue": "dig_boreholes",
+      "DisplayText": "dig boreholes",
       "VisibleInCoda": true
     },
     {
-      "CodeID": "code-40c0ce2e7798",
-      "CodeType": "Normal",
-      "DisplayText": "community collaboration",
-      "NumericValue": 4,
       "StringValue": "community_collaboration",
-      "VisibleInCoda": true
+      "DisplayText": "community collaboration",
+      "VisibleInCoda": true,
+      "NumericValue": 4,
+      "CodeID": "code-40c0ce2e7798",
+      "CodeType": "Normal"
     },
     {
+      "DisplayText": "awareness",
+      "VisibleInCoda": true,
+      "NumericValue": 5,
       "CodeID": "code-a32ebbacc479",
       "CodeType": "Normal",
-      "DisplayText": "awareness",
-      "NumericValue": 5,
-      "StringValue": "awareness",
-      "VisibleInCoda": true
+      "StringValue": "awareness"
     },
     {
-      "CodeID": "code-fd5520cb9e9d",
-      "CodeType": "Normal",
       "DisplayText": "lack funds",
+      "VisibleInCoda": true,
+      "CodeID": "code-fd5520cb9e9d",
       "NumericValue": 6,
-      "StringValue": "lack_funds",
-      "VisibleInCoda": true
+      "CodeType": "Normal",
+      "StringValue": "lack_funds"
     },
     {
+      "NumericValue": 7,
       "CodeID": "code-4496a4947b7c",
       "CodeType": "Normal",
-      "DisplayText": "clean water storage tanks",
-      "NumericValue": 7,
       "StringValue": "clean_water_storage_tanks",
+      "DisplayText": "clean water storage tanks",
       "VisibleInCoda": true
     },
     {
+      "DisplayText": "other",
+      "VisibleInCoda": true,
+      "NumericValue": 8,
       "CodeID": "code-fe4d1702f264",
       "CodeType": "Normal",
-      "DisplayText": "other",
-      "NumericValue": 8,
-      "StringValue": "other",
-      "VisibleInCoda": true
+      "StringValue": "other"
     },
     {
+      "NumericValue": 9,
       "CodeID": "code-95487b6c64c7",
       "CodeType": "Normal",
-      "DisplayText": "yes",
-      "NumericValue": 9,
       "StringValue": "yes",
+      "DisplayText": "yes",
       "VisibleInCoda": true
     },
     {
-      "CodeID": "code-c95f5c574780",
       "CodeType": "Normal",
-      "DisplayText": "no",
-      "NumericValue": 10,
       "StringValue": "no",
-      "VisibleInCoda": true
+      "DisplayText": "no",
+      "VisibleInCoda": true,
+      "NumericValue": 10,
+      "CodeID": "code-c95f5c574780"
     },
     {
+      "CodeType": "Normal",
+      "StringValue": "Lack of resources and equipments",
+      "DisplayText": "Lack of resources and equipments",
+      "VisibleInCoda": true,
+      "NumericValue": 11,
+      "CodeID": "code-7fb7b3e91fe5"
+    },
+    {
+      "CodeType": "Normal",
+      "StringValue": "Lack of community collaboration",
+      "DisplayText": "Lack of community collaboration",
+      "VisibleInCoda": true,
+      "NumericValue": 12,
+      "CodeID": "code-f00822a0e4aa"
+    },
+    {
+      "CodeType": "Normal",
+      "StringValue": "Programs to educate",
+      "DisplayText": "Programs to educate",
+      "VisibleInCoda": true,
+      "NumericValue": 13,
+      "CodeID": "code-3318803c66cf"
+    },
+    {
+      "CodeType": "Normal",
+      "StringValue": "Promote the hygiene",
+      "DisplayText": "Promote the hygiene",
+      "VisibleInCoda": true,
+      "NumericValue": 14,
+      "CodeID": "code-2b9b083474c5"
+    },
+    {
+      "CodeType": "Normal",
+      "StringValue": "Increase water companies",
+      "DisplayText": "Increase water companies",
+      "VisibleInCoda": true,
+      "NumericValue": 15,
+      "CodeID": "code-c8f19e70189b"
+    },
+    {
+      "DisplayText": "NA (missing)",
+      "VisibleInCoda": false,
+      "NumericValue": -10,
       "CodeID": "code-NA-f93d3eb7",
       "CodeType": "Control",
-      "ControlCode": "NA",
-      "DisplayText": "NA (missing)",
-      "NumericValue": -10,
       "StringValue": "NA",
-      "VisibleInCoda": false
+      "ControlCode": "NA"
     },
     {
-      "CodeID": "code-NS-2c11b7c9",
-      "CodeType": "Control",
+      "StringValue": "NS",
       "ControlCode": "NS",
       "DisplayText": "NS (skip)",
+      "VisibleInCoda": false,
       "NumericValue": -20,
-      "StringValue": "NS",
-      "VisibleInCoda": false
+      "CodeID": "code-NS-2c11b7c9",
+      "CodeType": "Control"
     },
     {
+      "DisplayText": "NC (not coded)",
+      "VisibleInCoda": true,
+      "NumericValue": -30,
       "CodeID": "code-NC-42f1d983",
       "CodeType": "Control",
-      "ControlCode": "NC",
-      "DisplayText": "NC (not coded)",
-      "NumericValue": -30,
       "StringValue": "NC",
-      "VisibleInCoda": true
+      "ControlCode": "NC"
     },
     {
+      "DisplayText": "NR (not reviewed)",
+      "VisibleInCoda": false,
+      "NumericValue": -40,
       "CodeID": "code-NR-5e3eee23",
       "CodeType": "Control",
-      "ControlCode": "NR",
-      "DisplayText": "NR (not reviewed)",
-      "NumericValue": -40,
       "StringValue": "NR",
-      "VisibleInCoda": false
+      "ControlCode": "NR"
     },
     {
+      "NumericValue": -50,
       "CodeID": "code-NIC-99631cb8",
       "CodeType": "Control",
+      "StringValue": "NIC",
       "ControlCode": "NIC",
       "DisplayText": "NIC (not internally consistent)",
-      "NumericValue": -50,
-      "StringValue": "NIC",
       "VisibleInCoda": false
     },
     {
-      "CodeID": "code-STOP-08b832a8",
-      "CodeType": "Control",
-      "ControlCode": "STOP",
       "DisplayText": "STOP",
+      "VisibleInCoda": true,
+      "CodeID": "code-STOP-08b832a8",
       "NumericValue": -90,
+      "CodeType": "Control",
       "StringValue": "STOP",
-      "VisibleInCoda": true
+      "ControlCode": "STOP"
     },
     {
+      "DisplayText": "WS (wrong scheme)",
+      "VisibleInCoda": true,
+      "NumericValue": -100,
       "CodeID": "code-WS-adb25603b7af",
       "CodeType": "Control",
-      "ControlCode": "WS",
-      "DisplayText": "WS (wrong scheme)",
-      "NumericValue": -100,
       "StringValue": "WS",
-      "VisibleInCoda": true
+      "ControlCode": "WS"
     }
   ],
-  "Name": "Wellcome_cc_RQ5_Frame",
-  "SchemeID": "Scheme-fdd6f0434029",
-  "Version": "0.0.0.1"
+  "SchemeID": "Scheme-fdd6f0434029"
 }

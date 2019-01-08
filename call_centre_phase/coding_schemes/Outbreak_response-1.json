@@ -1,39 +1,38 @@
 {
-  "Version": "0.0.0.1",
   "Name": "Outbreak_response",
   "Codes": [
     {
-      "StringValue": "vaccination",
       "DisplayText": "vaccination",
       "VisibleInCoda": true,
       "NumericValue": 1,
       "CodeID": "code-f09352b7fb22",
-      "CodeType": "Normal"
+      "CodeType": "Normal",
+      "StringValue": "vaccination"
     },
     {
+      "DisplayText": "awareness",
+      "VisibleInCoda": true,
       "NumericValue": 2,
       "CodeID": "code-27f97e44fc14",
       "CodeType": "Normal",
-      "StringValue": "awareness",
-      "DisplayText": "awareness",
-      "VisibleInCoda": true
+      "StringValue": "awareness"
     },
     {
+      "DisplayText": "other",
+      "VisibleInCoda": true,
       "NumericValue": 3,
       "CodeID": "code-2b2e0a8b7f03",
       "CodeType": "Normal",
-      "StringValue": "other",
-      "DisplayText": "other",
-      "VisibleInCoda": true
+      "StringValue": "other"
     },
     {
+      "DisplayText": "NA (missing)",
       "VisibleInCoda": false,
       "NumericValue": -10,
       "CodeID": "code-NA-f93d3eb7",
       "CodeType": "Control",
       "StringValue": "NA",
-      "ControlCode": "NA",
-      "DisplayText": "NA (missing)"
+      "ControlCode": "NA"
     },
     {
       "ControlCode": "NS",
@@ -45,32 +44,33 @@
       "StringValue": "NS"
     },
     {
-      "StringValue": "NC",
-      "ControlCode": "NC",
       "DisplayText": "NC (not coded)",
       "VisibleInCoda": true,
       "NumericValue": -30,
       "CodeID": "code-NC-42f1d983",
-      "CodeType": "Control"
+      "CodeType": "Control",
+      "StringValue": "NC",
+      "ControlCode": "NC"
     },
     {
+      "NumericValue": -40,
+      "CodeID": "code-NR-5e3eee23",
+      "CodeType": "Control",
       "StringValue": "NR",
       "ControlCode": "NR",
       "DisplayText": "NR (not reviewed)",
-      "VisibleInCoda": false,
-      "NumericValue": -40,
-      "CodeID": "code-NR-5e3eee23",
-      "CodeType": "Control"
+      "VisibleInCoda": false
     },
     {
-      "NumericValue": -50,
-      "CodeID": "code-NIC-99631cb8",
-      "CodeType": "Control",
       "StringValue": "NIC",
       "ControlCode": "NIC",
       "DisplayText": "NIC (not internally consistent)",
-      "VisibleInCoda": false
+      "VisibleInCoda": false,
+      "NumericValue": -50,
+      "CodeID": "code-NIC-99631cb8",
+      "CodeType": "Control"
     }
   ],
-  "SchemeID": "Scheme-310a094bad68"
+  "SchemeID": "Scheme-3a438b1dca20",
+  "Version": "0.0.0.1"
 }

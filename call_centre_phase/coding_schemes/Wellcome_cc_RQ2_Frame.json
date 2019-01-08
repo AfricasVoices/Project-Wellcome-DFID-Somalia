@@ -141,6 +141,20 @@
       "VisibleInCoda": true
     },
     {
+      "CodeID": "code-92bcf9056f19",
+      "CodeType": "Normal",
+      "DisplayText": "Lack of effort",
+      "NumericValue": 20,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-0b1f9db91874",
+      "CodeType": "Normal",
+      "DisplayText": "Lack of prevention",
+      "NumericValue": 21,
+      "VisibleInCoda": true
+    },
+    {
       "CodeID": "code-NA-f93d3eb7",
       "CodeType": "Control",
       "ControlCode": "NA",

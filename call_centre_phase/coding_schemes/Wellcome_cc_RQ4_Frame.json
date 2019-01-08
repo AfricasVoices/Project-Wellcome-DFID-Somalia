@@ -1,166 +1,166 @@
 {
+  "Version": "0.0.0.1",
+  "Name": "Wellcome_cc_RQ4_Frame",
   "Codes": [
     {
-      "CodeID": "code-ee6512aa834b",
-      "CodeType": "Normal",
-      "DisplayText": "corruption",
-      "NumericValue": 0,
       "StringValue": "corruption",
-      "VisibleInCoda": true
+      "DisplayText": "corruption",
+      "VisibleInCoda": true,
+      "NumericValue": 0,
+      "CodeID": "code-ee6512aa834b",
+      "CodeType": "Normal"
     },
     {
+      "DisplayText": "poor hygiene",
+      "VisibleInCoda": true,
+      "NumericValue": 1,
       "CodeID": "code-c6a74f2627d2",
       "CodeType": "Normal",
-      "DisplayText": "poor hygiene",
-      "NumericValue": 1,
-      "StringValue": "poor_hygiene",
-      "VisibleInCoda": true
+      "StringValue": "poor_hygiene"
     },
     {
-      "CodeID": "code-1e2489b3c865",
       "CodeType": "Normal",
-      "DisplayText": "lack of health care",
-      "NumericValue": 2,
       "StringValue": "lack_of_health_care",
-      "VisibleInCoda": true
+      "DisplayText": "lack of health care",
+      "VisibleInCoda": true,
+      "NumericValue": 2,
+      "CodeID": "code-1e2489b3c865"
     },
     {
+      "VisibleInCoda": true,
+      "NumericValue": 3,
       "CodeID": "code-888664a515cf",
       "CodeType": "Normal",
-      "DisplayText": "lack of clean water",
-      "NumericValue": 3,
       "StringValue": "lack_of_clean_water",
-      "VisibleInCoda": true
+      "DisplayText": "lack of clean water"
     },
     {
+      "NumericValue": 4,
       "CodeID": "code-5dd41c2acf56",
+      "StringValue": "lack_of_awareness",
       "CodeType": "Normal",
       "DisplayText": "lack of awareness",
-      "NumericValue": 4,
-      "StringValue": "lack_of_awareness",
       "VisibleInCoda": true
     },
     {
+      "DisplayText": "lack of effort",
+      "VisibleInCoda": true,
+      "NumericValue": 5,
       "CodeID": "code-90d7ab66e117",
       "CodeType": "Normal",
-      "DisplayText": "lack of effort",
-      "NumericValue": 5,
-      "StringValue": "lack_of_effort",
-      "VisibleInCoda": true
+      "StringValue": "lack_of_effort"
     },
     {
+      "DisplayText": "hot season",
+      "VisibleInCoda": true,
+      "NumericValue": 6,
       "CodeID": "code-df374e57d914",
       "CodeType": "Normal",
-      "DisplayText": "hot season",
-      "NumericValue": 6,
-      "StringValue": "hot_season",
-      "VisibleInCoda": true
+      "StringValue": "hot_season"
     },
     {
-      "CodeID": "code-c70484964c42",
-      "CodeType": "Normal",
-      "DisplayText": "overpopulation",
-      "NumericValue": 7,
       "StringValue": "overpopulation",
-      "VisibleInCoda": true
+      "DisplayText": "overpopulation",
+      "VisibleInCoda": true,
+      "NumericValue": 7,
+      "CodeID": "code-c70484964c42",
+      "CodeType": "Normal"
     },
     {
-      "CodeID": "code-24befaeaac76",
-      "CodeType": "Normal",
-      "DisplayText": "NGOs not where needed",
-      "NumericValue": 8,
       "StringValue": "ngos_not_where_needed",
-      "VisibleInCoda": true
+      "DisplayText": "NGOs not where needed",
+      "VisibleInCoda": true,
+      "NumericValue": 8,
+      "CodeID": "code-24befaeaac76",
+      "CodeType": "Normal"
     },
     {
+      "NumericValue": 9,
       "CodeID": "code-eb773359edbb",
       "CodeType": "Normal",
-      "DisplayText": "religion",
-      "NumericValue": 9,
       "StringValue": "religion",
+      "DisplayText": "religion",
       "VisibleInCoda": true
     },
     {
+      "NumericValue": 10,
       "CodeID": "code-f4fd425a6a43",
       "CodeType": "Normal",
-      "DisplayText": "poor sanitation",
-      "NumericValue": 10,
       "StringValue": "poor_sanitation",
+      "DisplayText": "poor sanitation",
       "VisibleInCoda": true
     },
     {
-      "CodeID": "code-3419243eab5a",
-      "CodeType": "Normal",
       "DisplayText": "other",
+      "VisibleInCoda": true,
       "NumericValue": 11,
-      "StringValue": "other",
-      "VisibleInCoda": true
+      "CodeID": "code-393f2a632bd9",
+      "CodeType": "Normal",
+      "StringValue": "other"
     },
     {
       "CodeID": "code-NA-f93d3eb7",
+      "NumericValue": -10,
       "CodeType": "Control",
+      "StringValue": "NA",
       "ControlCode": "NA",
       "DisplayText": "NA (missing)",
-      "NumericValue": -10,
-      "StringValue": "NA",
       "VisibleInCoda": false
     },
     {
+      "DisplayText": "NS (skip)",
+      "VisibleInCoda": false,
+      "NumericValue": -20,
       "CodeID": "code-NS-2c11b7c9",
       "CodeType": "Control",
-      "ControlCode": "NS",
-      "DisplayText": "NS (skip)",
-      "NumericValue": -20,
       "StringValue": "NS",
-      "VisibleInCoda": false
+      "ControlCode": "NS"
     },
     {
-      "CodeID": "code-NC-42f1d983",
       "CodeType": "Control",
+      "StringValue": "NC",
       "ControlCode": "NC",
       "DisplayText": "NC (not coded)",
+      "VisibleInCoda": true,
       "NumericValue": -30,
-      "StringValue": "NC",
-      "VisibleInCoda": true
+      "CodeID": "code-NC-42f1d983"
     },
     {
-      "CodeID": "code-NR-5e3eee23",
-      "CodeType": "Control",
+      "StringValue": "NR",
       "ControlCode": "NR",
       "DisplayText": "NR (not reviewed)",
+      "VisibleInCoda": false,
       "NumericValue": -40,
-      "StringValue": "NR",
-      "VisibleInCoda": false
+      "CodeID": "code-NR-5e3eee23",
+      "CodeType": "Control"
     },
     {
-      "CodeID": "code-NIC-99631cb8",
-      "CodeType": "Control",
+      "StringValue": "NIC",
       "ControlCode": "NIC",
       "DisplayText": "NIC (not internally consistent)",
+      "VisibleInCoda": false,
+      "CodeID": "code-NIC-99631cb8",
       "NumericValue": -50,
-      "StringValue": "NIC",
-      "VisibleInCoda": false
+      "CodeType": "Control"
     },
     {
-      "CodeID": "code-STOP-08b832a8",
       "CodeType": "Control",
+      "StringValue": "STOP",
       "ControlCode": "STOP",
       "DisplayText": "STOP",
+      "VisibleInCoda": true,
       "NumericValue": -90,
-      "StringValue": "STOP",
-      "VisibleInCoda": true
+      "CodeID": "code-STOP-08b832a8"
     },
     {
+      "DisplayText": "WS (wrong scheme)",
+      "VisibleInCoda": true,
+      "NumericValue": -100,
       "CodeID": "code-WS-adb25603b7af",
       "CodeType": "Control",
-      "ControlCode": "WS",
-      "DisplayText": "WS (wrong scheme)",
-      "NumericValue": -100,
       "StringValue": "WS",
-      "VisibleInCoda": true
+      "ControlCode": "WS"
     }
   ],
-  "Name": "Wellcome_cc_RQ4_Frame",
-  "SchemeID": "Scheme-e60627dee02d",
-  "Version": "0.0.0.1"
+  "SchemeID": "Scheme-e60627dee02d"
 }

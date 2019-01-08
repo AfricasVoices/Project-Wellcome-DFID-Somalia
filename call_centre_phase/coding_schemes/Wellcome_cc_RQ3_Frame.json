@@ -1,278 +1,158 @@
 {
+  "Name": "Wellcome_cc_RQ3_Frame",
   "Codes": [
     {
-      "CodeID": "code-e2ed896000fd",
-      "CodeType": "Normal",
-      "DisplayText": "access to health services",
+      "StringValue": "symptoms_of_cholera",
+      "DisplayText": "symptoms of cholera",
+      "VisibleInCoda": true,
       "NumericValue": 0,
-      "StringValue": "access_to_health_services",
-      "VisibleInCoda": true
+      "CodeID": "code-751fd18f17c5",
+      "CodeType": "Normal"
     },
     {
-      "CodeID": "code-adb88710ca6a",
-      "CodeType": "Normal",
-      "DisplayText": "awareness ",
+      "CodeID": "code-19ae8bfe0b64",
       "NumericValue": 1,
-      "StringValue": "awareness_",
+      "CodeType": "Normal",
+      "StringValue": "radio_stations",
+      "DisplayText": "radio stations",
       "VisibleInCoda": true
     },
     {
-      "CodeID": "code-6be5470a1f22",
       "CodeType": "Normal",
-      "DisplayText": "clean food",
+      "StringValue": "word_of_mouth",
+      "DisplayText": "word of mouth",
+      "VisibleInCoda": true,
       "NumericValue": 2,
-      "StringValue": "clean_food",
-      "VisibleInCoda": true
+      "CodeID": "code-7d0e2a709eaa"
     },
     {
-      "CodeID": "code-586e059d1021",
       "CodeType": "Normal",
-      "DisplayText": "don't know",
-      "NumericValue": 3,
-      "StringValue": "dont_know",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-50a8b5337dbe",
-      "CodeType": "Normal",
-      "DisplayText": "food preparation",
-      "NumericValue": 4,
-      "StringValue": "food_preparation",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-c8efb6956e8c",
-      "CodeType": "Normal",
-      "DisplayText": "good hygiene",
-      "NumericValue": 5,
-      "StringValue": "good_hygiene",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-88906e58b8fc",
-      "CodeType": "Normal",
-      "DisplayText": "hot season",
-      "NumericValue": 6,
       "StringValue": "hot_season",
+      "DisplayText": "hot season",
+      "VisibleInCoda": true,
+      "NumericValue": 3,
+      "CodeID": "code-ee6cbdd682f0"
+    },
+    {
+      "DisplayText": "awareness",
+      "VisibleInCoda": true,
+      "NumericValue": 4,
+      "CodeID": "code-9a942a508fb7",
+      "CodeType": "Normal",
+      "StringValue": "awareness"
+    },
+    {
+      "NumericValue": 5,
+      "CodeID": "code-06f6edb5849c",
+      "CodeType": "Normal",
+      "StringValue": "hospitals",
+      "DisplayText": "hospitals",
       "VisibleInCoda": true
     },
     {
-      "CodeID": "code-b20ce2ab8e63",
+      "DisplayText": "poor hygiene",
+      "VisibleInCoda": true,
+      "NumericValue": 6,
+      "CodeID": "code-f99ebdddb1ea",
       "CodeType": "Normal",
-      "DisplayText": "lack clean water",
+      "StringValue": "poor_hygiene"
+    },
+    {
+      "VisibleInCoda": true,
       "NumericValue": 7,
-      "StringValue": "lack_clean_water",
-      "VisibleInCoda": true
+      "CodeID": "code-c9e3c037f173",
+      "CodeType": "Normal",
+      "StringValue": "telephones",
+      "DisplayText": "telephones"
     },
     {
-      "CodeID": "code-2175a0488a52",
-      "CodeType": "Normal",
-      "DisplayText": "lack of awareness",
       "NumericValue": 8,
-      "StringValue": "lack_of_awareness",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-5a12b9354a26",
-      "CodeType": "Normal",
-      "DisplayText": "lack of clean food",
-      "NumericValue": 9,
-      "StringValue": "lack_of_clean_food",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-5719001bd4f8",
-      "CodeType": "Normal",
-      "DisplayText": "lack of healthcare",
-      "NumericValue": 10,
-      "StringValue": "lack_of_healthcare",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-8cfff602da40",
-      "CodeType": "Normal",
-      "DisplayText": "lack of proper hygiene",
-      "NumericValue": 11,
-      "StringValue": "lack_of_proper_hygiene",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-e5f839aa342f",
-      "CodeType": "Normal",
-      "DisplayText": "lack of proper sanitation",
-      "NumericValue": 12,
-      "StringValue": "lack_of_proper_sanitation",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-da30574c8921",
-      "CodeType": "Normal",
-      "DisplayText": "lack of stable government",
-      "NumericValue": 13,
-      "StringValue": "lack_of_stable_government",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-b6abbb375f21",
-      "CodeType": "Normal",
-      "DisplayText": "lack of vaccination",
-      "NumericValue": 14,
-      "StringValue": "lack_of_vaccination",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-379477615de0",
-      "CodeType": "Normal",
-      "DisplayText": "no",
-      "NumericValue": 15,
-      "StringValue": "no",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-dc39d407effa",
-      "CodeType": "Normal",
-      "DisplayText": "not hot season",
-      "NumericValue": 16,
-      "StringValue": "not_hot_season",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-69d11cd5951b",
-      "CodeType": "Normal",
-      "DisplayText": "other",
-      "NumericValue": 17,
-      "StringValue": "other",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-35b69eed7ab2",
-      "CodeType": "Normal",
-      "DisplayText": "overpopulation",
-      "NumericValue": 18,
-      "StringValue": "overpopulation",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-15325c3f5f6a",
-      "CodeType": "Normal",
-      "DisplayText": "prevention methods in place",
-      "NumericValue": 19,
-      "StringValue": "prevention_methods_in_place",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-0f7351ec33a4",
-      "CodeType": "Normal",
-      "DisplayText": "proper sanitation",
-      "NumericValue": 20,
-      "StringValue": "proper_sanitation",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-38d5903d3de0",
-      "CodeType": "Normal",
-      "DisplayText": "water treatment",
-      "NumericValue": 21,
-      "StringValue": "water_treatment",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-3d59110465e4",
-      "CodeType": "Normal",
-      "DisplayText": "wells close to toilets",
-      "NumericValue": 22,
-      "StringValue": "wells_close_to_toilets",
-      "VisibleInCoda": true
-    },
-    {
-      "CodeID": "code-17ce1e56a678",
-      "CodeType": "Normal",
-      "DisplayText": "yes",
-      "NumericValue": 23,
-      "StringValue": "yes",
-      "VisibleInCoda": true
-    },
-    {
       "CodeID": "code-b5c6bc03a555",
       "CodeType": "Normal",
-      "DisplayText": "other",
-      "NumericValue": 24,
       "StringValue": "other",
+      "DisplayText": "other",
       "VisibleInCoda": true
     },
     {
+      "DisplayText": "rainy season",
+      "VisibleInCoda": true,
+      "NumericValue": 9,
       "CodeID": "code-4bb21070e0d0",
       "CodeType": "Normal",
-      "DisplayText": "rainy season",
-      "NumericValue": 25,
-      "StringValue": "rainy season",
-      "VisibleInCoda": true
+      "StringValue": "rainy season"
     },
     {
-      "CodeID": "code-NA-f93d3eb7",
-      "CodeType": "Control",
+      "DisplayText": "Don't know",
+      "VisibleInCoda": true,
+      "NumericValue": 10,
+      "CodeID": "code-83d97ec90416",
+      "CodeType": "Normal",
+      "StringValue": "Don't know"
+    },
+    {
       "ControlCode": "NA",
       "DisplayText": "NA (missing)",
+      "VisibleInCoda": false,
       "NumericValue": -10,
-      "StringValue": "NA",
-      "VisibleInCoda": false
+      "CodeID": "code-NA-f93d3eb7",
+      "CodeType": "Control",
+      "StringValue": "NA"
     },
     {
-      "CodeID": "code-NS-2c11b7c9",
-      "CodeType": "Control",
+      "StringValue": "NS",
       "ControlCode": "NS",
       "DisplayText": "NS (skip)",
+      "VisibleInCoda": false,
+      "CodeID": "code-NS-2c11b7c9",
       "NumericValue": -20,
-      "StringValue": "NS",
-      "VisibleInCoda": false
+      "CodeType": "Control"
     },
     {
-      "CodeID": "code-NC-42f1d983",
-      "CodeType": "Control",
+      "StringValue": "NC",
       "ControlCode": "NC",
       "DisplayText": "NC (not coded)",
+      "VisibleInCoda": true,
       "NumericValue": -30,
-      "StringValue": "NC",
-      "VisibleInCoda": true
+      "CodeID": "code-NC-42f1d983",
+      "CodeType": "Control"
     },
     {
+      "DisplayText": "NR (not reviewed)",
+      "VisibleInCoda": false,
+      "NumericValue": -40,
       "CodeID": "code-NR-5e3eee23",
       "CodeType": "Control",
-      "ControlCode": "NR",
-      "DisplayText": "NR (not reviewed)",
-      "NumericValue": -40,
       "StringValue": "NR",
-      "VisibleInCoda": false
+      "ControlCode": "NR"
     },
     {
+      "DisplayText": "NIC (not internally consistent)",
+      "VisibleInCoda": false,
+      "NumericValue": -50,
       "CodeID": "code-NIC-99631cb8",
       "CodeType": "Control",
-      "ControlCode": "NIC",
-      "DisplayText": "NIC (not internally consistent)",
-      "NumericValue": -50,
       "StringValue": "NIC",
-      "VisibleInCoda": false
+      "ControlCode": "NIC"
     },
     {
+      "NumericValue": -90,
       "CodeID": "code-STOP-08b832a8",
       "CodeType": "Control",
+      "StringValue": "STOP",
       "ControlCode": "STOP",
       "DisplayText": "STOP",
-      "NumericValue": -90,
-      "StringValue": "STOP",
       "VisibleInCoda": true
     },
     {
+      "NumericValue": -100,
       "CodeID": "code-WS-adb25603b7af",
       "CodeType": "Control",
+      "StringValue": "WS",
       "ControlCode": "WS",
       "DisplayText": "WS (wrong scheme)",
-      "NumericValue": -100,
-      "StringValue": "WS",
       "VisibleInCoda": true
     }
   ],
-  "Name": "Wellcome_cc_RQ3_Frame",
-  "SchemeID": "Scheme-b244ad0a9ada",
+  "SchemeID": "Scheme-52cc278bf53e",
   "Version": "0.0.0.1"
 }

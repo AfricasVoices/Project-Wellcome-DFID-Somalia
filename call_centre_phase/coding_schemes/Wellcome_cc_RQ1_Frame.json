@@ -169,6 +169,48 @@
       "VisibleInCoda": true
     },
     {
+      "CodeID": "code-c9e5a918e855",
+      "CodeType": "Normal",
+      "DisplayText": "Not cholera season",
+      "NumericValue": 25,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-28df2f51bac5",
+      "CodeType": "Normal",
+      "DisplayText": "Not rainy season",
+      "NumericValue": 26,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-fd2b581a867f",
+      "CodeType": "Normal",
+      "DisplayText": "No risk factors",
+      "NumericValue": 27,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-7bcb2ff8eff8",
+      "CodeType": "Normal",
+      "DisplayText": "Insufficient water",
+      "NumericValue": 28,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-e6327ef92b32",
+      "CodeType": "Normal",
+      "DisplayText": "Lack of prevention",
+      "NumericValue": 29,
+      "VisibleInCoda": true
+    },
+    {
+      "CodeID": "code-52e940e39824",
+      "CodeType": "Normal",
+      "DisplayText": "Rainy season",
+      "NumericValue": 30,
+      "VisibleInCoda": true
+    },
+    {
       "CodeID": "code-NA-f93d3eb7",
       "CodeType": "Control",
       "ControlCode": "NA",
