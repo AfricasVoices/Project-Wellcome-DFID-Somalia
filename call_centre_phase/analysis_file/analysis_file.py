@@ -95,9 +95,9 @@ if __name__ == "__main__":
                 analysis_file_key="cc_radio_q2_[yes|no]_exp_",
                 code_scheme=[coding_schemes["Wellcome_cc_RQ2_Frame"]]),
     
-    CodingPlan(raw_field="informationcc_raw_radio_trustworthy_advisors",
-                coded_field="informationcc_raw_radio_trustworthy_adviso_Coded",
-                analysis_file_key="cc_radio_trustworthy_advisors_exp_",
+    CodingPlan(raw_field="informationcc_trustworthy_advisors",
+                coded_field="informationcc_trustworthy_adviso_Coded",
+                analysis_file_key="cc_trustworthy_advisors  ",
                 code_scheme=[coding_schemes["Trustworthy_advisors"], coding_schemes["Outbreak_response"]])
     ]
 
@@ -199,34 +199,18 @@ if __name__ == "__main__":
 
     CodingPlan(raw_field="informationcc_raw_radio_q1",
                 coded_field=None,
-                analysis_file_key="cc_raw_radio_q1",
+                analysis_file_key="cc_radio_q1",
                 code_scheme=None),
                 
     CodingPlan(raw_field="informationcc_raw_radio_q2",
                 coded_field=None,
-                analysis_file_key="cc_raw_radio_q2",
-                code_scheme=None),
-
-    CodingPlan(raw_field="informationcc_raw_radio_q3",
-                coded_field=None,
-                analysis_file_key="cc_raw_radio_q3",
-                code_scheme=None),
-
-    CodingPlan(raw_field="informationcc_raw_radio_q4",
-                coded_field=None,
-                analysis_file_key="cc_raw_radio_q4",
+                analysis_file_key="cc_radio_q2",
                 code_scheme=None),
 
     CodingPlan(raw_field="informationcc_raw_radio_q5",
                 coded_field=None,
-                analysis_file_key="cc_raw_radio_q5",
-                code_scheme=None),
-
-    CodingPlan(raw_field="informationcc_raw_radio_q1_why",
-                coded_field=None,
-                analysis_file_key="cc_radio_q1_[yes|no]_exp",
-                code_scheme=None),
-
+                analysis_file_key="cc_radio_q5",
+                code_scheme=None)
     ]
     
     # Serializer is currently overflowing
@@ -310,7 +294,12 @@ if __name__ == "__main__":
         "cc_district_mog": CodeBooks.cc_district,
         "cc_urban_rural": CodeBooks.informationcc_urban_rural,
         "cc_gender": CodeBooks.ben_gender,
-
+        #"cc_radio_station": 
+        "cc_kalkaal": CodeBooks.yes_no,
+        "cc_education": CodeBooks.informationcc_education,
+        "cc_idp": CodeBooks.yes_no,
+        "cc_household_sickness": CodeBooks.yes_no,
+        "cc_cholera_vaccination": CodeBooks.yes_no,
     }
 
     # Export to CSV
